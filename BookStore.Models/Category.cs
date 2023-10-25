@@ -8,8 +8,8 @@ namespace BookStore.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        public string Name { get; set; }
         public string CategoryDescrition { get; set; }
-        [Required]
         public string KeyWords { get; set; }
         [ValidateNever]
         public string IconUrl { get; set;  }

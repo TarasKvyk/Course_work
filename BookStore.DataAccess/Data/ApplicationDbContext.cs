@@ -26,6 +26,7 @@ namespace BookStore.DataAccess.Data
                 {
                     Id = 1,
                     Period = "19",
+                    Name = "History",
                     KeyWords = "Ukraine history",
                     CategoryDescrition = "HISTORY desc",
                     IconUrl = ""
@@ -37,6 +38,7 @@ namespace BookStore.DataAccess.Data
                 {
                     Id = 2,
                     Period = "19",
+                    Name = "History",
                     KeyWords = "USA history",
                     CategoryDescrition = "HISTORY desc",
                     IconUrl = ""
@@ -47,6 +49,7 @@ namespace BookStore.DataAccess.Data
                 {
                     Id = 3,
                     PurposeAge = 10,
+                    Name = "Children's literature",
                     CategoryDescrition = "Child desc",
                     KeyWords = "Fairy tale",
                     IconUrl = ""
@@ -104,7 +107,6 @@ namespace BookStore.DataAccess.Data
 
             modelBuilder.Entity<ScientificBook>()
                 .Property(h => h.KnowledgeBranch);
-
         }
     }
 }
