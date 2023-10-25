@@ -21,8 +21,8 @@ namespace BookStore.DataAccess.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Historical>().HasData(
-                new Historical
+            modelBuilder.Entity<HistoryBook>().HasData(
+                new HistoryBook
                 {
                     Id = 1,
                     Descrition = "History of Ukraine",
@@ -32,8 +32,8 @@ namespace BookStore.DataAccess.Data
                 });
 
 
-            modelBuilder.Entity<Historical>().HasData(
-                new Historical
+            modelBuilder.Entity<HistoryBook>().HasData(
+                new HistoryBook
                 {
                     Id = 3,
                     Descrition = "History of USA",
@@ -48,12 +48,12 @@ namespace BookStore.DataAccess.Data
                 .HasKey(c => c.Id);
 
             // Налаштування таблиці для підкласу Historical з наслідуванням
-            modelBuilder.Entity<Historical>()
+            modelBuilder.Entity<HistoryBook>()
                 .ToTable("HistoricalCategories")
                 .HasBaseType<Category>();
 
             // Налаштування властивостей для підкласу Historical
-            modelBuilder.Entity<Historical>()
+            modelBuilder.Entity<HistoryBook>()
                 .Property(h => h.Period);
 
             // Додайте інші налаштування для інших підкласів
