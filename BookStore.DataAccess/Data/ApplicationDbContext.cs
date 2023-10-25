@@ -45,9 +45,10 @@ namespace BookStore.DataAccess.Data
                 {
                     Id = 3,
                     PurposeAge = 10,
-                    KeyWords = "USA history",
+                    KeyWords = "Fairy tale",
                     IconUrl = ""
                 });
+
 
             // Налаштування таблиці для базового класу Category
             modelBuilder.Entity<Category>()
@@ -69,7 +70,7 @@ namespace BookStore.DataAccess.Data
 
             modelBuilder.Entity<ChildrenBook>()
                 .ToTable("ChildrenBooks")
-                .HasBaseType<ChildrenBook>();
+                .HasBaseType<Category>();
 
             modelBuilder.Entity<ChildrenBook>()
                 .Property(h => h.PurposeAge);
@@ -78,7 +79,7 @@ namespace BookStore.DataAccess.Data
 
             modelBuilder.Entity<DictionaryBook>()
                 .ToTable("DictionaryBooks")
-                .HasBaseType<DictionaryBook>();
+                .HasBaseType<Category>();
             modelBuilder.Entity<DictionaryBook>()
                 .Property(d => d.NativeLanguage); 
             modelBuilder.Entity<DictionaryBook>()
@@ -87,7 +88,7 @@ namespace BookStore.DataAccess.Data
 
             modelBuilder.Entity<FictionBook>()
                 .ToTable("FictionBook")
-                .HasBaseType<FictionBook>();
+                .HasBaseType<Category>();
 
             modelBuilder.Entity<FictionBook>()
                 .Property(h => h.LiteraryFormat);
@@ -96,7 +97,7 @@ namespace BookStore.DataAccess.Data
 
             modelBuilder.Entity<ScientificBook>()
                 .ToTable("ScientificBook")
-                .HasBaseType<ScientificBook>();
+                .HasBaseType<Category>();
 
             modelBuilder.Entity<ScientificBook>()
                 .Property(h => h.KnowledgeBranch);
