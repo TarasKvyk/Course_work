@@ -27,6 +27,7 @@ namespace BookStore.DataAccess.Data
                     Id = 1,
                     Period = "19",
                     KeyWords = "Ukraine history",
+                    CategoryDescrition = "HISTORY desc",
                     IconUrl = ""
                 });
 
@@ -34,9 +35,10 @@ namespace BookStore.DataAccess.Data
             modelBuilder.Entity<HistoryBook>().HasData(
                 new HistoryBook
                 {
-                    Id = 3,
+                    Id = 2,
                     Period = "19",
                     KeyWords = "USA history",
+                    CategoryDescrition = "HISTORY desc",
                     IconUrl = ""
                 });
 
@@ -45,6 +47,7 @@ namespace BookStore.DataAccess.Data
                 {
                     Id = 3,
                     PurposeAge = 10,
+                    CategoryDescrition = "Child desc",
                     KeyWords = "Fairy tale",
                     IconUrl = ""
                 });
