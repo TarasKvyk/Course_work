@@ -1,0 +1,12 @@
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\bin\Debug\net7.0\BookStore.Unility.deps.json
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\bin\Debug\net7.0\BookStore.Unility.dll
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\bin\Debug\net7.0\BookStore.Unility.pdb
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.csproj.AssemblyReference.cache
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.GeneratedMSBuildEditorConfig.editorconfig
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.AssemblyInfoInputs.cache
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.AssemblyInfo.cs
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.csproj.CoreCompileInputs.cache
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.dll
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\refint\BookStore.Unility.dll
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.pdb
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\ref\BookStore.Unility.dll

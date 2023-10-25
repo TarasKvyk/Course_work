@@ -1,0 +1,12 @@
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\bin\Debug\net7.0\BookStore.Models.deps.json
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\bin\Debug\net7.0\BookStore.Models.dll
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\bin\Debug\net7.0\BookStore.Models.pdb
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\BookStore.Models.csproj.AssemblyReference.cache
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\BookStore.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\BookStore.Models.AssemblyInfoInputs.cache
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\BookStore.Models.AssemblyInfo.cs
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\BookStore.Models.csproj.CoreCompileInputs.cache
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\BookStore.Models.dll
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\refint\BookStore.Models.dll
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\BookStore.Models.pdb
+D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\ref\BookStore.Models.dll
