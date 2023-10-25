@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
-    public class Historical : Category
+    public class HistoryBook : Category
     {
-        float
+        [Required]
         public string Period { get; set; }
     }
 }

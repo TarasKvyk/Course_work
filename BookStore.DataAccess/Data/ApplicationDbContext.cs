@@ -25,7 +25,6 @@ namespace BookStore.DataAccess.Data
                 new HistoryBook
                 {
                     Id = 1,
-                    Descrition = "History of Ukraine",
                     Period = "19",
                     KeyWords = "Ukraine history",
                     IconUrl = ""
@@ -36,8 +35,16 @@ namespace BookStore.DataAccess.Data
                 new HistoryBook
                 {
                     Id = 3,
-                    Descrition = "History of USA",
                     Period = "19",
+                    KeyWords = "USA history",
+                    IconUrl = ""
+                });
+
+            modelBuilder.Entity<ChildrenBook>().HasData(
+                new ChildrenBook
+                {
+                    Id = 3,
+                    PurposeAge = 10,
                     KeyWords = "USA history",
                     IconUrl = ""
                 });
@@ -47,16 +54,53 @@ namespace BookStore.DataAccess.Data
                 .ToTable("Categories")
                 .HasKey(c => c.Id);
 
+
+
             // Налаштування таблиці для підкласу Historical з наслідуванням
             modelBuilder.Entity<HistoryBook>()
-                .ToTable("HistoricalCategories")
+                .ToTable("HistoryBooks")
                 .HasBaseType<Category>();
 
             // Налаштування властивостей для підкласу Historical
             modelBuilder.Entity<HistoryBook>()
                 .Property(h => h.Period);
 
-            // Додайте інші налаштування для інших підкласів
+
+
+            modelBuilder.Entity<ChildrenBook>()
+                .ToTable("ChildrenBooks")
+                .HasBaseType<ChildrenBook>();
+
+            modelBuilder.Entity<ChildrenBook>()
+                .Property(h => h.PurposeAge);
+
+
+
+            modelBuilder.Entity<DictionaryBook>()
+                .ToTable("DictionaryBooks")
+                .HasBaseType<DictionaryBook>();
+            modelBuilder.Entity<DictionaryBook>()
+                .Property(d => d.NativeLanguage); 
+            modelBuilder.Entity<DictionaryBook>()
+                .Property(d => d.IntoLanguage); 
+
+
+            modelBuilder.Entity<FictionBook>()
+                .ToTable("FictionBook")
+                .HasBaseType<FictionBook>();
+
+            modelBuilder.Entity<FictionBook>()
+                .Property(h => h.LiteraryFormat);
+
+
+
+            modelBuilder.Entity<ScientificBook>()
+                .ToTable("ScientificBook")
+                .HasBaseType<ScientificBook>();
+
+            modelBuilder.Entity<ScientificBook>()
+                .Property(h => h.KnowledgeBranch);
+
         }
     }
 }
