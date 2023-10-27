@@ -17,11 +17,33 @@ namespace BookStore.DataAccess.Data
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Book> Books { get; set; }
-
+        public DbSet<Author> Authors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Book>().HasData(
+                new Book { 
+                    Id = 1, 
+                    Title = "Test book", 
+                    AuthorId = 1,
+                    CategoryId = 1,
+                    Year = 2023,
+                    Languqge = "Ukrainian",
+                    Description = "Description",
+                    Price = 200.0
+                });
+
+
+            modelBuilder.Entity<Author>().HasData(
+                new Author
+                {
+                    Id = 1,
+                    Name = "Taras",
+                    Surname = "Author",
+                    Country = "Ukraine",
+                });
 
             modelBuilder.Entity<HistoryCategory>().HasData(
                 new HistoryCategory
