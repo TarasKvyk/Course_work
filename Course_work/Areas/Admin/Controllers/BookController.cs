@@ -1,10 +1,12 @@
 ﻿using BookStore.DataAccess.Repository.IRepository;
 using BookStore.Models;
+using BookStore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Course_work.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    //[Area("Admin")]
     public class BookController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,8 +23,17 @@ namespace Course_work.Areas.Admin.Controllers
             return View(bookList);
         }
 
-        public IActionResult Upsert(int? id)
+        public IActionResult Upsert(int? bookId)
         {
+            Book book = _unitOfWork.Book.Get(b => b.Id == bookId, includeProperties:"Category,Author");
+
+            //IEnumerable<SelectListItem> CategoryList = _unitOfWork
+
+            BookVM bookVM = new BookVM()
+            {
+                
+            };
+
             return View();
         }
 

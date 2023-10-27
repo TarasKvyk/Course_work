@@ -22,6 +22,9 @@ namespace BookStore.Models
         public double Price { get; set; }
         public string? Language { get; set; }
 
+        [ValidateNever]
+        public string? ImageUrl { get; set; }
+
         [Required]
         public int AuthorId { get; set; }
         [ForeignKey("AuthorId")]

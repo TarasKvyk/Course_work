@@ -11,6 +11,8 @@ namespace BookStore.DataAccess.Repository.IRepository
     public interface IUnitOfWork
     {
         IBookRepository Book { get; }
+        ICategoryRepository Category { get; set; }
+        IAuthorRepository Auhtor { get; set; }
 
         void Save();
     }

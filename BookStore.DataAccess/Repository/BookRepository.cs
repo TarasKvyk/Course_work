@@ -22,8 +22,16 @@ namespace BookStore.DataAccess.Repository
         {
             _db.Update(entity);
             Book bookFromDb = _db.Books.FirstOrDefault(x => x.Id == entity.Id);
+            bookFromDb.Price = entity.Price;
+            bookFromDb.CategoryId = entity.CategoryId;
+            bookFromDb.Year = entity.Year;
+            bookFromDb.AuthorId = entity.AuthorId;
+            bookFromDb.Description = entity.Description;
+            bookFromDb.Language = entity.Language;
+            bookFromDb.Title = entity.Title;
+            bookFromDb.ImageUrl = entity.ImageUrl;
 
-            if(bookFromDb != null)
+            if (bookFromDb != null)
             {
                 if (bookFromDb.Category is HistoryCategory)
                 {
