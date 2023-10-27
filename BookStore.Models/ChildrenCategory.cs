@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
-    public class ChildrenBook : Category
+    public class ChildrenCategory : Category
     {
         [Required]
         public int PurposeAge { get; set; }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
-    public class ScientificBook : Category
+    public class FictionCategory : Category
     {
         [Required]
-        public string KnowledgeBranch { get; set; }
+        public string LiteraryFormat { get; set; }
     }
 }

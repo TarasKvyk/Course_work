@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
-    public class DictionaryBook : Category
+    public class DictionaryCategory : Category
     {
         [Required]
         public string NativeLanguage { get; set; }

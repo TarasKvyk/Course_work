@@ -16,13 +16,15 @@ namespace BookStore.DataAccess.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Book> Books { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<HistoryBook>().HasData(
-                new HistoryBook
+            modelBuilder.Entity<HistoryCategory>().HasData(
+                new HistoryCategory
                 {
                     Id = 1,
                     Period = "19",
@@ -33,8 +35,8 @@ namespace BookStore.DataAccess.Data
                 });
 
 
-            modelBuilder.Entity<HistoryBook>().HasData(
-                new HistoryBook
+            modelBuilder.Entity<HistoryCategory>().HasData(
+                new HistoryCategory
                 {
                     Id = 2,
                     Period = "19",
@@ -44,8 +46,8 @@ namespace BookStore.DataAccess.Data
                     IconUrl = ""
                 });
 
-            modelBuilder.Entity<ChildrenBook>().HasData(
-                new ChildrenBook
+            modelBuilder.Entity<ChildrenCategory>().HasData(
+                new ChildrenCategory
                 {
                     Id = 3,
                     PurposeAge = 10,
@@ -64,48 +66,48 @@ namespace BookStore.DataAccess.Data
 
 
             // Налаштування таблиці для підкласу Historical з наслідуванням
-            modelBuilder.Entity<HistoryBook>()
+            modelBuilder.Entity<HistoryCategory>()
                 .ToTable("HistoryBooks")
                 .HasBaseType<Category>();
 
             // Налаштування властивостей для підкласу Historical
-            modelBuilder.Entity<HistoryBook>()
+            modelBuilder.Entity<HistoryCategory>()
                 .Property(h => h.Period);
 
 
 
-            modelBuilder.Entity<ChildrenBook>()
+            modelBuilder.Entity<ChildrenCategory>()
                 .ToTable("ChildrenBooks")
                 .HasBaseType<Category>();
 
-            modelBuilder.Entity<ChildrenBook>()
+            modelBuilder.Entity<ChildrenCategory>()
                 .Property(h => h.PurposeAge);
 
 
 
-            modelBuilder.Entity<DictionaryBook>()
+            modelBuilder.Entity<DictionaryCategory>()
                 .ToTable("DictionaryBooks")
                 .HasBaseType<Category>();
-            modelBuilder.Entity<DictionaryBook>()
+            modelBuilder.Entity<DictionaryCategory>()
                 .Property(d => d.NativeLanguage); 
-            modelBuilder.Entity<DictionaryBook>()
+            modelBuilder.Entity<DictionaryCategory>()
                 .Property(d => d.IntoLanguage); 
 
 
-            modelBuilder.Entity<FictionBook>()
+            modelBuilder.Entity<FictionCategory>()
                 .ToTable("FictionBook")
                 .HasBaseType<Category>();
 
-            modelBuilder.Entity<FictionBook>()
+            modelBuilder.Entity<FictionCategory>()
                 .Property(h => h.LiteraryFormat);
 
 
 
-            modelBuilder.Entity<ScientificBook>()
+            modelBuilder.Entity<ScientificCategory>()
                 .ToTable("ScientificBook")
                 .HasBaseType<Category>();
 
-            modelBuilder.Entity<ScientificBook>()
+            modelBuilder.Entity<ScientificCategory>()
                 .Property(h => h.KnowledgeBranch);
         }
     }

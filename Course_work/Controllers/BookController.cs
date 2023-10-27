@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BookStore.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Course_work.Controllers
 {
@@ -6,6 +7,12 @@ namespace Course_work.Controllers
     {
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult Upsert()
+        {
+            List<Book> bookList = new List<Book>();
             return View();
         }
     }
