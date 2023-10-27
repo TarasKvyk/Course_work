@@ -2,8 +2,9 @@
 using BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Course_work.Controllers
+namespace Course_work.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class BookController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -20,6 +21,12 @@ namespace Course_work.Controllers
             return View(bookList);
         }
 
+        public IActionResult Upsert(int? id)
+        {
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult Upsert()
         {
             return View();
