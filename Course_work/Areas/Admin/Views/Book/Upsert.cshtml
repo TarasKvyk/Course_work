@@ -1,5 +1,119 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model BookVM 
+
+<div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2"> @(Model.Book.Id != 0 ? "Update" : "Create") Book</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <input asp-for="Book.Id" hidden />
+            @* <input asp-for="Product.ImageUrl" hidden />*@
+            <div class="row">
+                <div class="col-10">
+                    <div class="border p-3">
+                        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="Book.Title" class="form-control border-0 shadow" />
+                            <label asp-for="Book.Title" class="ms-2 mt-1"></label>
+                            <span asp-validation-for="Book.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="Book.Price" class="form-control border-0 shadow" />
+                            <label asp-for="Book.Price" class="ms-2 mt-1"></label>
+                            <span asp-validation-for="Book.Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="Book.Year" class="form-control border-0 shadow" />
+                            <label asp-for="Book.Year" class="ms-2 mt-1"></label>
+                            <span asp-validation-for="Book.Year" class="text-danger"></span>
+                        </div>
+                        <div class="py-2 col-12">
+                            <label asp-for="Book.Description" class="ms-2 text-muted"></label>
+                            <textarea asp-for="Book.Description" class="form-control border-0 shadow"></textarea>
+                        </div>
+
+                        <div class="form-floating py-2 col-12">
+                            <select asp-for="@Model.Book.CategoryId" asp-items="@Model.CategoryList/*@(ViewData["CategoryList"]) as IEnumerable<SelectListItem>*/ /*ViewBag.CategoryList*/" class="form-select border-0 shadow">
+                                <option disabled selected>--Select Category--</option>
+                            </select>
+                            <label asp-for="Book.CategoryId" class="ms-2 mt-1"></label>
+                            <span asp-validation-for="Book.CategoryId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating py-2 col-12">
+                            <select asp-for="@Model.Book.AuthorId" asp-items="@Model.AuthorList/*@(ViewData["CategoryList"]) as IEnumerable<SelectListItem>*/ /*ViewBag.CategoryList*/" class="form-select border-0 shadow">
+                                <option disabled selected>--Select Author--</option>
+                            </select>
+                            <label asp-for="Book.AuthorId" class="ms-2 mt-1"></label>
+                            <span asp-validation-for="Book.AuthorId" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input type="file" name="files" class="form-control border-0 shadow" multiple />
+                            <label asp-for="Book.ImageUrl" class="ms-2 mt-1"></label>
+                        </div>
+
+                        <div class="row pt-2">
+                            <div class="col-6 col-md-3">
+                                @if (Model.Book.Id != 0)
+                                {
+                                    <button type="submit" class="btn btn-primary form-control">Update</button>
+                                }
+                                else
+                                {
+
+                                    <button type="submit" class="btn btn-primary form-control">Create</button>
+                                }
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <a asp-controller="Book" asp-action="Index" class="btn btn-outline-primary form-control border">Back To Product List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-2">
+                    @if (Model.Book.ProductImages != null)
+                    {
+                        foreach (var image in Model.Book.ProductImages)
+                        {
+                            <div class="border p-1 m-2 text-center">
+                                <img src="@image.ImageUrl" width="100%"
+                                     style="border-radius:5px; border:1px solid #bbb9b9" />
+
+                                <a asp-action="DeleteImage" class="btn btn-danger" asp-route-imageId="@image.Id">
+                                    <i class="bi bi-trash-fill"></i>Delete
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>*@
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons lists table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant"))
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
 }

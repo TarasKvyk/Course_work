@@ -30,49 +30,50 @@ namespace BookStore.DataAccess.Repository
             bookFromDb.Language = entity.Language;
             bookFromDb.Title = entity.Title;
             bookFromDb.ImageUrl = entity.ImageUrl;
+            bookFromDb.CategoryId = entity.CategoryId;
 
-            if (bookFromDb != null)
-            {
-                if (bookFromDb.Category is HistoryCategory)
-                {
-                    HistoryCategory categoryFromDb = (HistoryCategory)bookFromDb.Category;
-                    HistoryCategory newCategory = (HistoryCategory)entity.Category;
+            //if (bookFromDb != null)
+            //{
+            //    if (bookFromDb.Category is HistoryCategory)
+            //    {
+            //        HistoryCategory categoryFromDb = (HistoryCategory)bookFromDb.Category;
+            //        HistoryCategory newCategory = (HistoryCategory)entity.Category;
 
-                    categoryFromDb.Period = newCategory.Period;
+            //        categoryFromDb.Period = newCategory.Period;
 
-                }
-                else if (bookFromDb.Category is FictionCategory)
-                {
-                    FictionCategory categoryFromDb = (FictionCategory)bookFromDb.Category;
-                    FictionCategory newCategory = (FictionCategory)entity.Category;
+            //    }
+            //    else if (bookFromDb.Category is FictionCategory)
+            //    {
+            //        FictionCategory categoryFromDb = (FictionCategory)bookFromDb.Category;
+            //        FictionCategory newCategory = (FictionCategory)entity.Category;
 
-                    categoryFromDb.LiteraryFormat = newCategory.LiteraryFormat;
+            //        categoryFromDb.LiteraryFormat = newCategory.LiteraryFormat;
 
-                }
-                else if(bookFromDb.Category is DictionaryCategory)
-                {
-                    DictionaryCategory categoryFromDb = (DictionaryCategory)bookFromDb.Category;
-                    DictionaryCategory newCategory = (DictionaryCategory)entity.Category;
+            //    }
+            //    else if(bookFromDb.Category is DictionaryCategory)
+            //    {
+            //        DictionaryCategory categoryFromDb = (DictionaryCategory)bookFromDb.Category;
+            //        DictionaryCategory newCategory = (DictionaryCategory)entity.Category;
 
-                    categoryFromDb.NativeLanguage = newCategory.NativeLanguage;
-                    categoryFromDb.IntoLanguage = newCategory.IntoLanguage;
-                }
-                else if(bookFromDb.Category is ScientificCategory)
-                {
-                    ScientificCategory categoryFromDb = (ScientificCategory)bookFromDb.Category;
-                    ScientificCategory newCategory = (ScientificCategory)entity.Category;
+            //        categoryFromDb.NativeLanguage = newCategory.NativeLanguage;
+            //        categoryFromDb.IntoLanguage = newCategory.IntoLanguage;
+            //    }
+            //    else if(bookFromDb.Category is ScientificCategory)
+            //    {
+            //        ScientificCategory categoryFromDb = (ScientificCategory)bookFromDb.Category;
+            //        ScientificCategory newCategory = (ScientificCategory)entity.Category;
 
-                    categoryFromDb.KnowledgeBranch = newCategory.KnowledgeBranch;
+            //        categoryFromDb.KnowledgeBranch = newCategory.KnowledgeBranch;
 
-                }
-                else if(bookFromDb.Category is ChildrenCategory)
-                {
-                    ChildrenCategory categoryFromDb = (ChildrenCategory)bookFromDb.Category;
-                    ChildrenCategory newCategory = (ChildrenCategory)entity.Category;
+            //    }
+            //    else if(bookFromDb.Category is ChildrenCategory)
+            //    {
+            //        ChildrenCategory categoryFromDb = (ChildrenCategory)bookFromDb.Category;
+            //        ChildrenCategory newCategory = (ChildrenCategory)entity.Category;
 
-                    categoryFromDb.PurposeAge = newCategory.PurposeAge;
-                }
-            }
+            //        categoryFromDb.PurposeAge = newCategory.PurposeAge;
+            //    }
+            //}
         }
     }
 }

@@ -25,16 +25,36 @@ namespace Course_work.Areas.Admin.Controllers
 
         public IActionResult Upsert(int? bookId)
         {
-            Book book = _unitOfWork.Book.Get(b => b.Id == bookId, includeProperties:"Category,Author");
+            IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
 
-            //IEnumerable<SelectListItem> CategoryList = _unitOfWork
+            IEnumerable<SelectListItem> authorList = _unitOfWork.Auhtor.GetAll().Select(u => new SelectListItem
+            {
+                Text = u.Name + " " + u.Surname,
+                Value = u.Id.ToString()
+            });
+
 
             BookVM bookVM = new BookVM()
             {
-                
+                Book = new Book(),
+                AuthorList = authorList,
+                CategoryList = categoryList
             };
 
-            return View();
+            if (bookId == 0 || bookId == null)
+            {
+                // create 
+                return View(bookVM);
+            }
+            else
+            {
+                bookVM.Book = _unitOfWork.Book.Get(b => b.Id == bookId, includeProperties: "Category,Author");
+                return View(bookVM);
+            }
         }
 
         [HttpPost]

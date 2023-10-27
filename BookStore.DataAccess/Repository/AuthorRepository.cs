@@ -9,60 +9,25 @@ using System.Threading.Tasks;
 
 namespace BookStore.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class AuthorRepository : Repository<Author>, IAuthorRepository
     {
         private readonly ApplicationDbContext _db;
 
-        public CategoryRepository(ApplicationDbContext db) : base(db)
+        public AuthorRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(Category entity)
+        public void Update(Author entity)
         {
             _db.Update(entity);
-            Category categoryFromDb = _db.Categories.FirstOrDefault(x => x.Id == entity.Id);
+            Author authorFromDb = _db.Authors.FirstOrDefault(x => x.Id == entity.Id);
 
-            if(categoryFromDb != null)
+            if (authorFromDb != null)
             {
-                if (categoryFromDb is HistoryCategory)
-                {
-                    HistoryCategory category = (HistoryCategory)categoryFromDb;
-                    HistoryCategory newCategory = (HistoryCategory)entity;
-
-                    category.Period = newCategory.Period;
-
-                }
-                else if (categoryFromDb is FictionCategory)
-                {
-                    FictionCategory category = (FictionCategory)categoryFromDb;
-                    FictionCategory newCategory = (FictionCategory)entity;
-
-                    category.LiteraryFormat = newCategory.LiteraryFormat;
-
-                }
-                else if(categoryFromDb is DictionaryCategory)
-                {
-                    DictionaryCategory category = (DictionaryCategory)categoryFromDb;
-                    DictionaryCategory newCategory = (DictionaryCategory)entity;
-
-                    category.NativeLanguage = newCategory.NativeLanguage;
-                    category.IntoLanguage = newCategory.IntoLanguage;
-                }
-                else if(categoryFromDb is ScientificCategory)
-                {
-                    ScientificCategory category = (ScientificCategory)categoryFromDb;
-                    ScientificCategory newCategory = (ScientificCategory)entity;
-
-                    category.KnowledgeBranch = newCategory.KnowledgeBranch;
-                }
-                else if(categoryFromDb is ChildrenCategory)
-                {
-                    ChildrenCategory category = (ChildrenCategory)categoryFromDb;
-                    ChildrenCategory newCategory = (ChildrenCategory)entity;
-
-                    category.PurposeAge = newCategory.PurposeAge;
-                }
+                authorFromDb.Surname = entity.Surname;
+                authorFromDb.Name = entity.Name;
+                authorFromDb.Country = entity.Country;
             }
         }
     }

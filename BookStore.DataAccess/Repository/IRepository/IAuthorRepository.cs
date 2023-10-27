@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.DataAccess.Repository.IRepository
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface IAuthorRepository : IRepository<Author>
     {
-        void Update(Category entity);
+        void Update(Author entity);
     }
 }
