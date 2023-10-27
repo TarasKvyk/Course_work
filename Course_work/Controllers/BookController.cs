@@ -15,7 +15,7 @@ namespace Course_work.Controllers
 
         public IActionResult Index()
         {
-            List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Category").ToList();
+            List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Category,Author").ToList();
 
             return View(bookList);
         }

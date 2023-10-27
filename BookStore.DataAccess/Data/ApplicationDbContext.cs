@@ -30,7 +30,7 @@ namespace BookStore.DataAccess.Data
                     AuthorId = 1,
                     CategoryId = 1,
                     Year = 2023,
-                    Languqge = "Ukrainian",
+                    Language = "Ukrainian",
                     Description = "Description",
                     Price = 200.0
                 });

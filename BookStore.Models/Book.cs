@@ -20,7 +20,7 @@ namespace BookStore.Models
         public int Year { get; set; }
         [Required]
         public double Price { get; set; }
-        public string? Languqge { get; set; }
+        public string? Language { get; set; }
 
         [Required]
         public int AuthorId { get; set; }
