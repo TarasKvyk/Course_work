@@ -12,7 +12,5 @@ namespace BookStore.Models
         public string Specialization { get; set; }
         public string CategoryDescrition { get; set; }
         public string KeyWords { get; set; }
-        [ValidateNever]
-        public string IconUrl { get; set;  }
     }
 }

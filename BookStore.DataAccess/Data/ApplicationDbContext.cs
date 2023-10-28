@@ -55,8 +55,7 @@ namespace BookStore.DataAccess.Data
                     Name = "History",
                     KeyWords = "Ukraine history",
                     Specialization = "HISTORY specializetion",
-                    CategoryDescrition = "Description",
-                    IconUrl = ""
+                    CategoryDescrition = "Description"
                 });
 
             modelBuilder.Entity<HistoryCategory>().HasData(
@@ -67,8 +66,7 @@ namespace BookStore.DataAccess.Data
                     Name = "History",
                     KeyWords = "USA history",
                     Specialization = "HISTORY desc",
-                    CategoryDescrition = "Description",
-                    IconUrl = ""
+                    CategoryDescrition = "Description"
                 });
 
             modelBuilder.Entity<ChildrenCategory>().HasData(
@@ -79,8 +77,7 @@ namespace BookStore.DataAccess.Data
                     Name = "Children's literature",
                     Specialization = "Child desc",
                     CategoryDescrition = "Description",
-                    KeyWords = "Fairy tale",
-                    IconUrl = ""
+                    KeyWords = "Fairy tale"
                 });
 
 

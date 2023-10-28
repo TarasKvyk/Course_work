@@ -185,7 +185,11 @@
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Тарас\\Політех\\Квик Тарас 2 курс ПЗ\\Курсова\\BookStore.Models\\BookStore.Models.csproj": {
+                "projectPath": "D:\\Тарас\\Політех\\Квик Тарас 2 курс ПЗ\\Курсова\\BookStore.Models\\BookStore.Models.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
