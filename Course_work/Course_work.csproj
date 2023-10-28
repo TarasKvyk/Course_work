@@ -22,4 +22,8 @@
     <ProjectReference Include="..\BookStore.Unility\BookStore.Unility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\book\book-1\" />
+  </ItemGroup>
+
 </Project>

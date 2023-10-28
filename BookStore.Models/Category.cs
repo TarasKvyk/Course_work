@@ -9,6 +9,7 @@ namespace BookStore.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+        public string Specialization { get; set; }
         public string CategoryDescrition { get; set; }
         public string KeyWords { get; set; }
         [ValidateNever]

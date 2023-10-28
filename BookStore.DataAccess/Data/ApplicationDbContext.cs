@@ -52,7 +52,8 @@ namespace BookStore.DataAccess.Data
                     Period = "19",
                     Name = "History",
                     KeyWords = "Ukraine history",
-                    CategoryDescrition = "HISTORY desc",
+                    Specialization = "HISTORY specializetion",
+                    CategoryDescrition = "Description",
                     IconUrl = ""
                 });
 
@@ -64,7 +65,8 @@ namespace BookStore.DataAccess.Data
                     Period = "19",
                     Name = "History",
                     KeyWords = "USA history",
-                    CategoryDescrition = "HISTORY desc",
+                    Specialization = "HISTORY desc",
+                    CategoryDescrition = "Description",
                     IconUrl = ""
                 });
 
@@ -74,7 +76,8 @@ namespace BookStore.DataAccess.Data
                     Id = 3,
                     PurposeAge = 10,
                     Name = "Children's literature",
-                    CategoryDescrition = "Child desc",
+                    Specialization = "Child desc",
+                    CategoryDescrition = "Description",
                     KeyWords = "Fairy tale",
                     IconUrl = ""
                 });
