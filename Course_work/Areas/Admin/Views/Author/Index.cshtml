@@ -1,0 +1,58 @@
+﻿@model List<Author>
+
+<div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Book List</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            <div class="col-6">
+            </div>
+            <div class="col-6 text-end">
+                <a asp-area="Admin" asp-controller="Author" asp-action="Upsert" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i>
+                    Add new Author
+                </a>
+            </div>
+        </div>
+        <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Surname</th>
+                    <th class="text-center">Country</th>
+                    <th class="text-center">Birth Date</th>
+                    <th>
+
+                    </th>
+                </tr>
+
+
+                @foreach (var author in Model)
+                {
+                    <tr>
+                        <th class="text-center">@author.Name</th>
+                        <th class="text-center">@author.Surname</th>
+                        <th class="text-center">@author.Country</th>
+                        <th  class="text-center date">@author.BirthDate.ToShortDateString()</th>
+                        <th>
+                            <div div class="w-100 btn-group" role="group">
+                                <a asp-action="Upsert" asp-route-authorId="@author.Id" class="btn btn-primary mx-2" style="height:50%; width:50%;"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                <a asp-action="Delete" asp-route-authorId="@author.Id" class="btn btn-danger mx-2" style="height:50%; width:50%;"><i class="bi bi-trash-fill"></i> Delete</a>
+                            </div>
+                        </th>
+                    </tr>
+                }
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}

@@ -51,7 +51,6 @@
                             <label asp-for="Book.CategoryId" class="ms-2 mt-1"></label>
                             <span asp-validation-for="Book.CategoryId" class="text-danger"></span>
                         </div>
-                        
 
                         <div class="form-floating py-2 col-12">
                             <select asp-for="@Model.Book.AuthorId" asp-items="@Model.AuthorList/*@(ViewData["CategoryList"]) as IEnumerable<SelectListItem>*/ /*ViewBag.CategoryList*/" class="form-select border-0 shadow">
@@ -74,12 +73,11 @@
                                 }
                                 else
                                 {
-
                                     <button type="submit" class="btn btn-primary form-control">Create</button>
                                 }
                             </div>
                             <div class="col-6 col-md-3">
-                                <a asp-controller="Book" asp-action="Index" class="btn btn-outline-primary form-control border">Back To Product List</a>
+                                <a asp-controller="Book" asp-action="Index" class="btn btn-outline-primary form-control border">Back To Book List</a>
                             </div>
                         </div>
                     </div>

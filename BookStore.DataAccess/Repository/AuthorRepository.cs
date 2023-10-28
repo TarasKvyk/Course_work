@@ -28,6 +28,10 @@ namespace BookStore.DataAccess.Repository
                 authorFromDb.Surname = entity.Surname;
                 authorFromDb.Name = entity.Name;
                 authorFromDb.Country = entity.Country;
+                authorFromDb.BirthDate = entity.BirthDate;
+
+                if(!string.IsNullOrEmpty(entity.ImageUrl))
+                    authorFromDb.ImageUrl = entity.ImageUrl;
             }
         }
     }

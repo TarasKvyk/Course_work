@@ -42,7 +42,9 @@ namespace BookStore.DataAccess.Data
                     Id = 1,
                     Name = "Taras",
                     Surname = "Author",
+                    ImageUrl = "",
                     Country = "Ukraine",
+                    BirthDate = new DateTime(2005, 1, 22)
                 });
 
             modelBuilder.Entity<HistoryCategory>().HasData(
@@ -56,7 +58,6 @@ namespace BookStore.DataAccess.Data
                     CategoryDescrition = "Description",
                     IconUrl = ""
                 });
-
 
             modelBuilder.Entity<HistoryCategory>().HasData(
                 new HistoryCategory
