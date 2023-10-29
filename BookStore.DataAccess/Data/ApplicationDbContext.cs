@@ -58,6 +58,18 @@ namespace BookStore.DataAccess.Data
                     CategoryDescrition = "Description"
                 });
 
+            modelBuilder.Entity<DictionaryCategory>().HasData(
+                new DictionaryCategory
+                {
+                    Id = 4,
+                    IntoLanguage = "Ukrainian",
+                    NativeLanguage = "English",
+                    Name = "english",
+                    KeyWords = "Ukraine",
+                    Specialization = "Dictionary specializetion",
+                    CategoryDescrition = "Description dictionary"
+                });
+
             modelBuilder.Entity<HistoryCategory>().HasData(
                 new HistoryCategory
                 {

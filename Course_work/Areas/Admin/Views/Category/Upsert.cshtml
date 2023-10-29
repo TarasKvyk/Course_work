@@ -1,6 +1,33 @@
 ﻿@model CategoryVM
 
+@{
+    HistoryCategory HistoryCategory       = new HistoryCategory();
+    DictionaryCategory DictionaryCategory = new DictionaryCategory();
+    ScientificCategory ScientificCategory = new ScientificCategory();
+    FictionCategory FictionCategory       = new FictionCategory();
+    ChildrenCategory ChildrenCategory     = new ChildrenCategory();
 
+    //if (Model.Category is HistoryCategory)
+    //{
+    //    HistoryCategory = (HistoryCategory)Model.Category;
+    //}
+    //if (Model.Category is DictionaryCategory)
+    //{
+    //    DictionaryCategory = (DictionaryCategory)Model.Category;
+    //}
+    //if (Model.Category is ScientificCategory)
+    //{
+    //    ScientificCategory = (ScientificCategory)Model.Category;
+    //}
+    //if (Model.Category is FictionCategory)
+    //{
+    //    FictionCategory = (FictionCategory)Model.Category;
+    //}
+    //if (Model.Category is ChildrenCategory)
+    //{
+    //    ChildrenCategory = (ChildrenCategory)Model.Category;
+    //}
+}
 
 <div class="card shadow border-0 my-4">
     <div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -20,12 +47,14 @@
                         <div class="form-floating py-2 col-6">
                             @if (@Model.Category.Id != 0)
                             {
-                                <input asp-for="Category.Name" disabled class="form-control border-0 shadow" />
+                                <select id="categorySelect" asp-for="Category.Name" disabled asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
+                                    <option value="@Model.Category.Name" disabled selected>@Model.Category.Name</option>
+                                </select>
                             }
                             else
                             {
-                                <select asp-for="Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
-                                        <option disabled selected>--Select Category Name--</option>
+                                <select id="categorySelect" asp-for="Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
+                                    <option value="@Model.Category.Name" disabled selected>--Select Category Name--</option>
                                 </select>
                             }
                             
@@ -47,25 +76,49 @@
                             <textarea asp-for="Category.CategoryDescrition" class="form-control border-0 shadow"></textarea>
                         </div>
 
-                        <div class="form-floating py-2 col-6">
-                            <input asp-for="Category.Specialization" class="form-control border-0 shadow" />
-                            <label asp-for="Category.Specialization" class="ms-2 mt-1"></label>
-                            <span asp-validation-for="Category.Specialization" class="text-danger"></span>
-                        </div>
-
-                        @if (Model is HistoryCategory)
-                        {
-                            <div class="form-floating py-2 col-6">
-                                <input asp-for="Category.Specialization" class="form-control border-0 shadow" />
-                                <label asp-for="Category.Specialization" class="ms-2 mt-1"></label>
-                                <span asp-validation-for="Category.Specialization" class="text-danger"></span>
-                            </div>
-                        }
-
+                        <div class="form-floating py-2 col-12">
                         
+                            <div id="historySelect" style="display:none" class="form-floating py-2 col-12">
+                                    <input asp-for="@HistoryCategory.Period" class="form-control border-0 shadow" />
+                                    <label asp-for="@HistoryCategory.Period" class="ms-2 mt-1"></label>
+                                    <span asp-validation-for="@HistoryCategory.Period" class="text-danger"></span>
+                            </div>
+                 
+                            <div id="dictionarySelect" style="display:none" class="row">
+                                <div class="form-floating py-2 col-6">
+                                    <input asp-for="@DictionaryCategory.NativeLanguage" class="form-control border-0 shadow" />
+                                    <label asp-for="@DictionaryCategory.NativeLanguage" class="ms-2 mt-1"></label>
+                                    <span asp-validation-for="@DictionaryCategory.NativeLanguage" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating py-2 col-6">
+                                    <input asp-for="@DictionaryCategory.IntoLanguage" class="form-control border-0 shadow" />
+                                    <label asp-for="@DictionaryCategory.IntoLanguage" class="ms-2 mt-1"></label>
+                                    <span asp-validation-for="@DictionaryCategory.IntoLanguage" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div id="childrenSelect" style="display:none" class="form-floating py-2 col-12">
+                                    <input asp-for="@ChildrenCategory.PurposeAge" class="form-control border-0 shadow" />
+                                    <label asp-for="@ChildrenCategory.PurposeAge" class="ms-2 mt-1"></label>
+                                    <span asp-validation-for="@ChildrenCategory.PurposeAge" class="text-danger"></span>
+                            </div>
+                        
+                            <div id="scientificSelect" style="display:none" class="form-floating py-2 col-12">
+                                    <input asp-for="@ScientificCategory.KnowledgeBranch" class="form-control border-0 shadow" />
+                                    <label asp-for="@ScientificCategory.KnowledgeBranch" class="ms-2 mt-1"></label>
+                                    <span asp-validation-for="@ScientificCategory.KnowledgeBranch" class="text-danger"></span>
+                            </div>
+                           
+                            <div id="fictionSelect" style="display:none" class="form-floating py-2 col-12">
+                                <input asp-for="@FictionCategory.LiteraryFormat" class="form-control border-0 shadow" />
+                                <label asp-for="@FictionCategory.LiteraryFormat" class="ms-2 mt-1"></label>
+                                <span asp-validation-for="@FictionCategory.LiteraryFormat" class="text-danger"></span>
+                            </div>
+                       
+                        </div>
+     
 
                         <div class="row pt-2">
-                            <div class="col-6 col-md-3">
+                            <div class="col-6 col-md-6">
                                 @if (Model.Category.Id != 0)
                                 {
                                     <button type="submit" class="btn btn-primary form-control">Update</button>
@@ -75,12 +128,10 @@
                                     <button type="submit" class="btn btn-primary form-control">Create</button>
                                 }
                             </div>
-                            <div class="col-6 col-md-3">
+                            <div class="col-6 col-md-6">
                                 <a asp-controller="Category" asp-action="Index" class="btn btn-outline-primary form-control border">Back To Category List</a>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -103,8 +154,42 @@
             ],
             ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant"))
         });
+
+
+
+
     </script>
     @{
         <partial name="_ValidationScriptsPartial" />
+
+        <script>
+            $(document).ready(function () {
+                $('#categorySelect').change(function () {
+                    var selection = $('#categorySelect Option:Selected').text();
+
+                    $('#historySelect, #dictionarySelect, #fictionSelect, #childrenSelect, #scientificSelect').hide();
+
+                    if (selection == 'History') {
+                        $('#historySelect').show();
+                    }
+
+                    if (selection == 'Dictionary') {
+                        $('#dictionarySelect').show();
+                    }
+
+                    if (selection == 'Fiction') {
+                        $('#fictionSelect').show();
+                    }
+
+                    if (selection == 'Children') {
+                        $('#childrenSelect').show();
+                    }
+
+                    if (selection == 'Scientific') {
+                        $('#scientificSelect').show();
+                    }
+                })
+            })
+        </script>
     }
 }

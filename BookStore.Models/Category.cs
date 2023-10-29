@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Models
@@ -10,7 +11,9 @@ namespace BookStore.Models
         [Required]
         public string Name { get; set; }
         public string Specialization { get; set; }
+        [DisplayName("Description")]
         public string CategoryDescrition { get; set; }
+        [DisplayName("Key words")]
         public string KeyWords { get; set; }
     }
 }

@@ -52,8 +52,9 @@ namespace Course_work.Areas.Admin.Controllers
                 CategoryNames = categoryNames
             };
 
-
             return View(CategoryVM);
         }
+
+
     }
 }
