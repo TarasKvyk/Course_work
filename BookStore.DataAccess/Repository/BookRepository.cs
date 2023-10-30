@@ -27,12 +27,23 @@ namespace BookStore.DataAccess.Repository
                 bookFromDb.Price = entity.Price;
                 bookFromDb.CategoryId = entity.CategoryId;
                 bookFromDb.Year = entity.Year;
-                bookFromDb.AuthorId = entity.AuthorId;
+
+                if (bookFromDb.AuthorId != entity.AuthorId)
+                {
+                    bookFromDb.AuthorId = entity.AuthorId;
+                    bookFromDb.Author = _db.Authors.FirstOrDefault(c => c.Id == entity.AuthorId);
+                }
+
                 bookFromDb.Description = entity.Description;
                 bookFromDb.Language = entity.Language;
                 bookFromDb.Title = entity.Title;
                 bookFromDb.ImageUrl = entity.ImageUrl;
-                bookFromDb.CategoryId = entity.CategoryId;
+
+                if (bookFromDb.CategoryId != entity.CategoryId)
+                {
+                    bookFromDb.CategoryId = entity.CategoryId;
+                    bookFromDb.Category = _db.Categories.FirstOrDefault(c => c.Id == entity.CategoryId);
+                }
             }
 
             //if (bookFromDb != null)

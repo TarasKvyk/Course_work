@@ -23,6 +23,19 @@ namespace BookStore.DataAccess.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Book>()
+                .HasOne(b => b.Category)  
+                .WithMany()
+                .HasForeignKey(b => b.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull); // This will set the foreign key to null on delete
+
+            modelBuilder.Entity<Book>()
+                .HasOne(b => b.Author)
+                .WithMany()
+                .HasForeignKey(b => b.AuthorId)
+                .OnDelete(DeleteBehavior.SetNull); // This will set the foreign key to null on delete
+
+
             modelBuilder.Entity<Book>().HasData(
                 new Book { 
                     Id = 1, 

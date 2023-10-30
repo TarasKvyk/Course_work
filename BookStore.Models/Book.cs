@@ -26,15 +26,15 @@ namespace BookStore.Models
         public string? ImageUrl { get; set; }
 
         [Required]
-        public int AuthorId { get; set; }
+        public int? AuthorId { get; set; }
         [ForeignKey("AuthorId")]
         [ValidateNever]
-        public Author Author { get; set; }
+        public Author? Author { get; set; }
 
         [Required]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         [ValidateNever]
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
     }
 }

@@ -125,11 +125,11 @@ namespace Course_work.Areas.Admin.Controllers
                     }
 
                     BookVM.Book.ImageUrl = @"\" + productPath + @"\" + fileName;
-
-                    _unitOfWork.Book.Update(BookVM.Book);
-                    _unitOfWork.Save();
-
                 }
+
+                _unitOfWork.Book.Update(BookVM.Book);
+                _unitOfWork.Save();
+
 
                 TempData["success"] = $"Product \"{BookVM.Book.Title}\" created/updated successfully";
                 return RedirectToAction("Index", "Book");

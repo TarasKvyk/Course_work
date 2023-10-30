@@ -47,8 +47,8 @@
                         <div class="form-floating py-2 col-6">
                             @if (@Model.Category.Id != 0)
                             {
-                                <select id="categorySelect" asp-for="Category.Name" disabled asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
-                                    <option value="@Model.Category.Name" disabled selected>@Model.Category.Name</option>
+                                <select id="categorySelect" asp-for="Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
+                                    <option value="@Model.Category.Name" disabled selected>--Select Category Name--</option>
                                 </select>
                             }
                             else

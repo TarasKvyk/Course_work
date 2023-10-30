@@ -39,8 +39,9 @@
                 {
                     <tr>
                         <th class="text-center">@book.Title</th>
-                        <th class="text-center">@(@book.Author.Name + " " + @book.Author.Surname) </th>
-                        <th class="text-center">@book.Category.Name</th>
+                        <th class="text-center">
+                                @(book.Author == null ? "Unknown" : book.Author.Name + book.Author == null ? "Unkwown" : book.Author.Surname) </th>
+                        <th class="text-center">@(book.Category == null ? "Unknown" : book.Category.Name)</th>
                         <th class="text-center">@book.Year</th>
                         <th class="text-center">@book.Language</th>
                         <th class="text-center">@book.Price</th>

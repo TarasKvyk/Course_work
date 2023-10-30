@@ -31,6 +31,39 @@ namespace Course_work.Areas.Admin.Controllers
             if (authorId == 0 || authorId == null)
                 return NotFound();
 
+            var BooksWithThatAuthor = _unitOfWork.Book.GetAll(b => b.AuthorId == authorId).ToList();
+
+            if (_unitOfWork.Auhtor.Get(a => a.Name == "Unknown") == null)
+            {
+                Author unknownAuthor = new Author()
+                {
+                    Id = 0,
+                    Name = "Unknown",
+                    Surname = "Unknown",
+                    Country = "Unknown",
+                    BirthDate = DateTime.MinValue
+                };
+
+                _unitOfWork.Auhtor.Add(unknownAuthor);
+                _unitOfWork.Save();
+            }
+            
+            int unknownAuthorId = _unitOfWork.Auhtor.Get(c => c.Name == "Unknown").Id;
+
+            if (authorId == unknownAuthorId)
+            {
+                TempData["error"] = $"\"Unknown\" author cannot be deleted";
+                return RedirectToAction("Index");
+            }
+
+            foreach (var book in BooksWithThatAuthor)
+            {
+                book.AuthorId = unknownAuthorId;
+                _unitOfWork.Book.Update(book);
+                _unitOfWork.Save();
+            }
+
+
             Author authorToDelete = _unitOfWork.Auhtor.Get(a => a.Id == authorId);
             
             if(authorToDelete == null)

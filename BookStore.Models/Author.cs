@@ -17,6 +17,8 @@ namespace BookStore.Models
         public string Name { get; set; } 
         public string Surname { get; set; }
         public string Country { get; set; }
+
+        [Display(Name = "Birth Date")]
         [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
         [ValidateNever]
