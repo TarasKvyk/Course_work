@@ -152,15 +152,22 @@ namespace Course_work.Areas.Admin.Controllers
             if (sourceCategory == null || destinationCategory == null)
                 return;
 
-            destinationCategory.Name = sourceCategory.Name;
-            destinationCategory.KeyWords = sourceCategory.KeyWords;
-            destinationCategory.Specialization = sourceCategory.Specialization;
-            destinationCategory.CategoryDescrition = sourceCategory.CategoryDescrition;
-            destinationCategory.Id = sourceCategory.Id;
+            if (!string.IsNullOrEmpty(sourceCategory.Name))
+                destinationCategory.Name = sourceCategory.Name;
+
+            if (!string.IsNullOrEmpty(sourceCategory.KeyWords))
+                destinationCategory.KeyWords = sourceCategory.KeyWords;
+
+            if (!string.IsNullOrEmpty(sourceCategory.Specialization))
+                destinationCategory.Specialization = sourceCategory.Specialization;
+
+            if (!string.IsNullOrEmpty(sourceCategory.CategoryDescrition))
+                destinationCategory.CategoryDescrition = sourceCategory.CategoryDescrition;
         }
 
+
         [HttpPost]
-        public IActionResult Upsert(CategoryVM CategoryVM, string selectedCategory)
+        public IActionResult Upsert(CategoryVM CategoryVM)
         {
             if (ModelState.IsValid)
             {
@@ -204,19 +211,54 @@ namespace Course_work.Areas.Admin.Controllers
                     {
                         _unitOfWork.Category.Add(categoryToAdd);
                         _unitOfWork.Save();
+
+                        TempData["success"] = $"Category \"{categoryToAdd.Name + " " + categoryToAdd.Specialization}\" has been created successfully";
                     }
                 }
                 else
                 {
-                    // Виконати логіку для оновлення існуючої категорії
-                    // Ви можете використовувати значення selectedCategory
-                }
+                    var existingCategory = _unitOfWork.Category.Get(c => c.Id == CategoryVM.Category.Id);
 
-                return RedirectToAction("Index", "Category");
-                // Після виконання логіки перенаправити користувача на іншу сторінку або вивести повідомлення
+                    if (existingCategory != null)
+                    {
+                        CopyCategoryValues(CategoryVM.Category, existingCategory);
+
+                        if (existingCategory is HistoryCategory && !string.IsNullOrEmpty(CategoryVM.History.Period))
+                        {
+                            ((HistoryCategory)existingCategory).Period = CategoryVM.History.Period;
+                        }
+                        else if (existingCategory is DictionaryCategory)
+                        {
+                            if (!string.IsNullOrEmpty(CategoryVM.Dictionary.NativeLanguage) && string.IsNullOrEmpty(CategoryVM.Dictionary.IntoLanguage))
+                            {
+                                ((DictionaryCategory)existingCategory).NativeLanguage = CategoryVM.Dictionary.NativeLanguage;
+                                ((DictionaryCategory)existingCategory).IntoLanguage = CategoryVM.Dictionary.IntoLanguage;
+                            }
+                        }
+                        else if (existingCategory is FictionCategory && !string.IsNullOrEmpty(CategoryVM.Fiction.LiteraryFormat))
+                        {
+                            ((FictionCategory)existingCategory).LiteraryFormat = CategoryVM.Fiction.LiteraryFormat;
+                        }
+                        else if (existingCategory is ChildrenCategory && !string.IsNullOrEmpty(CategoryVM.Children.PurposeAge))
+                        {
+                            ((ChildrenCategory)existingCategory).PurposeAge = CategoryVM.Children.PurposeAge;
+                        }
+                        else if (existingCategory is ScientificCategory)
+                        {
+                            ((ScientificCategory)existingCategory).KnowledgeBranch = CategoryVM.Scientific.KnowledgeBranch;
+                        }
+
+                        _unitOfWork.Category.Update(existingCategory);
+                        _unitOfWork.Save();
+
+                        TempData["success"] = $"Category \"{existingCategory.Name + " " + existingCategory.Specialization}\" has been updated successfully";
+                    }
+
+
+                    return RedirectToAction("Index", "Category");
+                }
             }
 
-            // Якщо виникла помилка, повернути користувача назад на форму з помилками
             return View(CategoryVM);
         }
     }

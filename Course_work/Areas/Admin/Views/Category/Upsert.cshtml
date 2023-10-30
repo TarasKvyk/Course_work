@@ -28,7 +28,7 @@
                             }
                             else
                             {
-                                <select id="categorySelect" asp-for="@Model.Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
+                                <select id="categorySelect" disabled asp-for="@Model.Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
                                     <option value="@Model.Category.Name" disabled selected>--Select Category Name--</option>
                                 </select>
                             }
