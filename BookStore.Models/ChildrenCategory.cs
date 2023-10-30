@@ -12,6 +12,6 @@ namespace BookStore.Models
     {
         [Required]
         [DisplayName("Purpose Age")]
-        public int PurposeAge { get; set; }
+        public string PurposeAge { get; set; }
     }
 }

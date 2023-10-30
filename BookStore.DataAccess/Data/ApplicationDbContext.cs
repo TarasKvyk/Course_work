@@ -98,7 +98,7 @@ namespace BookStore.DataAccess.Data
                 new ChildrenCategory
                 {
                     Id = 3,
-                    PurposeAge = 10,
+                    PurposeAge = "10",
                     Name = "Children's literature",
                     Specialization = "Child desc",
                     CategoryDescrition = "Description",

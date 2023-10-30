@@ -6,6 +6,7 @@ using BookStore.Unility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Course_work.Areas.Admin.Controllers
 {
@@ -118,7 +119,12 @@ namespace Course_work.Areas.Admin.Controllers
                 CategoryVM CategoryVM1 = new CategoryVM()
                 {
                     Category = new Category(),
-                    CategoryNames = categoryNames
+                    CategoryNames = categoryNames,
+                    Children = new ChildrenCategory(),
+                    Fiction = new FictionCategory(),
+                    Dictionary = new DictionaryCategory(),
+                    History = new HistoryCategory(),
+                    Scientific = new ScientificCategory()
                 };
 
                 return View(CategoryVM1);
@@ -129,12 +135,89 @@ namespace Course_work.Areas.Admin.Controllers
             CategoryVM CategoryVM = new CategoryVM()
             {
                 Category = category,
-                CategoryNames = categoryNames
+                CategoryNames = categoryNames,
+                Children = new ChildrenCategory(),
+                Fiction = new FictionCategory(),
+                Dictionary = new DictionaryCategory(),
+                History = new HistoryCategory(),
+                Scientific = new ScientificCategory()
             };
 
             return View(CategoryVM);
         }
 
 
+        private void CopyCategoryValues(Category sourceCategory, Category destinationCategory)
+        {
+            if (sourceCategory == null || destinationCategory == null)
+                return;
+
+            destinationCategory.Name = sourceCategory.Name;
+            destinationCategory.KeyWords = sourceCategory.KeyWords;
+            destinationCategory.Specialization = sourceCategory.Specialization;
+            destinationCategory.CategoryDescrition = sourceCategory.CategoryDescrition;
+            destinationCategory.Id = sourceCategory.Id;
+        }
+
+        [HttpPost]
+        public IActionResult Upsert(CategoryVM CategoryVM, string selectedCategory)
+        {
+            if (ModelState.IsValid)
+            {
+                if (CategoryVM.Category.Id == 0)
+                {
+                    Category? categoryToAdd = null;
+
+                    if (!string.IsNullOrEmpty(CategoryVM.History.Period))
+                    {
+                        categoryToAdd = new HistoryCategory();
+                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
+                        ((HistoryCategory)categoryToAdd).Period = CategoryVM.History.Period;
+                    }
+                    else if (!string.IsNullOrEmpty(CategoryVM.Dictionary.IntoLanguage) && !string.IsNullOrEmpty(CategoryVM.Dictionary.NativeLanguage))
+                    {
+                        categoryToAdd = new DictionaryCategory();
+                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
+                        ((DictionaryCategory)categoryToAdd).NativeLanguage = CategoryVM.Dictionary.NativeLanguage;
+                        ((DictionaryCategory)categoryToAdd).IntoLanguage = CategoryVM.Dictionary.IntoLanguage;
+                    }
+                    else if (!string.IsNullOrEmpty(CategoryVM.Fiction.LiteraryFormat))
+                    {
+                        categoryToAdd = new FictionCategory();
+                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
+                        ((FictionCategory)categoryToAdd).LiteraryFormat = CategoryVM.Fiction.LiteraryFormat;
+                    }
+                    else if (!string.IsNullOrEmpty(CategoryVM.Children.PurposeAge))
+                    {
+                        categoryToAdd = new ChildrenCategory();
+                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
+                        ((ChildrenCategory)categoryToAdd).PurposeAge = CategoryVM.Children.PurposeAge;
+                    }
+                    else if (!string.IsNullOrEmpty(CategoryVM.Scientific.KnowledgeBranch))
+                    {
+                        categoryToAdd = new ScientificCategory();
+                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
+                        ((ScientificCategory)categoryToAdd).KnowledgeBranch = CategoryVM.Scientific.KnowledgeBranch;
+                    }
+
+                    if (categoryToAdd != null)
+                    {
+                        _unitOfWork.Category.Add(categoryToAdd);
+                        _unitOfWork.Save();
+                    }
+                }
+                else
+                {
+                    // Виконати логіку для оновлення існуючої категорії
+                    // Ви можете використовувати значення selectedCategory
+                }
+
+                return RedirectToAction("Index", "Category");
+                // Після виконання логіки перенаправити користувача на іншу сторінку або вивести повідомлення
+            }
+
+            // Якщо виникла помилка, повернути користувача назад на форму з помилками
+            return View(CategoryVM);
+        }
     }
 }
