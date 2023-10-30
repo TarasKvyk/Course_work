@@ -123,14 +123,12 @@ namespace BookStore.DataAccess.Data
                 .Property(h => h.Period);
 
 
-
             modelBuilder.Entity<ChildrenCategory>()
                 .ToTable("ChildrenBooks")
                 .HasBaseType<Category>();
 
             modelBuilder.Entity<ChildrenCategory>()
                 .Property(h => h.PurposeAge);
-
 
 
             modelBuilder.Entity<DictionaryCategory>()
@@ -141,15 +139,12 @@ namespace BookStore.DataAccess.Data
             modelBuilder.Entity<DictionaryCategory>()
                 .Property(d => d.IntoLanguage); 
 
-
             modelBuilder.Entity<FictionCategory>()
                 .ToTable("FictionBook")
                 .HasBaseType<Category>();
 
             modelBuilder.Entity<FictionCategory>()
                 .Property(h => h.LiteraryFormat);
-
-
 
             modelBuilder.Entity<ScientificCategory>()
                 .ToTable("ScientificBook")

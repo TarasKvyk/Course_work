@@ -35,7 +35,8 @@ namespace BookStore.DataAccess.Repository
             else
                 query = _dbSet.AsNoTracking();
 
-            query = query.Where(filter);
+            if (filter != null)
+                query = query.Where(filter);
 
             if (!string.IsNullOrEmpty(includeProperties))
             {
@@ -50,9 +51,14 @@ namespace BookStore.DataAccess.Repository
 
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, bool tracked = false)
         {
             IQueryable<T> query = _dbSet;
+
+            if (tracked)
+                query = _dbSet;
+            else
+                query = _dbSet.AsNoTracking();
 
             if (filter != null)
                 query = query.Where(filter);

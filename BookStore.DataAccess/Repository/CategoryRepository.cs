@@ -1,6 +1,7 @@
 ﻿using BookStore.DataAccess.Data;
 using BookStore.DataAccess.Repository.IRepository;
 using BookStore.Models;
+using BookStore.Unility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,21 @@ namespace BookStore.DataAccess.Repository
         public CategoryRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
+        }
+
+        public IEnumerable<Category> GetListOfType(string categoryType)
+        {
+            foreach (var categoryInfo in ConstCategoryDetails.GetCategoryValues())
+            {
+                if (categoryInfo.Item2 == categoryType)
+                {
+                    // Отримуємо всі категорії з бази даних, а потім фільтруємо їх на стороні клієнта
+                    var allCategories = _db.Categories.ToList();
+                    return allCategories.Where(c => c.GetType() == categoryInfo.Item1).ToList();
+                }
+            }
+
+            return new List<Category>();
         }
 
         public void Update(Category entity)

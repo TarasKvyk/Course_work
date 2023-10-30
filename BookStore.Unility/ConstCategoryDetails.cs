@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookStore.Models;
+﻿using BookStore.Models;
+using System.Dynamic;
 
 namespace BookStore.Unility
 {
     public static class ConstCategoryDetails
     {
-        public static List<string> CategoryNames = new List<string>()
+        private static List<(Type Type, string TypeName)> CategoryNames = new List<(Type, string)>
         {
-             nameof(HistoryCategory),
-             nameof(ChildrenCategory),
-             nameof(ScientificCategory),
-             nameof(FictionCategory),
-             nameof(DictionaryCategory)
+            (typeof(HistoryCategory), nameof(HistoryCategory)),
+            (typeof(ChildrenCategory), nameof(ChildrenCategory)),
+            (typeof(ScientificCategory), nameof(ScientificCategory)),
+            (typeof(FictionCategory), nameof(FictionCategory)),
+            (typeof(DictionaryCategory), nameof(DictionaryCategory))
         };
+
+        public static IEnumerable<(Type, string)> GetCategoryValues()
+        {
+            return CategoryNames.ToList();
+        }
     }
 }

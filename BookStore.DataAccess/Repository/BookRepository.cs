@@ -20,12 +20,11 @@ namespace BookStore.DataAccess.Repository
 
         public void Update(Book entity)
         {
-            _db.Update(entity);
+            //_db.Update(entity);
             Book? bookFromDb = _db.Books.FirstOrDefault(x => x.Id == entity.Id);
 
             if(bookFromDb != null) {
                 bookFromDb.Price = entity.Price;
-                bookFromDb.CategoryId = entity.CategoryId;
                 bookFromDb.Year = entity.Year;
 
                 if (bookFromDb.AuthorId != entity.AuthorId)
