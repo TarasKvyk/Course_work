@@ -11,24 +11,22 @@
     </div>
 
     <div class="card-body p-4">
-        <form method="post" class="row" enctype="multipart/form-data" id="categoryForm">
+        <form method="post" class="row" enctype="multipart/form-data">
             <input asp-for="Category.Id" hidden />
-            <input type="hidden" name="selectedCategory" value="History" />
-            <input type="hidden" name="categoryData" id="categoryData" />
 
             <div class="row">
                 <div class="col-12">
                     <div class="border p-3 row">
-                        <div class="form-floating py-2 col-6">
+                        <div class="form-floating4 py-2 col-6">
                             @if (@Model.Category.Id != 0)
                             {
-                                <select id="categorySelect" asp-for="@Model.Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
+                                <select id="categorySelect" disabled asp-for="@Model.Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
                                     <option value="@Model.Category.Name" disabled selected>--Select Category Name--</option>
                                 </select>
                             }
                             else
                             {
-                                <select id="categorySelect" disabled asp-for="@Model.Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
+                                <select id="categorySelect" asp-for="@Model.Category.Name" asp-items="@Model.CategoryNames" class="form-select border-0 shadow">
                                     <option value="@Model.Category.Name" disabled selected>--Select Category Name--</option>
                                 </select>
                             }

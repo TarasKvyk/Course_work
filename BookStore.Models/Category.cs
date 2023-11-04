@@ -11,7 +11,7 @@ namespace BookStore.Models
         [Required]
         public string Name { get; set; }
         public string Specialization { get; set; }
-        [DisplayName("Description")]
+        [DisplayName("Category Description")]
         public string CategoryDescrition { get; set; }
         [DisplayName("Key words")]
         public string KeyWords { get; set; }
