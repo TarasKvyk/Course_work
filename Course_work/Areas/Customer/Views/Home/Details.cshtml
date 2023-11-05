@@ -66,54 +66,23 @@
                         }*@
                     </div>
 
-                    <div class="col-12 col-lg-6 offset-lg-1">
+                    <div class="col-12 py-2 col-lg-6 offset-lg-1">
                         <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50  pb-2 nav-link">
+                            <h6 class="text-dark text-opacity-50">
                                 Author:
                                 <a asp-action="AuthorDetails" asp-route-authorId="@Model.Book.AuthorId">
                                     <span>
                                         @Model.Book.Author.Name
                                     </span>
                                 </a>
-
                             </h6>
-                            <h6 class="text-dark text-opacity-50 pb">
+                            <h6 class="text-dark text-opacity-50 mt-2">
                                 Price:
-                                <a asp-route-for="@Model.Price">
-                                    <span>
-                                        @Model.Price.ToString("c")
-                                    </span>
-                                </a>
+                                <span>
+                                    @Model.Price.ToString("c")
+                                </span>
                             </h6>
                         </div>
-                        @*<div class="row text-center ps-2">
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">Quantity</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2  bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">1-50</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">51-100</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">100+</div>
-                            </div>
-                        </div>
-                        <div class="row text-center ps-2">
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>Price</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price.ToString("c")</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price50.ToString("c")</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price100.ToString("c")</div>
-                            </div>
-                        </div>*@
 
                         <div class="py-2 col-12">
                             <label asp-for="Book.Description" class="ms-2 text-muted"></label>
@@ -125,8 +94,8 @@
                             <textarea asp-for="Book.Description" disabled class="form-control border-0 shadow">@Html.Raw(Model.Book.Category.CategoryDescrition)</textarea>
                         </div>
 
-                        <div class="row pt-2">
-                            <h6 class="text-dark text-opacity-50  pb-2">
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50 mt-2 pb-2">
                                 Year:
                                 <span>
                                     @Model.Book.Year
@@ -140,7 +109,7 @@
                             </h6>
                         </div>
 
-                        <div class="row pl-2 mt-2 mb-1">
+                        <div class="row ps-2 mt-2 mb-1">
                             <div class="col-md-4">
                                 <div class="input-group col-3 mb-3">
                                     <span class="input-group-text bg-primary text-white shadow border-0 fw-semibold"
