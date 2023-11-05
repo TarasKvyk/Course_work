@@ -3,6 +3,8 @@ using Course_work.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using BookStore.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Course_work.Areas.Customer.Controllers
 {
@@ -38,6 +40,35 @@ namespace Course_work.Areas.Customer.Controllers
             };
 
             return View(ShoppingCart);
+        }
+
+        [HttpPost]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            // var claimsIdentity = (ClaimsIdentity)User.Identity; // Отримуємо Id користувач, що зараз в акаунті
+            // var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            // shoppingCart.ApplicationUserId = userId;
+            // 
+            // ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.ApplicationUserId == userId && x.ProductId == shoppingCart.ProductId);
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.BookId == shoppingCart.BookId);
+
+            if (cartFromDb != null)
+            {
+                cartFromDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+                _unitOfWork.Save();
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+                // updating product count UI
+            }
+
+            TempData["success"] = $"Cart updated successfully";
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

@@ -10,3 +10,15 @@ D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\
 D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\refint\BookStore.Models.dll
 D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\BookStore.Models.pdb
 D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Models\obj\Debug\net7.0\ref\BookStore.Models.dll
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\bin\Debug\net7.0\BookStore.Models.deps.json
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\bin\Debug\net7.0\BookStore.Models.dll
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\bin\Debug\net7.0\BookStore.Models.pdb
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\BookStore.Models.csproj.AssemblyReference.cache
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\BookStore.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\BookStore.Models.AssemblyInfoInputs.cache
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\BookStore.Models.AssemblyInfo.cs
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\BookStore.Models.csproj.CoreCompileInputs.cache
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\BookStore.Models.dll
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\refint\BookStore.Models.dll
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\BookStore.Models.pdb
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\obj\Debug\net7.0\ref\BookStore.Models.dll

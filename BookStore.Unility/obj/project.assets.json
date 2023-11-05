@@ -6656,11 +6656,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Тарас\\Політех\\Квик Тарас 2 курс ПЗ\\Курсова\\BookStore.Unility\\BookStore.Unility.csproj",
+      "projectUniqueName": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj",
       "projectName": "BookStore.Unility",
-      "projectPath": "D:\\Тарас\\Політех\\Квик Тарас 2 курс ПЗ\\Курсова\\BookStore.Unility\\BookStore.Unility.csproj",
+      "projectPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj",
       "packagesPath": "C:\\Users\\tasik\\.nuget\\packages\\",
-      "outputPath": "D:\\Тарас\\Політех\\Квик Тарас 2 курс ПЗ\\Курсова\\BookStore.Unility\\obj\\",
+      "outputPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6682,8 +6682,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Тарас\\Політех\\Квик Тарас 2 курс ПЗ\\Курсова\\BookStore.Models\\BookStore.Models.csproj": {
-              "projectPath": "D:\\Тарас\\Політех\\Квик Тарас 2 курс ПЗ\\Курсова\\BookStore.Models\\BookStore.Models.csproj"
+            "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj": {
+              "projectPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj"
             }
           }
         }

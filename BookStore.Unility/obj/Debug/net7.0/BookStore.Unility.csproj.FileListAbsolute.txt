@@ -13,3 +13,18 @@ D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\
 D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\bin\Debug\net7.0\BookStore.Models.dll
 D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\bin\Debug\net7.0\BookStore.Models.pdb
 D:\Тарас\Політех\Квик Тарас 2 курс ПЗ\Курсова\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.csproj.CopyComplete
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\bin\Debug\net7.0\BookStore.Unility.deps.json
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\bin\Debug\net7.0\BookStore.Unility.dll
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\bin\Debug\net7.0\BookStore.Unility.pdb
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\bin\Debug\net7.0\BookStore.Models.dll
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\bin\Debug\net7.0\BookStore.Models.pdb
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.csproj.AssemblyReference.cache
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.AssemblyInfoInputs.cache
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.AssemblyInfo.cs
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.csproj.CoreCompileInputs.cache
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.csproj.CopyComplete
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.dll
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\refint\BookStore.Unility.dll
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\BookStore.Unility.pdb
+C:\Users\tasik\Source\Repos\Course_work\BookStore.Unility\obj\Debug\net7.0\ref\BookStore.Unility.dll

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Dy43cK809ers59EUGfUlxIAWlktlF37Fs+lzh8PBf1n0PUp9RT4cz4Ul692gnYa52EvBX5yxOhxZqSHuyM5aiQ==",
+  "dgSpecHash": "PcPuW0VHd9h3xPt8+TyJ0v/pDocSf6UISAKuqCSzmxZdlzlu+y+TmlsQqrtuxnEdcl9YpVYxEXOfZ0jDq1/LQw==",
   "success": true,
-  "projectFilePath": "D:\\Тарас\\Політех\\Квик Тарас 2 курс ПЗ\\Курсова\\BookStore.DataAccess\\BookStore.DataAccess.csproj",
+  "projectFilePath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tasik\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\tasik\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
