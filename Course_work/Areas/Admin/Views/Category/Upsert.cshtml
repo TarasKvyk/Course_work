@@ -58,16 +58,21 @@
                  
                             <div id="dictionarySelect" style="display:none" class="row">
                                 <div class="form-floating py-2 col-6">
-                                    <input asp-for="@Model.Dictionary.NativeLanguage" class="form-control border-0 shadow" />
-                                    <label asp-for="@Model.Dictionary.NativeLanguage" class="ms-2 mt-1"></label>
-                                    <span asp-validation-for="@Model.Dictionary.NativeLanguage" class="text-danger"></span>
+                                    <select asp-for="@Model.Dictionary.NativeLanguage" asp-items="@Model.LanguageList" class="form-select border-0 shadow">
+                                        <option disabled selected>--Select Native Language--</option>
+                                    </select>
+                                    <label asp-for="Dictionary.NativeLanguage" class="ms-2 mt-1"></label>
+                                    <span asp-validation-for="Dictionary.NativeLanguage" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating py-2 col-6">
-                                    <input asp-for="@Model.Dictionary.IntoLanguage" class="form-control border-0 shadow" />
-                                    <label asp-for="@Model.Dictionary.IntoLanguage" class="ms-2 mt-1"></label>
-                                    <span asp-validation-for="@Model.Dictionary.IntoLanguage" class="text-danger"></span>
+                                    <select asp-for="@Model.Dictionary.IntoLanguage" asp-items="@Model.LanguageList" class="form-select border-0 shadow">
+                                        <option disabled selected>--Select Into Language--</option>
+                                    </select>
+                                    <label asp-for="Dictionary.IntoLanguage" class="ms-2 mt-1"></label>
+                                    <span asp-validation-for="Dictionary.IntoLanguage" class="text-danger"></span>
                                 </div>
                             </div>
+
                             <div id="childrenSelect" style="display:none" class="form-floating py-2 col-12">
                                     <input asp-for="@Model.Children.PurposeAge" class="form-control border-0 shadow" />
                                     <label asp-for="@Model.Children.PurposeAge" class="ms-2 mt-1"></label>

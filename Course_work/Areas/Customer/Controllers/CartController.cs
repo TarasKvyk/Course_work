@@ -38,7 +38,7 @@ namespace BooksWeb.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                cart.Price = cart.Book.Price * cart.Count;
+                cart.Price = cart.Book.Price;
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
 
@@ -100,7 +100,7 @@ namespace BooksWeb.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                cart.Price = cart.Book.Price * cart.Count;
+                cart.Price = cart.Book.Price;
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
 
@@ -119,11 +119,14 @@ namespace BooksWeb.Areas.Customer.Controllers
 			//ApplicationUser applicationUser = _unitOfWork.ApplicationUsers.Get(u => u.Id == userId);
 
 			ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
-			//ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
+            ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now.AddDays(7);
 
-			foreach (var cart in ShoppingCartVM.ShoppingCartList)
+            //ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
+
+            foreach (var cart in ShoppingCartVM.ShoppingCartList)
 			{
-				ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+				cart.Price = cart.Book.Price;
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
 			}
 
 			_unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);

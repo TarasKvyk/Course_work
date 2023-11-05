@@ -72,6 +72,9 @@ namespace Course_work.Areas.Customer.Controllers
             }
             else
             {
+                Book bookFromDb = _unitOfWork.Book.Get(b => b.Id == shoppingCart.BookId);
+                shoppingCart.Price = bookFromDb.Price;
+
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
                 _unitOfWork.Save();
                 // updating product count UI

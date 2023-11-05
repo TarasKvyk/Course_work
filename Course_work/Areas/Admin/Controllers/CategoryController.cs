@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 
 namespace Course_work.Areas.Admin.Controllers
 {
@@ -108,6 +109,14 @@ namespace Course_work.Areas.Admin.Controllers
                 categoryList.Add(constantCategoryValues[i].Item2);
             }
 
+            var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures).OrderBy(c => c.EnglishName);
+
+            IEnumerable<SelectListItem> languageList = cultures.Select(c => new SelectListItem
+            {
+                Text = c.EnglishName,
+                Value = c.TwoLetterISOLanguageName
+            });
+
             IEnumerable<SelectListItem> categoryNames = categoryList.Select(c => new SelectListItem
             {
                 Text = c.ToString().Replace("Category", ""),
@@ -124,7 +133,8 @@ namespace Course_work.Areas.Admin.Controllers
                     Fiction = new FictionCategory(),
                     Dictionary = new DictionaryCategory(),
                     History = new HistoryCategory(),
-                    Scientific = new ScientificCategory()
+                    Scientific = new ScientificCategory(),
+                    LanguageList = languageList
                 };
 
                 return View(CategoryVM1);
@@ -140,7 +150,8 @@ namespace Course_work.Areas.Admin.Controllers
                 Fiction = new FictionCategory(),
                 Dictionary = new DictionaryCategory(),
                 History = new HistoryCategory(),
-                Scientific = new ScientificCategory()
+                Scientific = new ScientificCategory(),
+                LanguageList = languageList
             };
 
             return View(CategoryVM);

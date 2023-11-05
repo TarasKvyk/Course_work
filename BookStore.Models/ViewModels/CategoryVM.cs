@@ -23,5 +23,7 @@ namespace BookStore.Models.ViewModels
         public ChildrenCategory Children { get; set; }
         [ValidateNever]
         public ScientificCategory Scientific { get; set; }
+        [ValidateNever]
+        public IEnumerable<SelectListItem> LanguageList { get; set; }
     }
 }
