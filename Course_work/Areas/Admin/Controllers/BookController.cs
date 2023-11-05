@@ -58,7 +58,7 @@ namespace Course_work.Areas.Admin.Controllers
             IEnumerable<SelectListItem> languageList = cultures.Select(c => new SelectListItem
             {
                 Text = c.EnglishName,
-                Value = c.ThreeLetterISOLanguageName
+                Value = c.TwoLetterISOLanguageName
             });
 
             IEnumerable<SelectListItem> authorList = _unitOfWork.Auhtor.GetAll().Select(u => new SelectListItem
@@ -105,7 +105,7 @@ namespace Course_work.Areas.Admin.Controllers
                     BookVM.LanguageList = cultures.Select(c => new SelectListItem
                     {
                         Text = c.EnglishName,
-                        Value = c.ThreeLetterISOLanguageName
+                        Value = c.TwoLetterISOLanguageName
                     });
 
                     BookVM.AuthorList = _unitOfWork.Auhtor.GetAll().Select(u => new SelectListItem

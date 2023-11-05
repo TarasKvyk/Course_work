@@ -23,7 +23,14 @@
 
                 <div class="row">                    
                     <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
-                        <img src="@Model.Book.ImageUrl" class="d-block w-100" alt="...">
+                        @if(!string.IsNullOrEmpty(Model.Book.ImageUrl))
+                        {
+                            <img src="@Model.Book.ImageUrl" class="d-block w-100" alt="...">
+                        }
+                        else
+                        {
+                            <img src="http://placehold.co/500x600/png" class="d-block w-100" />
+                        }
 
                         @* @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
                         {
@@ -61,17 +68,22 @@
 
                     <div class="col-12 col-lg-6 offset-lg-1">
                         <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50  pb-2">
+                            <h6 class="text-dark text-opacity-50  pb-2 nav-link">
                                 Author:
-                                <span>
-                                    @Model.Book.Author.Name
-                                </span>
+                                <a asp-action="AuthorDetails" asp-route-authorId="@Model.Book.AuthorId">
+                                    <span>
+                                        @Model.Book.Author.Name
+                                    </span>
+                                </a>
+
                             </h6>
                             <h6 class="text-dark text-opacity-50 pb">
                                 Price:
-                                <span>
-                                    @Model.Price.ToString("c")
-                                </span>
+                                <a asp-route-for="@Model.Price">
+                                    <span>
+                                        @Model.Price.ToString("c")
+                                    </span>
+                                </a>
                             </h6>
                         </div>
                         @*<div class="row text-center ps-2">

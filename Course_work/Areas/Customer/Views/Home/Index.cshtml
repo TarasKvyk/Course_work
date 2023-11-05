@@ -12,11 +12,20 @@
                         {
                             //<img src="@book.ImageUrl" class="card-img-top rounded h-200" />
 
-                            <img src="@book.ImageUrl" class="card-img-top rounded" width="500" height="350" />
+                            <div class="nav-link">
+                                <a asp-action="Details" asp-route-bookId="@book.Id">
+                                <img src="@book.ImageUrl" class="card-img-top rounded" width="500" height="350" />
+                                </a>
+                            </div>
                         }
                         else
                         {
-                            <img src="http://placehold.co/500x600/png" class="card-img-top rounded" width="500" height="350" />
+                            <div class="nav-link">
+                                <a asp-action="Details" asp-route-bookId="@book.Id">
+                                    <img src="http://placehold.co/500x600/png" class="card-img-top rounded" width="500" height="350" />
+                                </a>
+                            </div>
+                            
                         }
                         @* <img src="@book.ImageUrl" class="card-img-top rounded" />*@
                         <div class="card-body pb-0">

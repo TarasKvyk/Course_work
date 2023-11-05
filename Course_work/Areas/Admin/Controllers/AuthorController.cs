@@ -87,7 +87,7 @@ namespace Course_work.Areas.Admin.Controllers
             IEnumerable<SelectListItem> countryList = countries.Select(c => new SelectListItem
             {
                 Text = c.EnglishName,
-                Value = c.ThreeLetterISORegionName
+                Value = c.TwoLetterISORegionName
             });
 
             AuthorVM authorVM = new AuthorVM();

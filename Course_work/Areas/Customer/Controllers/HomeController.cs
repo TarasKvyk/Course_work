@@ -1,10 +1,13 @@
 ﻿using BookStore.DataAccess.Repository.IRepository;
-using Course_work.Models;
+using BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using BookStore.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using BookStore.Models.ViewModels;
+using Course_work.Models;
+using System.Globalization;
 
 namespace Course_work.Areas.Customer.Controllers
 {
@@ -24,7 +27,14 @@ namespace Course_work.Areas.Customer.Controllers
         {
             List<Book> bookList = _unitOfWork.Book.GetAll().ToList();
 
+            ViewBag.CartNumber = GetCartCount();
+
             return View(bookList);
+        }
+
+        private int GetCartCount()
+        {
+            return _unitOfWork.ShoppingCart.GetAll().Count();
         }
 
         public IActionResult Details(int bookId)
@@ -39,6 +49,7 @@ namespace Course_work.Areas.Customer.Controllers
                 BookId = bookId
             };
 
+            ViewBag.CartNumber = GetCartCount();
             return View(ShoppingCart);
         }
 
@@ -71,14 +82,33 @@ namespace Course_work.Areas.Customer.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult AuthorDetails(int authorId)
+        {
+            var authorFromDb = _unitOfWork.Auhtor.Get(a => a.Id == authorId);
+
+            RegionInfo regionInfo = new RegionInfo(authorFromDb.Country);
+            string countryName = regionInfo.EnglishName;
+
+            AuthorVM authorVM = new AuthorVM()
+            {
+                Author = authorFromDb,
+                Country = countryName
+            };
+
+            ViewBag.CartNumber = GetCartCount();
+            return View(authorVM);
+        }
+
         public IActionResult Privacy()
         {
+            ViewBag.CartNumber = GetCartCount();
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            ViewBag.CartNumber = GetCartCount();
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

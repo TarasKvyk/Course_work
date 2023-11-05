@@ -11,7 +11,7 @@
         "projectName": "BookStore.DataAccess",
         "projectPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj",
         "packagesPath": "C:\\Users\\tasik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.DataAccess\\obj\\",
+        "outputPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -168,7 +168,7 @@
         "projectName": "BookStore.Unility",
         "projectPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj",
         "packagesPath": "C:\\Users\\tasik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\obj\\",
+        "outputPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Unility\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

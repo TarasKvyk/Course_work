@@ -15,6 +15,7 @@ namespace BookStore.Models.ViewModels
         public Author Author { get; set; }
         [ValidateNever]
         public IEnumerable<SelectListItem> CountryList { get; set; }
-
+        [ValidateNever]
+        public string Country { get; set; }
     }
 }
