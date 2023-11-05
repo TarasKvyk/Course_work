@@ -119,6 +119,12 @@
                                 <span>
                                     @Model.Book.Year
                                 </span>
+                            </h6>                            
+                            <h6 class="text-dark text-opacity-50  pb-2">
+                                Language:
+                                <span>
+                                    @System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(Model.Book.Language).EnglishName
+                                </span>
                             </h6>
                         </div>
 

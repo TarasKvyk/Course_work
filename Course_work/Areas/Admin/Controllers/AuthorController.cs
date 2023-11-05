@@ -4,6 +4,7 @@ using BookStore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
+using System.Globalization;
 
 namespace Course_work.Areas.Admin.Controllers
 {
@@ -78,32 +79,47 @@ namespace Course_work.Areas.Admin.Controllers
 
         public IActionResult Upsert(int? authorId)
         {
+            RegionInfo[] countries = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                    .Select(culture => new RegionInfo(culture.Name))
+                    .DistinctBy(region => region.Name).OrderBy(x => x.EnglishName)
+                    .ToArray();
+
+            IEnumerable<SelectListItem> countryList = countries.Select(c => new SelectListItem
+            {
+                Text = c.EnglishName,
+                Value = c.ThreeLetterISORegionName
+            });
+
+            AuthorVM authorVM = new AuthorVM();
+            authorVM.CountryList = countryList;
+
             if (authorId == 0 || authorId == null)
             {
+                authorVM.Author = new Author();
                 // create
-                return View(new Author());
+                return View(authorVM);
             }
             else
             {
-                Author author = _unitOfWork.Auhtor.Get(a => a.Id == authorId);
+                authorVM.Author = _unitOfWork.Auhtor.Get(a => a.Id == authorId);
 
-                return View(author);
+                return View(authorVM);
             }
         }
 
         [HttpPost]
-        public IActionResult Upsert(Author author, IFormFile? file)
+        public IActionResult Upsert(AuthorVM authorVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
-                if(file == null && author.Id == 0)
+                if(file == null && authorVM.Author.Id == 0)
                 {
-                    return View(author);
+                    return View(authorVM);
                 }
 
-                if (author.Id == 0)
+                if (authorVM.Author.Id == 0)
                 {
-                    _unitOfWork.Auhtor.Add(author);
+                    _unitOfWork.Auhtor.Add(authorVM.Author);
                     _unitOfWork.Save();
                 }
 
@@ -112,7 +128,7 @@ namespace Course_work.Areas.Admin.Controllers
                 if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = @"images\authors\author-" + author.Id;
+                    string productPath = @"images\authors\author-" + authorVM.Author.Id;
                     string finalPath = Path.Combine(wwwRootPath, productPath); 
 
                     if (!Directory.Exists(finalPath))
@@ -125,20 +141,20 @@ namespace Course_work.Areas.Admin.Controllers
                         file.CopyTo(fileStream);
                     }
 
-                    author.ImageUrl = @"\" + productPath + @"\" + fileName;
+                    authorVM.Author.ImageUrl = @"\" + productPath + @"\" + fileName;
                 }
 
-                _unitOfWork.Auhtor.Update(author);
+                _unitOfWork.Auhtor.Update(authorVM.Author);
                 _unitOfWork.Save();
 
-                TempData["success"] = $"Product \"{author.Name + " " + author.Surname }\" created/updated successfully";
+                TempData["success"] = $"Product \"{authorVM.Author.Name + " " + authorVM.Author.Surname }\" created/updated successfully";
                 return RedirectToAction("Index", "Author");
             }
             else
             {
-                TempData["error"] = $"Invalid \"{author.Name}\" data";
+                TempData["error"] = $"Invalid \"{authorVM.Author.Name}\" data";
 
-                return View(author);
+                return View(authorVM.Author);
             }
         }
 

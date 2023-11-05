@@ -7,8 +7,6 @@ using BookStore.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using System.Security.Claims;
-using BookStore.Models;
 
 namespace BooksWeb.Areas.Customer.Controllers
 {

@@ -36,7 +36,9 @@ namespace BookStore.DataAccess.Repository
                 bookFromDb.Description = entity.Description;
                 bookFromDb.Language = entity.Language;
                 bookFromDb.Title = entity.Title;
-                bookFromDb.ImageUrl = entity.ImageUrl;
+
+                if(!string.IsNullOrEmpty(entity.ImageUrl))
+                    bookFromDb.ImageUrl = entity.ImageUrl;
 
                 if (bookFromDb.CategoryId != entity.CategoryId)
                 {

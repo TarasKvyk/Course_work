@@ -32,8 +32,16 @@
                             <label asp-for="Book.Year" class="ms-2 mt-1"></label>
                             <span asp-validation-for="Book.Year" class="text-danger"></span>
                         </div>
-                        <div class="form-floating py-2 col-12">
+                        @*<div class="form-floating py-2 col-12">
                             <input asp-for="Book.Language" class="form-control border-0 shadow" />
+                            <label asp-for="Book.Language" class="ms-2 mt-1"></label>
+                            <span asp-validation-for="Book.Language" class="text-danger"></span>
+                        </div>*@
+
+                        <div class="form-floating py-2 col-12">
+                            <select asp-for="@Model.Book.Language" asp-items="@Model.LanguageList/*@(ViewData["CategoryList"]) as IEnumerable<SelectListItem>*/ /*ViewBag.CategoryList*/" class="form-select border-0 shadow">
+                                <option disabled selected>--Select Language--</option>
+                            </select>
                             <label asp-for="Book.Language" class="ms-2 mt-1"></label>
                             <span asp-validation-for="Book.Language" class="text-danger"></span>
                         </div>
@@ -59,6 +67,7 @@
                             <label asp-for="Book.AuthorId" class="ms-2 mt-1"></label>
                             <span asp-validation-for="Book.AuthorId" class="text-danger"></span>
                         </div>
+
                         
                         <div class="form-floating py-2 col-12">
                             <input type="file" name="file" class="form-control border-0 shadow" multiple />

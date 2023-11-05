@@ -4,6 +4,8 @@ using BookStore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
+using System.Globalization;
+
 
 namespace Course_work.Areas.Admin.Controllers
 {
@@ -51,6 +53,14 @@ namespace Course_work.Areas.Admin.Controllers
                 Value = u.Id.ToString()
             });
 
+            var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures).OrderBy(c => c.EnglishName);
+
+            IEnumerable<SelectListItem> languageList = cultures.Select(c => new SelectListItem
+            {
+                Text = c.EnglishName,
+                Value = c.ThreeLetterISOLanguageName
+            });
+
             IEnumerable<SelectListItem> authorList = _unitOfWork.Auhtor.GetAll().Select(u => new SelectListItem
             {
                 Text = u.Name + " " + u.Surname,
@@ -61,7 +71,8 @@ namespace Course_work.Areas.Admin.Controllers
             {
                 Book = new Book(),
                 AuthorList = authorList,
-                CategoryList = categoryList
+                CategoryList = categoryList,
+                LanguageList = languageList
             };
 
             if (bookId == 0 || bookId == null)
@@ -87,6 +98,14 @@ namespace Course_work.Areas.Admin.Controllers
                     {
                         Text = u.Name + " - " + u.Specialization,
                         Value = u.Id.ToString()
+                    });
+
+                    var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
+
+                    BookVM.LanguageList = cultures.Select(c => new SelectListItem
+                    {
+                        Text = c.EnglishName,
+                        Value = c.ThreeLetterISOLanguageName
                     });
 
                     BookVM.AuthorList = _unitOfWork.Auhtor.GetAll().Select(u => new SelectListItem
@@ -140,6 +159,14 @@ namespace Course_work.Areas.Admin.Controllers
                 {
                     Text = u.Name + " - " + u.Specialization,
                     Value = u.Id.ToString()
+                });
+
+                var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
+
+                BookVM.LanguageList = cultures.Select(c => new SelectListItem
+                {
+                    Text = c.EnglishName,
+                    Value = c.ThreeLetterISOLanguageName
                 });
 
                 BookVM.AuthorList = _unitOfWork.Auhtor.GetAll().Select(u => new SelectListItem
