@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BookStore.Models
-build_property.ProjectDir = C:\Users\tasik\Source\Repos\Course_work\BookStore.Models\
+build_property.ProjectDir = C:\Users\tasik\source\repos\Course_work\BookStore.Models\

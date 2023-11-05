@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj": {}
+    "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj": {
+    "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj",
         "projectName": "BookStore.DataAccess",
-        "projectPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj",
+        "projectPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.DataAccess\\BookStore.DataAccess.csproj",
         "packagesPath": "C:\\Users\\tasik\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
@@ -33,11 +33,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj": {
-                "projectPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj"
+              "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj": {
+                "projectPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj"
               },
-              "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj": {
-                "projectPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj"
+              "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj": {
+                "projectPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj"
               }
             }
           }
@@ -91,14 +91,14 @@
         }
       }
     },
-    "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj": {
+    "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj",
+        "projectUniqueName": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj",
         "projectName": "BookStore.Models",
-        "projectPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj",
+        "projectPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj",
         "packagesPath": "C:\\Users\\tasik\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\obj\\",
+        "outputPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Models\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -161,12 +161,12 @@
         }
       }
     },
-    "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj": {
+    "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj",
+        "projectUniqueName": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj",
         "projectName": "BookStore.Unility",
-        "projectPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj",
+        "projectPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Unility\\BookStore.Unility.csproj",
         "packagesPath": "C:\\Users\\tasik\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Unility\\obj\\",
         "projectStyle": "PackageReference",
@@ -190,8 +190,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj": {
-                "projectPath": "C:\\Users\\tasik\\Source\\Repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj"
+              "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj": {
+                "projectPath": "C:\\Users\\tasik\\source\\repos\\Course_work\\BookStore.Models\\BookStore.Models.csproj"
               }
             }
           }
