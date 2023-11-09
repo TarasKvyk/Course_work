@@ -3,13 +3,10 @@ using BookStore.DataAccess.Repository.IRepository;
 using BookStore.Models;
 using BookStore.Models.ViewModels;
 using BookStore.Unility;
-using BookStore.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Security.Claims;
-using BookStore.Models.ViewModels;
-using BookStore.Models;
 
 namespace BooksWeb.Areas.Customer.Controllers
 {
@@ -97,6 +94,14 @@ namespace BooksWeb.Areas.Customer.Controllers
                 ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(/*u => u.ApplicationUserId == userId*/ includeProperties: "Book"),
                 OrderHeader = new OrderHeader()
             };
+
+			if (ShoppingCartVM.ShoppingCartList == null || ShoppingCartVM.ShoppingCartList.Count() == 0)
+			{
+                TempData["error"] = $"Your Cart is Empty";
+				
+				return RedirectToAction(nameof(Index));
+            }
+
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {

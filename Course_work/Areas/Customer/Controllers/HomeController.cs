@@ -8,6 +8,7 @@ using System.Security.Claims;
 using BookStore.Models.ViewModels;
 using Course_work.Models;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Course_work.Areas.Customer.Controllers
 {
@@ -25,16 +26,92 @@ namespace Course_work.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            List<Book> bookList = _unitOfWork.Book.GetAll().ToList();
+            HomeVM homeVM = new HomeVM() 
+            { 
+                AuthorList = GetAuthorSelectList(),
+                BookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList()
+            };
 
             ViewBag.CartNumber = GetCartCount();
 
-            return View(bookList);
+            return View(homeVM);
+        }
+
+        public IActionResult AuthorBooks(HomeVM homeVMwithAuthorId)
+        {
+            if (homeVMwithAuthorId.AuthorId < 1)
+                return RedirectToAction("Index");
+
+            HomeVM homeVM = new HomeVM()
+            {
+                AuthorList = GetAuthorSelectList(),
+                BookList = _unitOfWork.Book.GetAll(b => b.AuthorId == homeVMwithAuthorId.AuthorId, includeProperties: "Author,Category").ToList()
+            };
+
+            ViewBag.CartNumber = GetCartCount();
+
+            return View("Index", homeVM);
         }
 
         private int GetCartCount()
         {
             return _unitOfWork.ShoppingCart.GetAll().Count();
+        }
+
+        //[HttpPost]
+        public IActionResult Search(string searchQuery)
+        {
+            List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
+            
+            HomeVM homeVM = new HomeVM()
+            {
+                AuthorList = GetAuthorSelectList(),
+                BookList = bookList
+            };
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                string[] searchTerms = searchQuery.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                List<Book> bookFilteredList = bookList.Where(b =>
+                    searchTerms.Any(term =>
+                        b.Title.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                        (!string.IsNullOrEmpty(b.Description) && b.Description.Contains(term, StringComparison.OrdinalIgnoreCase))
+                    )
+                ).ToList();
+
+                bookFilteredList.AddRange(
+                    bookList.Where(b =>
+                        ((b.Author != null) &&
+                         searchTerms.Any(term =>
+                             b.Author.Name.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                             b.Author.Surname.Contains(term, StringComparison.OrdinalIgnoreCase))
+                        )
+                    ).Except(bookFilteredList)
+                );
+
+                homeVM.BookList = bookFilteredList;
+            }
+
+
+            ViewBag.CartNumber = GetCartCount();
+
+            return View("Index", homeVM);
+        }
+
+
+        private IEnumerable<SelectListItem> GetAuthorSelectList()
+        {
+            List<Author> authorList = _unitOfWork.Auhtor.GetAll(a => a.Name != "Unknown").ToList();
+            authorList.Add(new Author { Id = -1, Name = "All", Surname = "" });
+
+            IEnumerable<SelectListItem> authorListNames = authorList.Select(c => new SelectListItem
+            {
+                Text = c.Name + " " + c.Surname,
+                Value = c.Id.ToString()
+            });
+
+            return authorListNames;
         }
 
         public IActionResult Details(int bookId)

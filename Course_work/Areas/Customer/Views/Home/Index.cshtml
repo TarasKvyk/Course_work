@@ -1,57 +1,217 @@
-﻿@model IEnumerable<Book>
+﻿@model HomeVM
 
-<div class="row pb-3 ">
-    @foreach (var book in Model)
-    {
-        <div class="col-lg-3 col-sm-6">
-            <div class="row p-2">
-                <div class="col-12 p-1">
-                    <div class="card border-0 p-3 shadow border-top border-5 rounded">
+<div class="row mt-5">
+    <div class="col-3">
+        <div class="card text-white bg-primary col-12" style="max-width: 20rem;">
 
-                        @if (!string.IsNullOrEmpty(book.ImageUrl))
-                        {
-                            //<img src="@book.ImageUrl" class="card-img-top rounded h-200" />
+            <div class="row">
+                <div class="card-header h2 text-center border-0">Filters</div>
+            </div>
+            
+            <div class="row ps-3">
+                <h6 class="text-white text-opacity-75 fw-semibold">
+                    Author <i class="bi bi-person-fill"></i>
+                        <form class="form-group d-flex mt-1 align-items-center col-11" asp-action="AuthorBooks" method="get">
 
-                            <div class="nav-link">
-                                <a asp-action="Details" asp-route-bookId="@book.Id">
-                                <img src="@book.ImageUrl" class="card-img-top rounded" width="500" height="350" />
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="nav-link">
-                                <a asp-action="Details" asp-route-bookId="@book.Id">
-                                    <img src="http://placehold.co/500x600/png" class="card-img-top rounded" width="500" height="350" />
-                                </a>
-                            </div>
-                            
-                        }
-                        @* <img src="@book.ImageUrl" class="card-img-top rounded" />*@
-                        <div class="card-body pb-0">
-                            <div class="pl-1">
-                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@book.Title</p>
-                                <p class="card-title h5 text-warning text-center"><b>@book.Author</b></p>
-                            </div>
-                            <div class="pl-1">
-                                <p class="text-dark text-opacity-75 text-center mb-0">
-                                    Price:
-                                    <span @*class="text-decoration-line-through"*@>
-                                        @book.Price.ToString("c")
-                                    </span>
-                                </p>
+                            <select asp-for="@Model.AuthorId" asp-items="@Model.AuthorList" class="form-select border border-secondary me-2 shadow">
+                                <option disabled selected>--Select Author--</option>
+                            </select>
+
+                        <button class="btn btn-secondary" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                </h6>
+
+                <h6 class="text-white text-opacity-75 mt-2 fw-semibold">
+                    Price <i class="bi bi-tag"></i>
+                    <div class="row mt-1">
+                        <div class="col-5">
+                            <div class="input-group mb-1">
+                                <span class="input-group-text bg-secondary text-white shadow border-0"
+                                      id="inputGroup-sizing-default">
+                                    Min
+                                </span>
+                                <input value="0" class="form-control shadow p-1 border border-secondary text-center rounded-end"
+                                       aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+
+                                <span asp-validation-for="AuthorId" class="text-danger"></span>
                             </div>
                         </div>
-                        <div>
-                            <a asp-action="Details"
-                           asp-route-bookId="@book.Id"
-                               class="btn btn-primary bg-gradient border-0 form-control">
-                                Details
-                            </a>
+                    
+                        <div class="col-5">
+                            <div class="input-group mb-1">
+                                <span class="input-group-text bg-secondary text-white shadow border-0"
+                                      id="inputGroup-sizing-default">
+                                    Max  
+                                </span>
+                                <input value="0" class="form-control shadow p-1 border border-secondary text-center rounded-end"
+                                       aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+
+                                <span asp-validation-for="AuthorId" class="text-danger"></span>
+                            </div>
                         </div>
+                    </div>
+                </h6>
+
+                <div class="form-group text-white text-opacity-75">
+                    <label for="exampleSelect2" class="form-label fw-semibold mt-1">Category</label>
+                    @foreach (var categoryName in Model.BookList)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input border-3 border-secondary" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                @(categoryName.Category.Name.Replace("Category", "") + " " + categoryName.Category.Specialization)
+                            </label>
+                        </div>   
+                    }
+                </div>
+
+                @{
+                    var sortedLanguages = Model.BookList
+                    .GroupBy(c => c.Language)
+                    .OrderByDescending(g => g.Count())
+                    .Select(g => g.First())
+                    .ToList();
+                }
+
+                    <div class="form-group text-white text-opacity-75">
+                    <label for="exampleSelect2" class="form-label fw-semibold mt-1">Language <i class="bi bi-translate"></i></label>
+                        @foreach (var categoryName in sortedLanguages)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input border-3 border-secondary" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    @(System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(categoryName.Language).EnglishName)
+                                </label>
+                            </div>
+                        }
+                    </div>
+
+                <div class="row">
+                    <div class="col-md-12 pb-3 mt-2 align-content-center">
+                        <button type="submit"
+                                class="btn btn-secondary shadow bg-gradient w-100 py-2 text-uppercase fw-semibold">
+                            Filter
+                        </button>
                     </div>
                 </div>
             </div>
+
+            
         </div>
-    }
+    </div>
+    <div class="col-9">
+        <div class="border rounded p-3">
+            <div class="row">
+                <div class="col-6">
+                    
+                    <form class="form-group d-flex mt-1 align-items-center" asp-action="AuthorBooks" method="get">
+                        <select asp-for="@Model.AuthorId" asp-items="@Model.AuthorList" class="border-secondary form-select border me-2 shadow">
+                            <option disabled selected>--Select Author--</option>
+                        </select>
+
+                        <button class="btn btn-secondary shadow " type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+
+                @*<form class="form-group d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search by key words">
+                    <button class="btn btn-secondary" type="submit">Search</button>
+                </form>*@
+                </div>
+
+                <div class="col-3 mt-1 ms-auto ">
+                    <ul class="pagination ms-auto">
+                        <li class="page-item">
+                            <a class="page-link shadow" href="#">&laquo;</a>
+                        </li>
+                        <li class="page-item active shadow">
+                            <a class="page-link" asp-action="Index">1</a>
+                        </li>
+                        <li class="page-item shadow">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item shadow">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item shadow">
+                            <a class="page-link" href="#">4</a>
+                        </li>
+                        <li class="page-item shadow">
+                            <a class="page-link" href="#">5</a>
+                        </li>
+                        <li class="page-item shadow">
+                            <a class="page-link" href="#">&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-1 mt-1 ms-auto pl-5 me-4">
+                    <ul class="pagination ms-auto">
+                        <li class="page-item">
+                            <a class="page-link shadow" href="#">&laquo;</a>
+                        </li>
+                        <li class="page-item active shadow">
+                            <a class="page-link" asp-action="Index">1</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        
+
+            <div class="row m-1 border-1 rounded">
+                @foreach (var book in Model.BookList)
+                {
+                    <div class="col-lg-4 col-md-6 my-2">
+                        <div class="row">
+                            <div class="col-md-12 p-2">
+                                <div class="card border-0 p-3 shadow border-top border-5 rounded">
+
+                                    @if (!string.IsNullOrEmpty(book.ImageUrl))
+                                    {
+                                        //<img src="@book.ImageUrl" class="card-img-top rounded h-200" />
+
+                                        <div class="nav-link">
+                                            <a asp-action="Details" asp-route-bookId="@book.Id">
+                                                <img src="@book.ImageUrl" class="card-img-top rounded" width="500" height="350" />
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="nav-link">
+                                            <a asp-action="Details" asp-route-bookId="@book.Id">
+                                                <img src="http://placehold.co/500x600/png" class="card-img-top rounded" width="500" height="350" />
+                                            </a>
+                                        </div>
+
+                                    }
+                                    @* <img src="@book.ImageUrl" class="card-img-top rounded" />*@
+                                    <div class="card-body pb-0">
+                                        <div class="pl-1">
+                                            <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@book.Title</p>
+                                            <p class="card-title h10 text-warning text-center"><b>@book.Author.Name</b></p>
+                                        </div>
+                                        <div class="pl-1">
+                                            <p class="text-dark text-opacity-75 text-center mb-0">
+                                                Price:
+                                                <span @*class="text-decoration-line-through"*@>
+                                                    @book.Price.ToString("c")
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a asp-action="Details"
+                                       asp-route-bookId="@book.Id"
+                                           class="btn btn-primary bg-gradient border-0 form-control">
+                                            Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
 </div>
