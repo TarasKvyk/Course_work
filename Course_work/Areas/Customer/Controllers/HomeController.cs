@@ -49,6 +49,17 @@ namespace Course_work.Areas.Customer.Controllers
             int minPrice = homeVM.MinPrice;
             int maxPrice = homeVM.MaxPrice;
 
+            if ((minPrice < 0 || minPrice > 10000) || (maxPrice < 0 || maxPrice > 10000))
+            {
+                TempData["error"] = $"Price must be in the range from 0 to 10000";
+                return RedirectToAction("Index");
+            }
+            else if (minPrice >= maxPrice)
+            {
+                TempData["error"] = $"Min Price must be smaller than Max Price";
+                return RedirectToAction("Index");
+            }
+
             if (_homeVM == null || _homeVM.BookList == null)
             {
                 List<Book> pageBookList = new List<Book>();
@@ -125,6 +136,9 @@ namespace Course_work.Areas.Customer.Controllers
                 case 4:
                     homeVM.BookList = homeVM.BookList.OrderByDescending(b => b.Price).ToList();
                     break;
+                case 5:
+                    homeVM.BookList = homeVM.BookList.OrderByDescending(b => b.Year).ToList();
+                    break;
                 default:
                     break;
             }
@@ -178,7 +192,11 @@ namespace Course_work.Areas.Customer.Controllers
                         ((b.Author != null) &&
                          searchTerms.Any(term =>
                              b.Author.Name.Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                             b.Author.Surname.Contains(term, StringComparison.OrdinalIgnoreCase))
+                             b.Author.Surname.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                             b.Category.KeyWords.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                             b.Category.Name.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                             b.Category.Specialization.Contains(term, StringComparison.OrdinalIgnoreCase)
+                             )
                         )
                     ).Except(bookFilteredList)
                 );
@@ -284,7 +302,6 @@ namespace Course_work.Areas.Customer.Controllers
 
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
                 _unitOfWork.Save();
-                // updating product count UI
             }
 
             TempData["success"] = $"Cart updated successfully";
@@ -303,6 +320,7 @@ namespace Course_work.Areas.Customer.Controllers
             {
                 Author = authorFromDb,
                 Country = countryName,
+                AuthorBooksList = _unitOfWork.Book.GetAll(b => b.AuthorId == authorId, includeProperties:"Author,Category").ToList(),
                 BookIdToRedirect = bookId
             };
 

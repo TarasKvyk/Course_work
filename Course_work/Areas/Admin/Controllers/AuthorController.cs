@@ -157,7 +157,7 @@ namespace Course_work.Areas.Admin.Controllers
             {
                 TempData["error"] = $"Invalid \"{authorVM.Author.Name}\" data";
 
-                return View(authorVM.Author);
+                return View(authorVM);
             }
         }
 

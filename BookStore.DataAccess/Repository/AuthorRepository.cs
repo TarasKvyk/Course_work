@@ -20,7 +20,6 @@ namespace BookStore.DataAccess.Repository
 
         public void Update(Author entity)
         {
-            _db.Update(entity);
             Author authorFromDb = _db.Authors.FirstOrDefault(x => x.Id == entity.Id);
 
             if (authorFromDb != null)
@@ -28,6 +27,7 @@ namespace BookStore.DataAccess.Repository
                 authorFromDb.Surname = entity.Surname;
                 authorFromDb.Name = entity.Name;
                 authorFromDb.Country = entity.Country;
+                authorFromDb.Biography = entity.Biography;
                 authorFromDb.BirthDate = entity.BirthDate;
 
                 if(!string.IsNullOrEmpty(entity.ImageUrl))

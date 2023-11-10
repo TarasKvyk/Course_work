@@ -65,19 +65,13 @@
                                 </span>
                                 <input asp-for="MaxPrice" class="form-control shadow p-1 border border-secondary text-center rounded-end"
                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-
-                            </div>
-                                
+                            </div>  
                         </div>
-                        
-                        <span asp-validation-for="MaxPrice" class="text-danger"></span>
-                        <span asp-validation-for="MinPrice" class="text-danger"></span>
                     </div>
                 </h6>
 
                 @{
                     var availableCategories = Model.AvailableCategories;
-
                     var chosenCategoryIds = Model.ChosenCategoryIds ?? new List<int?>();
                 }
 
@@ -134,7 +128,7 @@
             <div class="row">
                 <div class="col-6">
                     
-                    <div class="form-group d-flex mt-1 align-items-center" method="get">
+                    <div class="form-group ps-2 d-flex mt-1 align-items-center" method="get">
                         <select asp-for="@Model.OrderOptionId" asp-items="@Model.OrderOptionsList" class="form-select text-center border border-secondary me-2 shadow">
                             <option disabled selected>--Select Order Sequence--</option>
                         </select>
@@ -195,12 +189,10 @@
                             
                         <div class="row">
                             <div class="col-md-12 p-2">
-                                <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                                <div class="card border-0 p-3 shadow border-top border-5 rounded" style="height: 560px;">
 
                                     @if (!string.IsNullOrEmpty(Model.BookList[i].ImageUrl))
                                     {
-                                        //<img src="@book.ImageUrl" class="card-img-top rounded h-200" />
-
                                         <div class="nav-link">
                                             <a asp-action="Details" asp-route-bookId="@Model.BookList[i].Id">
                                                 <img src="@Model.BookList[i].ImageUrl" class="card-img-top rounded" width="500" height="350" />
@@ -216,16 +208,15 @@
                                         </div>
 
                                     }
-                                    @* <img src="@book.ImageUrl" class="card-img-top rounded" />*@
-                                    <div class="card-body pb-0">
+                                    <div class="card-body pb-0 col-12">
                                         <div class="pl-1">
-                                            <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@Model.BookList[i].Title</p>
+                                            <p class="card-title h5 p-1 m-0 text-dark opacity-75 text-uppercase text-center">@Model.BookList[i].Title</p>
                                             <p class="card-title h10 text-warning text-center"><b>@Model.BookList[i].Author.Name</b></p>
                                         </div>
                                         <div class="pl-1">
-                                            <p class="text-dark text-opacity-75 text-center mb-0">
+                                            <p class="text-dark p-1 mb-1 text-opacity-75 text-center">
                                                 Price:
-                                                <span @*class="text-decoration-line-through"*@>
+                                                <span class="fw-semibold text-warning">
                                                     @Model.BookList[i].Price.ToString("c")
                                                 </span>
                                             </p>

@@ -31,10 +31,10 @@
                     </th>
                 </tr>
 
-                @foreach (var category in Model)
+                @foreach (var category in Model.OrderBy(c => c.Name).ThenBy(c => c.Specialization))
                 {
                     <tr>
-                        <th class="text-center">@category.Name</th>
+                        <th class="text-center">@category.Name.Replace("Category", "")</th>
                         <th class="text-center">@category.Specialization</th>
                         <th class="text-center">@category.KeyWords</th>
                         <th>

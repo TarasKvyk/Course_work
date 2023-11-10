@@ -4,28 +4,28 @@
     <input asp-for="BookId" hidden />
     <div class="card shadow border-0 mt-4 mb-4">
         <div class="card-header bg-secondary bg-gradient text-light py-4">
-            <div class="row">
-                <div class="col-12 text-center">
+            <div class="row align-items-center">
+                <div class="col-3">
+                    <a asp-action="Index" class="btn btn-outline-dark bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
+                        <small>Back home</small>
+                    </a>
+                </div>
+                <div class="col-6 text-center">
                     <h3 class="text-white text-uppercase">@Model.Book.Title</h3>
                     <p class="text-white-50 fw-semibold mb-0">by @Model.Book.Author.Name</p>
                 </div>
+                <div class="3">
+                </div>
             </div>
         </div>
+
         <div class="card-body">
             <div class="py-3">
-                <div class="row">
-                    <div class="col-6 col-md-2 offset-lg-1 pb-1">
-                        <a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                            <small>Back home</small>
-                        </a>
-                    </div>
-                </div>
-
                 <div class="row">                    
                     <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
                         @if(!string.IsNullOrEmpty(Model.Book.ImageUrl))
                         {
-                            <img src="@Model.Book.ImageUrl" class="d-block w-100" alt="...">
+                            <img src="@Model.Book.ImageUrl" class="d-block w-100 rounded" alt="http://placehold.co/500x600/png" width="400" height="450">
                         }
                         else
                         {
@@ -78,7 +78,7 @@
                             </h6>
                             <h6 class="text-dark text-opacity-50 mt-2">
                                 Price:
-                                <span>
+                                <span class="text-warning">
                                     @Model.Price.ToString("c")
                                 </span>
                             </h6>
@@ -86,37 +86,37 @@
 
                         <div class="py-2 col-12">
                             <label asp-for="Book.Description" class="ms-2 text-muted"></label>
-                            <textarea asp-for="Book.Description" disabled class="form-control border-0 shadow">@Html.Raw(Model.Book.Description)</textarea>
+                            <textarea asp-for="Book.Description" disabled class="form-control border-0">@Html.Raw(Model.Book.Description)</textarea>
                         </div>
 
                         <div class="py-2 col-12">
                             <label asp-for="Book.Category.CategoryDescrition" class="ms-2 text-muted"></label>
-                            <textarea asp-for="Book.Description" disabled class="form-control border-0 shadow">@Html.Raw(Model.Book.Category.CategoryDescrition)</textarea>
+                            <textarea asp-for="Book.Description" disabled class="form-control border-0">@Html.Raw(Model.Book.Category.CategoryDescrition)</textarea>
                         </div>
 
                         <div class="row ps-2">
                             <h6 class="text-dark text-opacity-50 mt-2 pb-2">
                                 Year:
-                                <span>
+                                <span class="text-primary">
                                     @Model.Book.Year
                                 </span>
                             </h6>                            
                             <h6 class="text-dark text-opacity-50  pb-2">
                                 Language:
-                                <span>
+                                <span class="text-primary">
                                     @System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(Model.Book.Language).EnglishName
                                 </span>
                             </h6>
                         </div>
 
-                        <div class="row ps-2 mt-2 mb-1">
+                        <div class="row mt-2 mb-1">
                             <div class="col-md-4">
                                 <div class="input-group col-3 mb-3">
                                     <span class="input-group-text bg-primary text-white shadow border-0 fw-semibold"
                                           id="inputGroup-sizing-default">
                                         Count
                                     </span>
-                                    <input asp-for="Count" type="number" value="1" class="form-control shadow p-1 border-0 text-end"
+                                    <input asp-for="Count" type="number" value="1" class="form-control rounded-end shadow p-1 border-0 text-center"
                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
 
                                 </div>
@@ -125,7 +125,7 @@
                         <div class="row">
                             <div class="col-12 col-md-6 pt-2 pb-1">
                                 <button type="submit"
-                                        class="btn btn-primary bg-gradient w-100 py-2 text-uppercase fw-semibold">
+                                        class="btn btn-primary bg-gradient shadow w-100 py-2 text-uppercase fw-semibold">
                                     <i class="bi bi-bag"></i> Add to Cart
                                 </button>
                             </div>

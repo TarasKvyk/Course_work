@@ -4,25 +4,26 @@
     <input asp-for="Author.Id" hidden />
     <div class="card shadow border-0 mt-4 mb-4">
         <div class="card-header bg-secondary bg-gradient text-light py-4">
-            <div class="row">
-                <div class="col-12 text-center">
+            <div class="row align-items-center">
+                <div class="col-3">
+                    <a asp-route-bookId="@Model.BookIdToRedirect" asp-action="Details" class="btn btn-outline-dark bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
+                        <small>Back To Book</small>
+                    </a>
+                </div>
+                <div class="col-6 text-center">
                     <h3 class="text-white text-uppercase">@Model.Author.Name</h3>
                     <p class="text-white fw-semibold text-uppercase mb-0">@Model.Author.Surname</p>
                 </div>
+                <div class="3">
+
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            <div class="py-3">
-                <div class="row">
-                    <div class="col-6 col-md-2 offset-lg-1 pb-1">
-                        <a asp-route-bookId="@Model.BookIdToRedirect" asp-action="Details" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                            <small>Back To Book</small>
-                        </a>
-                    </div>
-                </div>
 
+        <div class="card-body mt-1">
+            <div class="py-3">
                 <div class="row">                    
-                    <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
+                    <div class="col-12 col-lg-2 offset-lg-1 text-center mb-3">
                         @if (!string.IsNullOrEmpty(Model.Author.ImageUrl))
                         {
                             <img src="@Model.Author.ImageUrl" class="d-block w-100" alt="...">
@@ -66,7 +67,7 @@
                         }*@
                     </div>
 
-                    <div class="col-6 col-lg-6 offset-lg-1">
+                    <div class="col-8 col-lg-6 offset-lg-1">
                       
                         @*<div class="py-2 col-12">
                             <label asp-for="Description" class="ms-2 text-muted"></label>
@@ -75,21 +76,66 @@
 
                         <div class="row pt-2">
                             <h6 class="text-dark text-opacity-50 pb-2">
-                                Bith Date:
-                                <span>
-                                    @Model.Author.BirthDate.ToShortDateString()
-                                </span>
-                            </h6>                            
-                            <h6 class="text-dark text-opacity-50  pb-2">
                                 Country:
                                 <span>
                                     @Model.Country
                                 </span>
                             </h6>
+                            <h6 class="text-dark text-opacity-50 pb-2">
+                                Bith Date:
+                                <span>
+                                    @Model.Author.BirthDate.ToShortDateString()
+                                </span>
+                            </h6>                            
+                        </div>
+
+                        <div class="py-2 col-12">
+                            <label asp-for="Author.Biography" class="ms-2 text-muted"></label>
+                            <textarea asp-for="Author.Biography" disabled class="form-control border-0 mt-1">@Html.Raw(Model.Author.Biography)</textarea>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-10 offset-md-1">
+            <div class="row">
+                @foreach (var book in Model.AuthorBooksList)
+                {
+                    <div class="col-md-6 mb-3">
+                        <div class="row border border-bottom pb-3">
+                            <div class="d-none d-lg-block col-lg-3 text-center py-1">
+                                @if (book.ImageUrl != null)
+                                {
+                                    <img src="@book.ImageUrl" class="card-img-top rounded w-100" width="150" height="150" />
+                                }
+                                else
+                                {
+                                    <img src="http://placehold.co/500x600/png" class="card-img-top rounded w-100" width="100" height="150" />
+                                }
+                            </div>
+                            <div class="text-start row col-7 p-0 mt-2">
+                                <h5 class="text-uppercase text-secondary mt-1 col-7"><strong>@book.Title</strong></h5>
+                                <div class="col-4 pt-1">
+                                    <h8 class="fw-semibold pt-2">
+                                        @book.Price.ToString("c")
+                                    </h8>
+                                </div>
+                                <div class="col-1 p-0">
+                                    <div class="w-50 btn-group" role="group">
+                                        <a asp-controller="Home" asp-action="Details" asp-route-bookId="@book.Id" class="btn btn-outline-primary bg-gradient py-2">
+                                            Details
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12 pt-md-3" style="max-height: 109px; overflow: hidden;">
+                                    <p><small>@Html.Raw(book.Description)</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
     </div>
 </form>
