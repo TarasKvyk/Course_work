@@ -52,7 +52,15 @@
                                 {
                                     <button type="submit" class="btn btn-primary form-control">Update Author</button>
                                 }
-                                else
+                            </div>
+                            <div class="col-6 col-md-3">
+                                @if (Model.Author.Id != 0)
+                                {
+                                    <a asp-controller="Author" asp-route-authorId="@Model.Author.Id" asp-action="DeleteAll" class="btn btn-danger form-control border">Delete All Books</a>
+                                }
+                            </div>
+                            <div class="col-6 col-md-3">
+                                @if (Model.Author.Id == 0)
                                 {
                                     <button type="submit" class="btn btn-primary form-control">Add Author</button>
                                 }
@@ -61,6 +69,7 @@
                                 <a asp-controller="Author" asp-action="Index" class="btn btn-outline-primary form-control border">Back To Author List</a>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="col-2">
@@ -77,28 +86,49 @@
                     }
                 </div>
             </div>
-
         </form>
+
+        <div class="col-md-10">
+            @foreach (var book in Model.AuthorBooksList)
+            {
+                <div class="row border-bottom pb-3">
+                    <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                        @if (book.ImageUrl != null)
+                        {
+                            <img src="@book.ImageUrl" class="card-img-top rounded w-100" />
+                        }
+                        else
+                        {
+                            <img src="http://placehold.co/500x600/png" class="card-img-top rounded w-100" />
+                        }
+                    </div>
+                    <div class="col-12 col-lg-6 pt-md-3">
+                        <h5 class="text-uppercase text-secondary"><strong>@book.Title</strong></h5>
+                        <p><small>@Html.Raw(book.Description)</small></p>
+                    </div>
+                    <div class="col-12  col-lg-5 text-center row">
+                        <div class="col-3 text-md-right pt-2 pt-md-4">
+                            <h6 class="fw-semibold">
+                                @book.Price.ToString("c")
+                            </h6>
+                        </div>
+                        <div class="col-6 col-lg-6 pt-2">
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Book" asp-action="Upsert" asp-route-bookId="@book.Id" class="btn btn-outline-primary bg-gradient py-2">
+                                    <i class="bi bi-pencil-square"></i>
+                            </a> 
+                        </div>
+
+                        </div>
+                        <div class="col-3 col-sm-4 col-lg-2 offset-lg-1 text-right pt-2">
+                            <a asp-controller="Book" asp-action="Upsert" asp-route-bookId="@book.Id" class="btn btn-danger bg-gradient py-2 ">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
     </div>
 </div>
-
-
-@section Scripts{
-    <script>
-        tinymce.init({
-            selector: 'textarea',
-            plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons lists table visualblocks wordcount',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name',
-            mergetags_list: [
-                { value: 'First.Name', title: 'First Name' },
-                { value: 'Email', title: 'Email' },
-            ],
-            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant"))
-        });
-    </script>
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}

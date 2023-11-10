@@ -9,6 +9,7 @@ using BookStore.Models.ViewModels;
 using Course_work.Models;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using BookStore.Unility;
 
 namespace Course_work.Areas.Customer.Controllers
 {
@@ -17,6 +18,7 @@ namespace Course_work.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private static HomeVM _homeVM { get; set; }
 
         public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
@@ -29,7 +31,10 @@ namespace Course_work.Areas.Customer.Controllers
             HomeVM homeVM = new HomeVM() 
             { 
                 AuthorList = GetAuthorSelectList(),
-                BookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList()
+                BookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList(),
+                OrderOptionsList = GetOrderOptionsList(),
+                AvailableLanguages = GetAvailableAuthorBookLanguages(0),
+                AvailableCategories = GetAvailableAuthorCategories(0).OrderBy(c => c.Name).ThenBy(c => c.Specialization).ToList()
             };
 
             ViewBag.CartNumber = GetCartCount();
@@ -37,18 +42,96 @@ namespace Course_work.Areas.Customer.Controllers
             return View(homeVM);
         }
 
-        public IActionResult AuthorBooks(HomeVM homeVMwithAuthorId)
+       // [HttpPost]
+        public IActionResult AuthorBooks(HomeVM homeVM)
         {
-            if (homeVMwithAuthorId.AuthorId < 1)
-                return RedirectToAction("Index");
+            homeVM.AuthorList = GetAuthorSelectList();
+            int minPrice = homeVM.MinPrice;
+            int maxPrice = homeVM.MaxPrice;
 
-            HomeVM homeVM = new HomeVM()
+            if (_homeVM == null || _homeVM.BookList == null)
             {
-                AuthorList = GetAuthorSelectList(),
-                BookList = _unitOfWork.Book.GetAll(b => b.AuthorId == homeVMwithAuthorId.AuthorId, includeProperties: "Author,Category").ToList()
-            };
+                List<Book> pageBookList = new List<Book>();
 
-            ViewBag.CartNumber = GetCartCount();
+                if (homeVM.ChosenLanguages == null || homeVM.ChosenLanguages.Count == 0)
+                        pageBookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
+                else
+                {
+                    pageBookList = _unitOfWork.Book
+                        .GetAll(b => homeVM.ChosenLanguages.Contains(b.Language)
+                        , includeProperties: "Author,Category")
+                        .ToList();
+                }
+
+                if (homeVM.ChosenCategoryIds != null && homeVM.ChosenCategoryIds.Count != 0)
+                {
+                    pageBookList = pageBookList.Where(b => homeVM.ChosenCategoryIds.Contains(b.CategoryId.GetValueOrDefault())).ToList();
+                }
+
+                if (homeVM.AuthorId <= 0)
+                {
+                    homeVM.BookList = pageBookList
+                        .Where(b => b.Price >= minPrice && b.Price <= maxPrice)
+                        .ToList();
+                }
+                else
+                {
+                    homeVM.BookList = pageBookList
+                        .Where(b => (b.AuthorId == homeVM.AuthorId) && (b.Price >= minPrice && b.Price <= maxPrice))
+                        .ToList();
+                }
+            }
+            else
+            {
+                if (homeVM.AuthorId <= 0)
+                {
+                    homeVM.BookList = _homeVM.BookList
+                        .Where(b => b.Price >= minPrice && b.Price <= maxPrice)
+                        .ToList();
+                }
+                else
+                {
+                    homeVM.BookList = _homeVM.BookList
+                        .Where(b => (b.AuthorId == homeVM.AuthorId) && (b.Price >= minPrice && b.Price <= maxPrice))
+                        .ToList();
+                }
+            
+                if (homeVM.ChosenLanguages != null && homeVM.ChosenLanguages.Count != 0)
+                {
+                    homeVM.BookList = homeVM.BookList
+                        .Where(b => homeVM.ChosenLanguages.Contains(b.Language))
+                        .ToList();
+                }
+
+                if (homeVM.ChosenCategoryIds != null && homeVM.ChosenCategoryIds.Count != 0)
+                {
+                    homeVM.BookList = homeVM.BookList.Where(b => homeVM.ChosenCategoryIds.Contains(b.CategoryId.GetValueOrDefault())).ToList();
+                }
+
+                homeVM.SearchQuery = _homeVM.SearchQuery;
+            }
+
+            switch (homeVM.OrderOptionId)
+            {
+                case 1:
+                    homeVM.BookList = homeVM.BookList.OrderBy(b => b.Title).ToList();
+                    break;
+                case 2:
+                    homeVM.BookList = homeVM.BookList.OrderByDescending(b => b.Title).ToList();
+                    break;
+                case 3:
+                    homeVM.BookList = homeVM.BookList.OrderBy(b => b.Price).ToList();
+                    break;
+                case 4:
+                    homeVM.BookList = homeVM.BookList.OrderByDescending(b => b.Price).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            homeVM.AvailableLanguages = GetAvailableAuthorBookLanguages(homeVM.AuthorId);
+            homeVM.AvailableCategories = GetAvailableAuthorCategories(homeVM.AuthorId).OrderBy(c => c.Name).ThenBy(c => c.Specialization).ToList();
+            homeVM.OrderOptionsList = GetOrderOptionsList();
 
             return View("Index", homeVM);
         }
@@ -58,15 +141,25 @@ namespace Course_work.Areas.Customer.Controllers
             return _unitOfWork.ShoppingCart.GetAll().Count();
         }
 
+        public IActionResult ClearSearch(HomeVM homeVM)
+        {
+            _homeVM.BookList = null;
+            _homeVM.SearchQuery = null;
+
+            return RedirectToAction("AuthorBooks", homeVM);
+        }
+            
+
         //[HttpPost]
         public IActionResult Search(string searchQuery)
         {
             List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
-            
-            HomeVM homeVM = new HomeVM()
+
+            _homeVM = new HomeVM()
             {
                 AuthorList = GetAuthorSelectList(),
-                BookList = bookList
+                BookList = new List<Book>(),
+                SearchQuery = searchQuery
             };
 
             if (!string.IsNullOrWhiteSpace(searchQuery))
@@ -90,15 +183,38 @@ namespace Course_work.Areas.Customer.Controllers
                     ).Except(bookFilteredList)
                 );
 
-                homeVM.BookList = bookFilteredList;
+                _homeVM.BookList.AddRange(bookFilteredList);
             }
-
 
             ViewBag.CartNumber = GetCartCount();
 
-            return View("Index", homeVM);
+            return RedirectToAction("AuthorBooks", _homeVM);
         }
 
+        private List<Category> GetAvailableAuthorCategories(int authorId)
+        {
+            var authorBooks = authorId > 0
+                ? _unitOfWork.Book.GetAll(b => b.AuthorId == authorId, includeProperties: "Author,Category").ToList()
+                : _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
+
+            return authorBooks
+                .Select(book => book.Category)
+                .DistinctBy(c => c.Id)
+                .ToList();
+        }
+
+        private List<string> GetAvailableAuthorBookLanguages(int authorId)
+        {
+            var authorBooks = authorId > 0
+                ? _unitOfWork.Book.GetAll(b => b.AuthorId == authorId, includeProperties: "Author,Category").ToList()
+                : _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
+
+            return authorBooks
+                .GroupBy(book => book.Language)
+                .OrderByDescending(group => group.Count())
+                .Select(group => group.Key)
+                .ToList();
+        }
 
         private IEnumerable<SelectListItem> GetAuthorSelectList()
         {
@@ -109,6 +225,20 @@ namespace Course_work.Areas.Customer.Controllers
             {
                 Text = c.Name + " " + c.Surname,
                 Value = c.Id.ToString()
+            });
+
+            return authorListNames;
+        }
+
+        private IEnumerable<SelectListItem> GetOrderOptionsList()
+        {
+            List<Author> authorList = _unitOfWork.Auhtor.GetAll(a => a.Name != "Unknown").ToList();
+            authorList.Add(new Author { Id = -1, Name = "All", Surname = "" });
+
+            IEnumerable<SelectListItem> authorListNames = BookOrderOptions.GetOrderOptions().Select(c => new SelectListItem
+            {
+                Value = c.Item1.ToString(),
+                Text = c.Item2
             });
 
             return authorListNames;
@@ -162,7 +292,7 @@ namespace Course_work.Areas.Customer.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult AuthorDetails(int authorId)
+        public IActionResult AuthorDetails(int authorId, int bookId)
         {
             var authorFromDb = _unitOfWork.Auhtor.Get(a => a.Id == authorId);
 
@@ -172,7 +302,8 @@ namespace Course_work.Areas.Customer.Controllers
             AuthorVM authorVM = new AuthorVM()
             {
                 Author = authorFromDb,
-                Country = countryName
+                Country = countryName,
+                BookIdToRedirect = bookId
             };
 
             ViewBag.CartNumber = GetCartCount();

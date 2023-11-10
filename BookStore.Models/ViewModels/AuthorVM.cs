@@ -14,8 +14,11 @@ namespace BookStore.Models.ViewModels
     {
         public Author Author { get; set; }
         [ValidateNever]
+        public List<Book> AuthorBooksList { get; set; }
+        [ValidateNever]
         public IEnumerable<SelectListItem> CountryList { get; set; }
         [ValidateNever]
         public string Country { get; set; }
+        public int BookIdToRedirect { get; set; }
     }
 }

@@ -90,13 +90,16 @@ namespace Course_work.Areas.Admin.Controllers
                 Value = c.TwoLetterISORegionName
             });
 
-            AuthorVM authorVM = new AuthorVM();
-            authorVM.CountryList = countryList;
+            AuthorVM authorVM = new AuthorVM()
+            {
+                CountryList = countryList,
+                AuthorBooksList = _unitOfWork.Book.GetAll(b => b.AuthorId == authorId, includeProperties: "Author,Category").ToList()
+            };
 
             if (authorId == 0 || authorId == null)
             {
                 authorVM.Author = new Author();
-                // create
+                
                 return View(authorVM);
             }
             else
@@ -174,6 +177,15 @@ namespace Course_work.Areas.Admin.Controllers
 
                 TempData["success"] = $"Image for \"{authorFromDb.Name + " " + authorFromDb.Surname}\" has been deleted successfully";
             }
+
+            return RedirectToAction(nameof(Upsert), new { authorId = authorId });
+        }
+
+        public IActionResult DeleteAll(int authorId)
+        {
+            var booksToRemove = _unitOfWork.Book.GetAll(b => b.AuthorId == authorId);
+            _unitOfWork.Book.RemoveRange(booksToRemove);
+            _unitOfWork.Save();
 
             return RedirectToAction(nameof(Upsert), new { authorId = authorId });
         }
