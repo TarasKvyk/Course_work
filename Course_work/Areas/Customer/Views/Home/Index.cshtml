@@ -32,7 +32,6 @@
             </div>
 
             <div class="row ps-3 pt-1">
-
                 <h6 class="text-white text-opacity-75 fw-semibold">
                     Author <i class="bi bi-person-fill"></i>
                     <div class="form-group d-flex mt-1 align-items-center col-11">
@@ -127,55 +126,19 @@
         <div class="border rounded p-3">
             <div class="row">
                 <div class="col-6">
-                    
-                    <div class="form-group ps-2 d-flex mt-1 align-items-center" method="get">
-                        <select asp-for="@Model.OrderOptionId" asp-items="@Model.OrderOptionsList" class="form-select text-center border border-secondary me-2 shadow">
+                </div>
+
+                <div class="col-6 d-flex mt-1 pe-4">
+                    <div class="col-4">
+
+                    </div>
+                    <div class="form-group ps-2 d-flex align-items-center" method="get">
+                        <select asp-for="@Model.OrderOptionId" asp-items="@Model.OrderOptionsList" class="form-select text-center border border-secondary me-2 mt-0 shadow">
                             <option disabled selected>--Select Order Sequence--</option>
                         </select>
 
-                        <button class="btn btn-secondary shadow " type="submit"><i class="bi bi-funnel"></i></button>
+                        <button class="btn btn-secondary shadow" type="submit"><i class="bi bi-funnel"></i></button>
                     </div>
-
-                @*<form class="form-group d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search by key words">
-                    <button class="btn btn-secondary" type="submit">Search</button>
-                </form>*@
-                </div>
-
-                <div class="col-3 mt-1 ms-auto ">
-                    <ul class="pagination ms-auto">
-                        <li class="page-item">
-                            <a class="page-link shadow" href="#">&laquo;</a>
-                        </li>
-                        <li class="page-item active shadow">
-                            <a class="page-link" asp-action="Index">1</a>
-                        </li>
-                        <li class="page-item shadow">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item shadow">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item shadow">
-                            <a class="page-link" href="#">4</a>
-                        </li>
-                        <li class="page-item shadow">
-                            <a class="page-link" href="#">5</a>
-                        </li>
-                        <li class="page-item shadow">
-                            <a class="page-link" href="#">&raquo;</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-1 mt-1 ms-auto pl-5 me-4">
-                    <ul class="pagination ms-auto">
-                        <li class="page-item">
-                            <a class="page-link shadow" href="#">&laquo;</a>
-                        </li>
-                        <li class="page-item active shadow">
-                            <a class="page-link" asp-action="Index">1</a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         
@@ -237,5 +200,47 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-3">
+            </div>
+            <div class="col-6">
+                <ul class="pagination justify-content-center mt-2">
+
+                    @{
+                        var prevPageNumber = Model.CurrentPageNumber > 1 ? Model.CurrentPageNumber - 1 : Model.CurrentPageNumber;
+                        var isDisabledPrev = Model.CurrentPageNumber == 1;
+                    }
+
+                    @if (Model.BookList != null && Model.BookList.Count != 0)
+                    {
+                        <li class="page-item ms-1 me-1 @(isDisabledPrev ? "disabled" : "")">
+                            <a class="page-link rounded shadow" asp-route-currentPageNumber="@prevPageNumber" asp-action="AuthorBooks">&laquo;</a>
+                        </li>
+                    }
+
+                    @for (int i = 1; i <= Model.PageNumber; i++)
+                    {
+                        <li class="ms-1 me-1 rounded page-item @(Model.CurrentPageNumber == i ? "active" : " ") shadow">
+                            <a class="page-link rounded" asp-route-currentPageNumber="@i" asp-action="AuthorBooks">@i</a>
+                        </li>
+                    }
+
+                    @{
+                        var nextPageNumber = Model.CurrentPageNumber < Model.PageNumber ? Model.CurrentPageNumber + 1 : Model.CurrentPageNumber;
+                        var isDisabledNext = Model.CurrentPageNumber >= Model.PageNumber;
+                    }
+
+                    @if (Model.BookList != null && Model.BookList.Count != 0)
+                    {
+                        <li class="page-item shadow text-center ms-1 me-1 @(isDisabledNext ? "disabled" : "")">
+                            <a class="page-link rounded" asp-route-currentPageNumber="@nextPageNumber" asp-action="AuthorBooks">&raquo;</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-3">
+
+            </div>
+        </div>
     </div>
 </form>

@@ -31,19 +31,30 @@ namespace Course_work.Areas.Customer.Controllers
             HomeVM homeVM = new HomeVM() 
             { 
                 AuthorList = GetAuthorSelectList(),
-                BookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList(),
+                //BookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList(),
                 OrderOptionsList = GetOrderOptionsList(),
                 AvailableLanguages = GetAvailableAuthorBookLanguages(0),
                 AvailableCategories = GetAvailableAuthorCategories(0).OrderBy(c => c.Name).ThenBy(c => c.Specialization).ToList()
             };
 
+            homeVM.BookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category")
+                .Skip((homeVM.CurrentPageNumber - 1) * homeVM.BooksPerPage)
+                .Take(homeVM.BooksPerPage)
+                .ToList();
+
+            int allBookCount = _unitOfWork.Book.GetAll().Count();
+            homeVM.PageNumber = allBookCount / homeVM.BooksPerPage;
+
+            if (allBookCount % homeVM.BooksPerPage != 0)
+                homeVM.PageNumber++;
+            
             ViewBag.CartNumber = GetCartCount();
 
             return View(homeVM);
         }
 
        // [HttpPost]
-        public IActionResult AuthorBooks(HomeVM homeVM)
+        public IActionResult AuthorBooks(HomeVM homeVM, int currentPageNumber = 1)
         {
             homeVM.AuthorList = GetAuthorSelectList();
             int minPrice = homeVM.MinPrice;
@@ -65,13 +76,15 @@ namespace Course_work.Areas.Customer.Controllers
                 List<Book> pageBookList = new List<Book>();
 
                 if (homeVM.ChosenLanguages == null || homeVM.ChosenLanguages.Count == 0)
-                        pageBookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
+                {
+                    pageBookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category")
+                        .ToList();
+                }
                 else
                 {
                     pageBookList = _unitOfWork.Book
-                        .GetAll(b => homeVM.ChosenLanguages.Contains(b.Language)
-                        , includeProperties: "Author,Category")
-                        .ToList();
+                        .GetAll(b => homeVM.ChosenLanguages.Contains(b.Language),
+                        includeProperties: "Author,Category").ToList();
                 }
 
                 if (homeVM.ChosenCategoryIds != null && homeVM.ChosenCategoryIds.Count != 0)
@@ -142,6 +155,17 @@ namespace Course_work.Areas.Customer.Controllers
                 default:
                     break;
             }
+
+            homeVM.CurrentPageNumber = currentPageNumber;
+            int allBookCount = homeVM.BookList.Count;
+            homeVM.PageNumber = allBookCount / homeVM.BooksPerPage;
+            if (allBookCount % homeVM.BooksPerPage != 0)
+                homeVM.PageNumber++;
+
+            homeVM.BookList = homeVM.BookList
+                .Skip((currentPageNumber - 1) * homeVM.BooksPerPage)
+                .Take(homeVM.BooksPerPage)
+                .ToList();
 
             homeVM.AvailableLanguages = GetAvailableAuthorBookLanguages(homeVM.AuthorId);
             homeVM.AvailableCategories = GetAvailableAuthorCategories(homeVM.AuthorId).OrderBy(c => c.Name).ThenBy(c => c.Specialization).ToList();

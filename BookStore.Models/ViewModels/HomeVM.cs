@@ -32,8 +32,8 @@ namespace BookStore.Models.ViewModels
         [Range(0, 10000, ErrorMessage = "The price must be in the range from 0 to 10000.")]
         public int MaxPrice { get; set; } = 9999;
 
-        const int MaxBookCountPerPage = 9;
-        public int PageCount { get; set; }
-        public int CurrentPageNumber { get; set; }
+        public int BooksPerPage { get; set; } = 6;
+        public int PageNumber { get; set; } = 2;
+        public int CurrentPageNumber { get; set; } = 1;
     }
 }

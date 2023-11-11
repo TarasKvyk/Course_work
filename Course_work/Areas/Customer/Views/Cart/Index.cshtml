@@ -27,11 +27,19 @@
                             <div class="d-none d-lg-block col-lg-1 text-center py-2">
                                 @if (cart.Book.ImageUrl != null)
                                 {
-                                    <img src="@cart.Book.ImageUrl" class="card-img-top rounded w-100" />
+                                    <div class="nav-link">
+                                        <a asp-controller="Home" asp-action="Details" asp-route-bookId="@cart.BookId">
+                                            <img src="@cart.Book.ImageUrl" class="card-img-top rounded w-100" />
+                                        </a>
+                                    </div>
                                 }
                                 else
                                 {
-                                    <img src="http://placehold.co/500x600/png" class="card-img-top rounded w-100" />
+                                    <div class="nav-link">
+                                                <a asp-controller="Home" asp-action="Details" asp-route-bookId="@cart.BookId">
+                                            <img src="http://placehold.co/500x600/png" class="card-img-top rounded w-100" />   
+                                        </a>
+                                    </div>
                                 }
                             </div>
                             <div class="col-12 col-lg-6 pt-md-3">
