@@ -64,7 +64,7 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    <form class="d-flex col-3" asp-controller="Home" asp-action="Search" method="post">
+                    <form class="d-flex col-3" asp-area="Customer" asp-controller="Home" asp-action="Search" method="post">
                         <input class="form-control me-2" type="search" placeholder="Search titles, authors, key words..." name="searchQuery">
                         <button class="btn btn-secondary me-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
                     </form>
