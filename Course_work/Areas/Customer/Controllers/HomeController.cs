@@ -2,9 +2,6 @@
 using BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using BookStore.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using BookStore.Models.ViewModels;
 using Course_work.Models;
 using System.Globalization;
@@ -31,7 +28,6 @@ namespace Course_work.Areas.Customer.Controllers
             HomeVM homeVM = new HomeVM() 
             { 
                 AuthorList = GetAuthorSelectList(),
-                //BookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList(),
                 OrderOptionsList = GetOrderOptionsList(),
                 AvailableLanguages = GetAvailableAuthorBookLanguages(0),
                 AvailableCategories = GetAvailableAuthorCategories(0).OrderBy(c => c.Name).ThenBy(c => c.Specialization).ToList()
@@ -47,8 +43,6 @@ namespace Course_work.Areas.Customer.Controllers
 
             if (allBookCount % homeVM.BooksPerPage != 0)
                 homeVM.PageNumber++;
-            
-            ViewBag.CartNumber = GetCartCount();
 
             return View(homeVM);
         }
@@ -174,11 +168,6 @@ namespace Course_work.Areas.Customer.Controllers
             return View("Index", homeVM);
         }
 
-        private int GetCartCount()
-        {
-            return _unitOfWork.ShoppingCart.GetAll().Count();
-        }
-
         public IActionResult ClearSearch(HomeVM homeVM)
         {
             _homeVM.BookList = null;
@@ -228,8 +217,6 @@ namespace Course_work.Areas.Customer.Controllers
                 _homeVM.BookList.AddRange(bookFilteredList);
             }
 
-            ViewBag.CartNumber = GetCartCount();
-
             return RedirectToAction("AuthorBooks", _homeVM);
         }
 
@@ -239,7 +226,7 @@ namespace Course_work.Areas.Customer.Controllers
                 ? _unitOfWork.Book.GetAll(b => b.AuthorId == authorId, includeProperties: "Author,Category").ToList()
                 : _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
 
-            return authorBooks
+            return authorBooks?
                 .Select(book => book.Category)
                 .DistinctBy(c => c.Id)
                 .ToList();
@@ -298,19 +285,12 @@ namespace Course_work.Areas.Customer.Controllers
                 BookId = bookId
             };
 
-            ViewBag.CartNumber = GetCartCount();
             return View(ShoppingCart);
         }
 
         [HttpPost]
         public IActionResult Details(ShoppingCart shoppingCart)
         {
-            // var claimsIdentity = (ClaimsIdentity)User.Identity; // Отримуємо Id користувач, що зараз в акаунті
-            // var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            // shoppingCart.ApplicationUserId = userId;
-            // 
-            // ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.ApplicationUserId == userId && x.ProductId == shoppingCart.ProductId);
-
             ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.BookId == shoppingCart.BookId);
 
             if (cartFromDb != null)
@@ -348,20 +328,17 @@ namespace Course_work.Areas.Customer.Controllers
                 BookIdToRedirect = bookId
             };
 
-            ViewBag.CartNumber = GetCartCount();
             return View(authorVM);
         }
 
         public IActionResult Privacy()
         {
-            ViewBag.CartNumber = GetCartCount();
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            ViewBag.CartNumber = GetCartCount();
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

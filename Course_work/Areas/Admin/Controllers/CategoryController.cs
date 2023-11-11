@@ -76,6 +76,25 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction("Index", "Category");
         }
 
+        private void CopyCategoryValues(Category sourceCategory, Category destinationCategory)
+        {
+            if (sourceCategory == null || destinationCategory == null)
+                return;
+
+            if (!string.IsNullOrEmpty(sourceCategory.Name))
+                destinationCategory.Name = sourceCategory.Name;
+
+            if (!string.IsNullOrEmpty(sourceCategory.KeyWords))
+                destinationCategory.KeyWords = sourceCategory.KeyWords;
+
+            if (!string.IsNullOrEmpty(sourceCategory.Specialization))
+                destinationCategory.Specialization = sourceCategory.Specialization;
+
+            if (!string.IsNullOrEmpty(sourceCategory.CategoryDescrition))
+                destinationCategory.CategoryDescrition = sourceCategory.CategoryDescrition;
+        }
+
+
         public IActionResult Upsert(int? categoryId)
         {
             if (_unitOfWork.Category.Get(c => c.Name == "Unknown") == null)
@@ -156,26 +175,6 @@ namespace Course_work.Areas.Admin.Controllers
 
             return View(CategoryVM);
         }
-
-
-        private void CopyCategoryValues(Category sourceCategory, Category destinationCategory)
-        {
-            if (sourceCategory == null || destinationCategory == null)
-                return;
-
-            if (!string.IsNullOrEmpty(sourceCategory.Name))
-                destinationCategory.Name = sourceCategory.Name;
-
-            if (!string.IsNullOrEmpty(sourceCategory.KeyWords))
-                destinationCategory.KeyWords = sourceCategory.KeyWords;
-
-            if (!string.IsNullOrEmpty(sourceCategory.Specialization))
-                destinationCategory.Specialization = sourceCategory.Specialization;
-
-            if (!string.IsNullOrEmpty(sourceCategory.CategoryDescrition))
-                destinationCategory.CategoryDescrition = sourceCategory.CategoryDescrition;
-        }
-
 
         [HttpPost]
         public IActionResult Upsert(CategoryVM CategoryVM)

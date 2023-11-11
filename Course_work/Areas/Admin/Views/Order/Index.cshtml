@@ -1,0 +1,50 @@
+﻿@model List<OrderVM>
+
+<div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Order List</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="text-center" width="70px">ID</th>
+                    <th class="text-center" >Name</th>
+                    <th class="text-center" width="100px">Tracking Number</th>
+                    <th class="text-center">Phone Number</th>
+                    <th class="text-center ">City</th>
+                    <th class="text-center">Status</th>
+                    <th></th>
+                </tr>
+
+
+                @foreach (var orderVM in Model)
+                {
+                    <tr>
+                        <th class="text-center">@orderVM.OrderHeader.Id</th>
+                        <th class="text-center">@orderVM.OrderHeader.Name</th>
+                        <th class="text-center">@orderVM.OrderHeader.TrackingNumber</th>
+                        <th class="text-center">@orderVM.OrderHeader.PhoneNumber</th>
+                        <th class="text-center">@orderVM.OrderHeader.City</th>
+                        <th class="text-center">@orderVM.OrderHeader.OrderStatus</th>
+                        <th>
+                            <div div class="w-100 btn-group" role="group">
+                                <a asp-action="Details" asp-route-orderHeaderId="@orderVM.OrderHeader.Id" class="btn btn-primary mx-2" style="height:50%; width:50%;"> <i class="bi bi-pencil-square"></i> View</a>
+                                <a asp-action="Delete" asp-route-orderHeaderId="@orderVM.OrderHeader.Id" class="btn btn-danger mx-2" style="height:50%; width:50%;"><i class="bi bi-trash-fill"></i> Delete</a>
+                            </div>
+                        </th>
+                    </tr>
+                }
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}

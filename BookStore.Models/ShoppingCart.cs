@@ -21,14 +21,7 @@ namespace BookStore.Models
         [Range(0, 1000, ErrorMessage = "Enter a value between 1 and 1000")]
         public int Count { get; set; }
 
-        //public string ApplicationUserId { get; set; }
-        //[ForeignKey("ApplicationUserId")]
-        //[ValidateNever]
-        //public ApplicationUser ApplicationUser { get; set; }
-
-        [NotMapped] // do not create column in a database
+        [NotMapped]
         public double Price { get; set; }
-
-        //public int  Count { get; set; }
      }
 }

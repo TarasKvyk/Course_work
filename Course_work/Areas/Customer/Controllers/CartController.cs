@@ -80,22 +80,22 @@ namespace BooksWeb.Areas.Customer.Controllers
             _unitOfWork.ShoppingCart.Remove(cartFromDb);
             _unitOfWork.Save();
 
+
+            TempData["success"] = $"Cart has been removed";
+
             return RedirectToAction(nameof(Index));
         }
 
 
         public IActionResult Summary()
         {
-            //var claimsIdentity = (ClaimsIdentity)User.Identity; // Отримуємо Id користувач, що зараз в акаунті
-            //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             ShoppingCartVM = new()
             {
-                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(/*u => u.ApplicationUserId == userId*/ includeProperties: "Book"),
+                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(includeProperties: "Book"),
                 OrderHeader = new OrderHeader()
             };
 
-			if (ShoppingCartVM.ShoppingCartList == null || ShoppingCartVM.ShoppingCartList.Count() == 0)
+			if (ShoppingCartVM.ShoppingCartList == null || !ShoppingCartVM.ShoppingCartList.Any())
 			{
                 TempData["error"] = $"Your Cart is Empty";
 				
@@ -116,17 +116,11 @@ namespace BooksWeb.Areas.Customer.Controllers
 		[ActionName("Summary")]
 		public IActionResult SummaryPOST(ShoppingCartVM shoppingCartVM)
 		{
-			//var claimsIdentity = (ClaimsIdentity)User.Identity; // Отримуємо Id користувач, що зараз в акаунті
-			//var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-			ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(/*u => u.ApplicationUserId == userId, */includeProperties: "Book");
-
-			//ApplicationUser applicationUser = _unitOfWork.ApplicationUsers.Get(u => u.Id == userId);
+			ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(includeProperties: "Book");
 
 			ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
-            ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now.AddDays(7);
-
-            //ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
+            ShoppingCartVM.OrderHeader.ShippingDate = DateTime.Now.AddDays(7);
+            ShoppingCartVM.OrderHeader.OrderStatus = "Approved";
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
 			{
@@ -151,49 +145,6 @@ namespace BooksWeb.Areas.Customer.Controllers
 				_unitOfWork.Save();
 			}
 
-			//if (applicationUser.CompanyId.GetValueOrDefault() == 0)
-			//{
-			//	// Stripe logic
-			//	var domain = "https://localhost:7033/";
-
-			//	var options = new SessionCreateOptions
-			//	{
-			//		SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
-			//		CancelUrl = domain + "customer/cart/index",
-			//		LineItems = new List<SessionLineItemOptions>(),
-			//		Mode = "payment",
-			//	};
-
-			//	foreach (var item in ShoppingCartVM.ShoppingCartList)
-			//	{
-			//		var SessionLineItem = new SessionLineItemOptions
-			//		{
-			//			PriceData = new SessionLineItemPriceDataOptions()
-			//			{
-			//				UnitAmount = (long)(item.Price * 100),
-			//				Currency = "usd",
-			//				ProductData = new SessionLineItemPriceDataProductDataOptions()
-			//				{
-			//					Name = item.Product.Title
-			//				}
-			//			},
-
-			//			Quantity = item.Count
-			//		};
-
-			//		options.LineItems.Add(SessionLineItem);
-			//	}
-
-			//	var service = new SessionService();
-			//	Session session = service.Create(options);
-
-			//	_unitOfWork.OrderHeader.UpdateStripePaymentId(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
-			//	_unitOfWork.Save();
-
-			//	Response.Headers.Add("Location", session.Url);
-			//	return new StatusCodeResult(303);
-			//}
-
 			ShoppingCartVM.OrderHeader.TrackingNumber = ShoppingCartVM.OrderHeader.Id.ToString();
 			_unitOfWork.ShoppingCart.RemoveRange(ShoppingCartVM.ShoppingCartList);
 			_unitOfWork.Save();
@@ -202,5 +153,5 @@ namespace BooksWeb.Areas.Customer.Controllers
 			
 			return RedirectToAction(nameof(Index), "Home");
 		}
-	}
+    }
 }
