@@ -7,6 +7,7 @@ using Course_work.Models;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BookStore.Unility;
+using Newtonsoft.Json;
 
 namespace Course_work.Areas.Customer.Controllers
 {
@@ -15,7 +16,7 @@ namespace Course_work.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
-        private static HomeVM _homeVM { get; set; }
+        public static string SeachQueryResultJson { get; private set; } = string.Empty;
 
         public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
@@ -65,42 +66,37 @@ namespace Course_work.Areas.Customer.Controllers
                 return RedirectToAction("Index");
             }
 
-            if (_homeVM == null || _homeVM.BookList == null)
+            if (string.IsNullOrEmpty(SeachQueryResultJson))
             {
-                List<Book> pageBookList = new List<Book>();
+                List<Book> pageBookList;
 
-                if (homeVM.ChosenLanguages == null || homeVM.ChosenLanguages.Count == 0)
+                if (homeVM.AuthorId <= 0)
                 {
-                    pageBookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category")
-                        .ToList();
+                    pageBookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
                 }
                 else
                 {
-                    pageBookList = _unitOfWork.Book
-                        .GetAll(b => homeVM.ChosenLanguages.Contains(b.Language),
-                        includeProperties: "Author,Category").ToList();
+                    pageBookList = _unitOfWork.Book.GetAll(b => b.AuthorId == homeVM.AuthorId, includeProperties: "Author,Category").ToList();
                 }
 
-                if (homeVM.ChosenCategoryIds != null && homeVM.ChosenCategoryIds.Count != 0)
+                if (homeVM.ChosenLanguages != null && homeVM.ChosenLanguages.Count > 0)
+                {
+                    pageBookList = pageBookList.Where(b => homeVM.ChosenLanguages.Contains(b.Language)).ToList();
+                }
+
+                if (homeVM.ChosenCategoryIds != null && homeVM.ChosenCategoryIds.Count > 0)
                 {
                     pageBookList = pageBookList.Where(b => homeVM.ChosenCategoryIds.Contains(b.CategoryId.GetValueOrDefault())).ToList();
                 }
 
-                if (homeVM.AuthorId <= 0)
-                {
-                    homeVM.BookList = pageBookList
-                        .Where(b => b.Price >= minPrice && b.Price <= maxPrice)
-                        .ToList();
-                }
-                else
-                {
-                    homeVM.BookList = pageBookList
-                        .Where(b => (b.AuthorId == homeVM.AuthorId) && (b.Price >= minPrice && b.Price <= maxPrice))
-                        .ToList();
-                }
+                pageBookList = pageBookList.Where(b => b.Price >= minPrice && b.Price <= maxPrice).ToList();
+
+                homeVM.BookList = pageBookList;
             }
             else
             {
+                HomeVM _homeVM = JsonConvert.DeserializeObject<HomeVM>(SeachQueryResultJson);
+
                 if (homeVM.AuthorId <= 0)
                 {
                     homeVM.BookList = _homeVM.BookList
@@ -170,19 +166,17 @@ namespace Course_work.Areas.Customer.Controllers
 
         public IActionResult ClearSearch(HomeVM homeVM)
         {
-            _homeVM.BookList = null;
-            _homeVM.SearchQuery = null;
+            SeachQueryResultJson = string.Empty;
 
             return RedirectToAction("AuthorBooks", homeVM);
         }
             
-
         //[HttpPost]
         public IActionResult Search(string searchQuery)
         {
             List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
 
-            _homeVM = new HomeVM()
+            HomeVM homeVM = new HomeVM()
             {
                 AuthorList = GetAuthorSelectList(),
                 BookList = new List<Book>(),
@@ -214,10 +208,13 @@ namespace Course_work.Areas.Customer.Controllers
                     ).Except(bookFilteredList)
                 );
 
-                _homeVM.BookList.AddRange(bookFilteredList);
+                homeVM.BookList.AddRange(bookFilteredList);
             }
 
-            return RedirectToAction("AuthorBooks", _homeVM);
+            SeachQueryResultJson = JsonConvert.SerializeObject(homeVM);
+            TempData["HomeVM"] = JsonConvert.SerializeObject(homeVM);
+
+            return RedirectToAction("AuthorBooks", homeVM);
         }
 
         private List<Category> GetAvailableAuthorCategories(int authorId)
