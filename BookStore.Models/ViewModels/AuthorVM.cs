@@ -20,5 +20,6 @@ namespace BookStore.Models.ViewModels
         [ValidateNever]
         public string Country { get; set; }
         public int BookIdToRedirect { get; set; }
+        public IEnumerable<SelectListItem> OrderOptionsList { get; set; }
     }
 }

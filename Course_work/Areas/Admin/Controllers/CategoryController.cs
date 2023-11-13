@@ -94,7 +94,6 @@ namespace Course_work.Areas.Admin.Controllers
                 destinationCategory.CategoryDescrition = sourceCategory.CategoryDescrition;
         }
 
-
         public IActionResult Upsert(int? categoryId)
         {
             if (_unitOfWork.Category.Get(c => c.Name == "Unknown") == null)

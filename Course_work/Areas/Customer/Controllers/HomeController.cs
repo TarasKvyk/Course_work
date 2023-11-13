@@ -14,13 +14,11 @@ namespace Course_work.Areas.Customer.Controllers
     //[Area("Customer")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         public static string SeachQueryResultJson { get; private set; } = string.Empty;
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
@@ -48,7 +46,6 @@ namespace Course_work.Areas.Customer.Controllers
             return View(homeVM);
         }
 
-       // [HttpPost]
         public IActionResult AuthorBooks(HomeVM homeVM, int currentPageNumber = 1)
         {
             homeVM.AuthorList = GetAuthorSelectList();

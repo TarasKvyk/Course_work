@@ -12,11 +12,9 @@
     <div class="card-body p-4">
         <form method="post" class="row" enctype="multipart/form-data">
             <input asp-for="Author.Id" hidden />
-            @* <input asp-for="Product.ImageUrl" hidden />*@
             <div class="row">
                 <div class="col-10">
                     <div class="border p-3">
-                        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
                         <div class="form-floating py-2 col-12">
                             <input asp-for="Author.Name" class="form-control border-0 shadow" />
                             <label asp-for="Author.Name" class="ms-2 mt-1"></label>
@@ -29,7 +27,7 @@
                         </div>
 
                         <div class="form-floating py-2 col-12">
-                            <select asp-for="@Model.Author.Country" asp-items="@Model.CountryList/*@(ViewData["CategoryList"]) as IEnumerable<SelectListItem>*/ /*ViewBag.CategoryList*/" class="form-select border-0 shadow">
+                            <select asp-for="@Model.Author.Country" asp-items="@Model.CountryList" class="form-select border-0 shadow">
                                 <option disabled selected>--Select Country--</option>
                             </select>
                             <label asp-for="Author.Country" class="ms-2 mt-1"></label>
@@ -60,7 +58,7 @@
                             <div class="col-6 col-md-3">
                                 @if (Model.Author.Id != 0)
                                 {
-                                    <a asp-controller="Author" asp-route-authorId="@Model.Author.Id" asp-action="DeleteAll" class="btn btn-danger form-control border">Delete All Books</a>
+                                    <a asp-controller="Author" asp-route-authorId="@Model.Author.Id" asp-action="DeleteAllBooks" class="btn btn-danger form-control border">Delete All Books</a>
                                 }
                             </div>
                             <div class="col-6 col-md-3">

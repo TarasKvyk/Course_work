@@ -12,11 +12,9 @@
     <div class="card-body p-4">
         <form method="post" class="row" enctype="multipart/form-data">
             <input asp-for="Book.Id" hidden />
-            @* <input asp-for="Product.ImageUrl" hidden />*@
             <div class="row">
                 <div class="col-10">
                     <div class="border p-3">
-                        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
                         <div class="form-floating py-2 col-12">
                             <input asp-for="Book.Title" class="form-control border-0 shadow" />
                             <label asp-for="Book.Title" class="ms-2 mt-1"></label>
@@ -32,14 +30,8 @@
                             <label asp-for="Book.Year" class="ms-2 mt-1"></label>
                             <span asp-validation-for="Book.Year" class="text-danger"></span>
                         </div>
-                        @*<div class="form-floating py-2 col-12">
-                            <input asp-for="Book.Language" class="form-control border-0 shadow" />
-                            <label asp-for="Book.Language" class="ms-2 mt-1"></label>
-                            <span asp-validation-for="Book.Language" class="text-danger"></span>
-                        </div>*@
-
                         <div class="form-floating py-2 col-12">
-                            <select asp-for="@Model.Book.Language" asp-items="@Model.LanguageList/*@(ViewData["CategoryList"]) as IEnumerable<SelectListItem>*/ /*ViewBag.CategoryList*/" class="form-select border-0 shadow">
+                            <select asp-for="@Model.Book.Language" asp-items="@Model.LanguageList" class="form-select border-0 shadow">
                                 <option disabled selected>--Select Language--</option>
                             </select>
                             <label asp-for="Book.Language" class="ms-2 mt-1"></label>
@@ -53,7 +45,7 @@
                         </div>
 
                         <div class="form-floating py-2 col-12">
-                            <select asp-for="@Model.Book.CategoryId" asp-items="@Model.CategoryList/*@(ViewData["CategoryList"]) as IEnumerable<SelectListItem>*/ /*ViewBag.CategoryList*/" class="form-select border-0 shadow">
+                            <select asp-for="@Model.Book.CategoryId" asp-items="@Model.CategoryList" class="form-select border-0 shadow">
                                 <option disabled selected>--Select Category--</option>
                             </select>
                             <label asp-for="Book.CategoryId" class="ms-2 mt-1"></label>
@@ -61,7 +53,7 @@
                         </div>
 
                         <div class="form-floating py-2 col-12">
-                            <select asp-for="@Model.Book.AuthorId" asp-items="@Model.AuthorList/*@(ViewData["CategoryList"]) as IEnumerable<SelectListItem>*/ /*ViewBag.CategoryList*/" class="form-select border-0 shadow">
+                            <select asp-for="@Model.Book.AuthorId" asp-items="@Model.AuthorList" class="form-select border-0 shadow">
                                 <option disabled selected>--Select Author--</option>
                             </select>
                             <label asp-for="Book.AuthorId" class="ms-2 mt-1"></label>
@@ -75,16 +67,25 @@
                         </div>
 
                         <div class="row pt-2">
-                            <div class="col-6 col-md-3">
-                                @if (Model.Book.Id != 0)
-                                {
+
+                            @if (Model.Book.Id != 0)
+                            {
+                                <div class="col-9 col-md-3">
                                     <button type="submit" class="btn btn-primary form-control">Update</button>
-                                }
-                                else
-                                {
+                                </div>
+
+                                <div class="col-6 col-md-3">
+                                    <a asp-controller="Author" asp-action="Upsert" asp-route-authorId="@Model.Book.AuthorId" class="btn btn-outline-primary form-control">Back To Author</a>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="col-6 col-md-3">
                                     <button type="submit" class="btn btn-primary form-control">Create</button>
-                                }
-                            </div>
+                                </div>
+                            }
+
                             <div class="col-6 col-md-3">
                                 <a asp-controller="Book" asp-action="Index" class="btn btn-outline-primary form-control border">Back To Book List</a>
                             </div>
@@ -93,18 +94,15 @@
                 </div>
                 <div class="col-2">
                     @if (!string.IsNullOrEmpty(Model.Book.ImageUrl))
-                    {@*
-                        foreach (var image in Model.Book.ProductImages)
-                        {*@
-                            <div class="border p-1 m-2 text-center">
-                                <img src="@Model.Book.ImageUrl" width="100%"
-                                     style="border-radius:5px; border:1px solid #bbb9b9" />
+                    {
+                        <div class="border p-1 m-2 text-center">
+                            <img src="@Model.Book.ImageUrl" width="100%"
+                                    style="border-radius:5px; border:1px solid #bbb9b9" />
 
-                                <a asp-action="DeleteImage" class="btn btn-danger" asp-route-bookId="@Model.Book.Id">
-                                    <i class="bi bi-trash-fill"></i>Delete
-                                </a>
-                            </div>
-                        @*}*@
+                            <a asp-action="DeleteImage" class="btn btn-danger" asp-route-bookId="@Model.Book.Id">
+                                <i class="bi bi-trash-fill"></i>Delete
+                            </a>
+                        </div>
                     }
                 </div>
             </div>

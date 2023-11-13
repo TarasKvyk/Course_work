@@ -22,6 +22,7 @@ namespace BookStore.Models
         public int Year { get; set; }
         [Required]
         public double Price { get; set; }
+        [Required]
         public string? Language { get; set; }
 
         [ValidateNever]

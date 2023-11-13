@@ -9,15 +9,12 @@ namespace Course_work.Areas.Admin.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OrderController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+        public OrderController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
             _unitOfWork = unitOfWork;
         }
-
 
         public IActionResult Index()
         {

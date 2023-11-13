@@ -14,15 +14,33 @@ namespace Course_work.Areas.Admin.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AuthorController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment) // dependency injection
+        public AuthorController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment) 
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int orderOptionId = 0)
         {
-            List<Author> authorList = _unitOfWork.Auhtor.GetAll().ToList();
+            List<Author> authorList = _unitOfWork.Auhtor.GetAll().OrderBy(a => a.Name).ToList();
+
+            switch (orderOptionId)
+            {
+                case 1:
+                    authorList = authorList.OrderBy(a => a.Name).ToList();
+                    break;                          
+                case 2:                             
+                    authorList = authorList.OrderBy(a => a.Surname).ToList();
+                    break;                          
+                case 3:                             
+                    authorList = authorList.OrderBy(a => a.Country).ToList();
+                    break;                          
+                case 4:                             
+                    authorList = authorList.OrderBy(a => a.BirthDate).ToList();
+                    break;
+                default:
+                    break;
+            }
 
             return View(authorList);
         }
@@ -63,7 +81,6 @@ namespace Course_work.Areas.Admin.Controllers
                 _unitOfWork.Book.Update(book);
                 _unitOfWork.Save();
             }
-
 
             Author authorToDelete = _unitOfWork.Auhtor.Get(a => a.Id == authorId);
             
@@ -181,7 +198,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction(nameof(Upsert), new { authorId = authorId });
         }
 
-        public IActionResult DeleteAll(int authorId)
+        public IActionResult DeleteAllBooks(int authorId)
         {
             var booksToRemove = _unitOfWork.Book.GetAll(b => b.AuthorId == authorId);
             _unitOfWork.Book.RemoveRange(booksToRemove);

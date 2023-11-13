@@ -3,14 +3,6 @@
 @if (!string.IsNullOrEmpty(Model.SearchQuery))
 {
     <form asp-action="AuthorBooks" method="post" class="row mt-4" enctype="multipart/form-data">
-        
-       @* <div class="card border-secondary mb-3" style="max-width: 20rem;">
-            <div class="card-header h-1">Searching results</div>
-            <div class="card-body">
-                <p class="card-text">@Model.SearchQuery</p>
-            </div>
-        </div>*@
-
         <div class="col-6">
 
             <div class="form-group d-flex mt-1 align-items-center col-6">
@@ -110,7 +102,6 @@
                     }
                 </div>
 
-
                 <div class="row">
                     <div class="col-md-12 pb-3 mt-2 align-content-center">
                         <button type="submit"
@@ -133,7 +124,7 @@
 
                     </div>
                     <div class="form-group ps-2 d-flex align-items-center" method="get">
-                        <select asp-for="@Model.OrderOptionId" asp-items="@Model.OrderOptionsList" class="form-select text-center border border-secondary me-2 mt-0 shadow">
+                        <select asp-for="@Model.OrderOptionId" asp-items="@Model.OrderOptionsList" class="form-select border border-secondary me-2 mt-0 shadow">
                             <option disabled selected>--Select Order Sequence--</option>
                         </select>
 

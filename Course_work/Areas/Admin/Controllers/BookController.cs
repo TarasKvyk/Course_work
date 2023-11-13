@@ -21,9 +21,33 @@ namespace Course_work.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int orderOptionId = 0)
         {
             List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Category,Author").ToList();
+
+            switch (orderOptionId)
+            {
+                case 1:
+                    bookList = bookList.OrderBy(b => b.Title).ToList();
+                    break;
+                case 2:
+                    bookList = bookList.OrderBy(b => b.Author.Name).ToList();
+                    break;
+                case 3:
+                    bookList = bookList.OrderBy(b => b.Category.Name).ToList();
+                    break;
+                case 4:
+                    bookList = bookList.OrderBy(b => b.Year).ToList();
+                    break;
+                case 5:
+                    bookList = bookList.OrderBy(b => b.Language).ToList();
+                    break;
+                case 6:
+                    bookList = bookList.OrderBy(b => b.Price).ToList();
+                    break;
+                default:
+                    break;
+            }
 
             return View(bookList);
         }

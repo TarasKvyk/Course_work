@@ -19,6 +19,5 @@ namespace BookStore.Models.ViewModels
         public Book Book { get; set; }
         [ValidateNever]
         public IEnumerable<SelectListItem> LanguageList { get; set; }
-
     }
 }

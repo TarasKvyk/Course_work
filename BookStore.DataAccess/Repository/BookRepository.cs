@@ -46,49 +46,6 @@ namespace BookStore.DataAccess.Repository
                     bookFromDb.Category = _db.Categories.FirstOrDefault(c => c.Id == entity.CategoryId);
                 }
             }
-
-            //if (bookFromDb != null)
-            //{
-            //    if (bookFromDb.Category is HistoryCategory)
-            //    {
-            //        HistoryCategory categoryFromDb = (HistoryCategory)bookFromDb.Category;
-            //        HistoryCategory newCategory = (HistoryCategory)entity.Category;
-
-            //        categoryFromDb.Period = newCategory.Period;
-
-            //    }
-            //    else if (bookFromDb.Category is FictionCategory)
-            //    {
-            //        FictionCategory categoryFromDb = (FictionCategory)bookFromDb.Category;
-            //        FictionCategory newCategory = (FictionCategory)entity.Category;
-
-            //        categoryFromDb.LiteraryFormat = newCategory.LiteraryFormat;
-
-            //    }
-            //    else if(bookFromDb.Category is DictionaryCategory)
-            //    {
-            //        DictionaryCategory categoryFromDb = (DictionaryCategory)bookFromDb.Category;
-            //        DictionaryCategory newCategory = (DictionaryCategory)entity.Category;
-
-            //        categoryFromDb.NativeLanguage = newCategory.NativeLanguage;
-            //        categoryFromDb.IntoLanguage = newCategory.IntoLanguage;
-            //    }
-            //    else if(bookFromDb.Category is ScientificCategory)
-            //    {
-            //        ScientificCategory categoryFromDb = (ScientificCategory)bookFromDb.Category;
-            //        ScientificCategory newCategory = (ScientificCategory)entity.Category;
-
-            //        categoryFromDb.KnowledgeBranch = newCategory.KnowledgeBranch;
-
-            //    }
-            //    else if(bookFromDb.Category is ChildrenCategory)
-            //    {
-            //        ChildrenCategory categoryFromDb = (ChildrenCategory)bookFromDb.Category;
-            //        ChildrenCategory newCategory = (ChildrenCategory)entity.Category;
-
-            //        categoryFromDb.PurposeAge = newCategory.PurposeAge;
-            //    }
-            //}
         }
     }
 }

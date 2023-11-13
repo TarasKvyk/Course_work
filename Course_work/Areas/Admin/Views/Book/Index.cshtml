@@ -11,13 +11,29 @@
 
     <div class="card-body p-4">
         <div class="row pb-3">
-            <div class="col-6">
+            <div class="col-3">
             </div>
             <div class="col-6 text-end">
                 <a asp-area="Admin" asp-controller="Book" asp-action="Upsert" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i>
                     Add new Book
                 </a>
+            </div>
+             <div class="col-3">
+                <form method="get" asp-controller="Book" asp-action="Index">
+                    <div class="form-group ps-2 d-flex align-items-center">
+                        <select name="orderOptionId" class="form-select border border-secondary me-2 mt-0">
+                            <option disabled selected>--Select Order Sequence--</option>
+                            <option value="1">Order by Title</option>
+                            <option value="2">Order by Author</option>
+                            <option value="3">Order by Category</option>
+                            <option value="4">Order by Year</option>
+                            <option value="5">Order by Language</option>
+                            <option value="6">Order by Price</option>
+                        </select>
+                        <button class="btn btn-secondary shadow" type="submit"><i class="bi bi-funnel"></i></button>
+                    </div>
+                </form>
             </div>
         </div>
         <table id="tblData" class="table table-bordered table-striped" style="width:100%">
@@ -33,7 +49,6 @@
 
                     </th>
                 </tr>
-
 
                 @foreach (var book in Model)
                 {

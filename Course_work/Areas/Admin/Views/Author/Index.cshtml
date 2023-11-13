@@ -11,13 +11,28 @@
 
     <div class="card-body p-4">
         <div class="row pb-3">
-            <div class="col-6">
+            <div class="col-3 text-end">
+            
             </div>
             <div class="col-6 text-end">
                 <a asp-area="Admin" asp-controller="Author" asp-action="Upsert" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i>
                     Add new Author
                 </a>
+            </div>
+            <div class="col-3">
+                <form method="get" asp-controller="Author" asp-action="Index">
+                    <div class="form-group ps-2 d-flex align-items-center">
+                        <select name="orderOptionId" class="form-select text-center border border-secondary me-2 mt-0 shadow">
+                            <option disabled selected>--Select Order Sequence--</option>
+                            <option value="1">Order by Name</option>
+                            <option value="2">Order by Surname</option>
+                            <option value="3">Order by Country</option>
+                            <option value="4">Order by BirthDate</option>
+                        </select>
+                        <button class="btn btn-secondary shadow" type="submit"><i class="bi bi-funnel"></i></button>
+                    </div>
+                </form>
             </div>
         </div>
         <table id="tblData" class="table table-bordered table-striped" style="width:100%">
