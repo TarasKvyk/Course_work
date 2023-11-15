@@ -15,7 +15,7 @@ namespace Course_work.Areas.Admin.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BookController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment) // dependency injection
+        public BookController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
@@ -31,7 +31,7 @@ namespace Course_work.Areas.Admin.Controllers
                     bookList = bookList.OrderBy(b => b.Title).ToList();
                     break;
                 case 2:
-                    bookList = bookList.OrderBy(b => b.Author.Name).ToList();
+                    bookList = bookList.OrderBy(b => b.Author.Surname).ToList();
                     break;
                 case 3:
                     bookList = bookList.OrderBy(b => b.Category.Name).ToList();
@@ -58,8 +58,8 @@ namespace Course_work.Areas.Admin.Controllers
                 return NotFound();
 
             Book bookToDelete = _unitOfWork.Book.Get(b => b.Id == bookId);
-            
-            if(bookToDelete == null)
+
+            if (bookToDelete == null)
                 return NotFound();
 
             _unitOfWork.Book.Remove(bookToDelete);
@@ -73,7 +73,7 @@ namespace Course_work.Areas.Admin.Controllers
         {
             IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().OrderBy(c => c.Name).Select(u => new SelectListItem
             {
-                Text = u.Name + " - " + u.Specialization,
+                Text = u.Name.Replace("Category", "") + " - " + u.Specialization,
                 Value = u.Id.ToString()
             });
 
@@ -101,7 +101,6 @@ namespace Course_work.Areas.Admin.Controllers
 
             if (bookId == 0 || bookId == null)
             {
-                // create 
                 return View(bookVM);
             }
             else
@@ -116,11 +115,11 @@ namespace Course_work.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(file == null && BookVM.Book.Id == 0)
+                if (file == null && BookVM.Book.Id == 0)
                 {
                     BookVM.CategoryList = _unitOfWork.Category.GetAll().OrderBy(c => c.Name).Select(u => new SelectListItem
                     {
-                        Text = u.Name + " - " + u.Specialization,
+                        Text = u.Name.Replace("Category", "") + " - " + u.Specialization,
                         Value = u.Id.ToString()
                     });
 
@@ -155,7 +154,7 @@ namespace Course_work.Areas.Admin.Controllers
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = @"images\book\book-" + BookVM.Book.Id;
-                    string finalPath = Path.Combine(wwwRootPath, productPath); 
+                    string finalPath = Path.Combine(wwwRootPath, productPath);
 
                     if (!Directory.Exists(finalPath))
                     {
@@ -223,6 +222,97 @@ namespace Course_work.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(Upsert), new { bookId = bookId });
+        }
+
+        [HttpPost]
+        public IActionResult WriteIntoFile(IFormFile file)
+        {
+            if (file == null)
+            {
+                TempData["error"] = $"Incorect file!";
+                return RedirectToAction("Index");
+            }
+            
+            string filePath = @"uploads\" + file.FileName;
+
+            //if (!Directory.Exists(filePath))
+            //    Directory.CreateDirectory(filePath);
+
+            List<Book> books = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
+
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                string headerLine = $"Id|Title|Page Count|Available Count|Price|CategoryId|Year|AuthorId|Language";
+                writer.WriteLine(headerLine);
+
+                foreach (var book in books)
+                {
+                    string line = $"{book.Id}|{book.Title}|{book.PageCount}|{book.AvailableCount}|{book.Price}|{book.CategoryId}|{book.Year}|{book.AuthorId}|{book.Language}";
+                    writer.WriteLine(line);
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ReadFromFile(IFormFile file)
+        {
+            if (file == null)
+            {
+                TempData["error"] = $"Incorect file!";
+                return RedirectToAction("Index");
+            }
+
+            string filePath = @"uploads\" + file.FileName;
+            string[] lines = System.IO.File.ReadAllLines(filePath);
+
+            try
+            {
+                lines = System.IO.File.ReadAllLines(filePath);
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = $"Can not find file!";
+                return RedirectToAction("Index");
+            }
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] values = lines[i].Split('|');
+
+                try
+                {
+                    int bookId = int.Parse(values[0].Trim());
+                    
+                    if (_unitOfWork.Book.Get(b => b.Id == bookId) == null)
+                    {
+                        Book book = new Book
+                        {
+                            Title = values[1].Trim(),
+                            PageCount = int.Parse(values[2].Trim()),
+                            AvailableCount = int.Parse(values[3].Trim()),
+                            Price = double.Parse(values[4].Trim()),
+                            CategoryId = int.Parse(values[5].Trim()),
+                            Year = int.Parse(values[6].Trim()),
+                            AuthorId = int.Parse(values[7].Trim()),
+                            Language = values[8].Trim()
+                        };
+
+                        _unitOfWork.Book.Add(book);
+                    }
+                }
+                catch(Exception e)
+                {
+                    TempData["error"] = $"Error while reading file! Check file data int row " + i + 1;
+                    return RedirectToAction("Index");
+                }
+
+            }
+
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index");
         }
     }
 }

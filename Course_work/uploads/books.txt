@@ -1,0 +1,20 @@
+Id|Title|Page Count|Available Count|Price|CategoryId|Year|AuthorId|Language
+21|The Red-Headed League and Other Stories|300|96|100|25|2020|18|en
+22|The Speckled Band and Other Stories|250|29|200|25|2020|18|en
+23|The Suicide Club|350|2|70|26|2021|19|en
+24|High school student and White Crow|280|0|120|24|2018|20|uk
+25|High school student and Black Hand|290|0|200|24|2018|20|uk
+26|The high school student and the Fire Serpent|300|5|180|24|2018|20|uk
+27|The secret of the Cossack treasure|260|4|150|24|2017|20|uk
+28|The secret of the submarine|288|6|190|24|2019|20|uk
+29|The mystery of the snake's head|303|2|185|24|2019|20|uk
+30|Illustrated history of the Independence of Ukraine|150|4|199|18|2022|22|uk
+31|Kyiv detective. Healing with innocence|350|2|198|25|2023|20|uk
+32|History of Ukraine. Formation of a modern nation|600|10|503|18|2019|21|uk
+33|History of Europe. Ukrainian view|0|0|460|19|2023|22|uk
+34|Overcoming the past: a global history of Ukraine|534|4|689|18|2023|21|uk
+35|Atlas of dinosaurs with stickers|0|0|50|27|2023|9|uk
+36|Dictionary Ukrainian-French|0|0|500|28|2012|9|fr
+37|ELEMENTO|124|0|150|31|2020|9|es
+38|The Red-Headed League and Other Stories|300|99|100|25|2020|18|en
+39|The Speckled Band and Other Stories|0|1|200|25|2020|18|en

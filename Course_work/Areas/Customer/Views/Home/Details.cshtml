@@ -31,55 +31,31 @@
                         {
                             <img src="http://placehold.co/500x600/png" class="d-block w-100" />
                         }
-
-                        @* @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
-                        {
-                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-
-                                @foreach (var imageWithIndex in Model.Product.ProductImages
-                               .Select((image, index) => new { ProductImage = image, Index = index }))
-                                {
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@imageWithIndex.Index"
-                                            class="@(imageWithIndex.Index == 0 ? "active" : "")" aria-current="true" aria-label="Slide 1"></button>
-                                }
-
-                                <div class="carousel-inner">
-                                    @foreach (var imageWithIndex in Model.Product.ProductImages
-                                   .Select((image, index) => new { ProductImage = image, Index = index }))
-                                    {
-                                        <div class="@(imageWithIndex.Index == 0 ? "carousel-item active" : "carousel-item ")">
-                                            <img src="@imageWithIndex.ProductImage.ImageUrl" class="d-block w-100" alt="...">
-                                        </div>
-                                    }
-                                </div>
-
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-
-                        }*@
                     </div>
 
                     <div class="col-12 py-2 col-lg-6 offset-lg-1">
                         <div class="row ps-2">
                             <h6 class="text-dark text-opacity-50">
                                 Author:
-                                <a asp-action="AuthorDetails" asp-route-bookId="@Model.BookId" asp-route-authorId="@Model.Book.AuthorId">
-                                    <span>
+                                @if(Model.Book.Author.Name != "Unknown")
+                                {
+                                    <a asp-action="AuthorDetails" asp-route-bookId="@Model.BookId" asp-route-authorId="@Model.Book.AuthorId">
+                                        <span>
+                                            @(Model.Book.Author.Name + " " + Model.Book.Author.Surname)
+                                        </span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="text-primary">
                                         @Model.Book.Author.Name
                                     </span>
-                                </a>
+                                }
                             </h6>
-                            <h6 class="text-dark text-opacity-50 mt-2">
-                                Price:
-                                <span class="text-warning">
-                                    @Model.Price.ToString("c")
+                            <h6 class="text-dark text-opacity-50 mt-2 pb-2">
+                                Category:
+                                <span class="text-primary">
+                                    @(Model.Book.Category.Name.Replace("Category", "") + " " + Model.Book.Category.Specialization)
                                 </span>
                             </h6>
                         </div>
@@ -91,23 +67,47 @@
 
                         <div class="py-2 col-12">
                             <label asp-for="Book.Category.CategoryDescrition" class="ms-2 text-muted"></label>
-                            <textarea asp-for="Book.Description" disabled class="form-control border-0">@Html.Raw(Model.Book.Category.CategoryDescrition)</textarea>
+                            <textarea asp-for="Book.Category.CategoryDescrition" disabled class="form-control border-0">@Html.Raw(Model.Book.Category.CategoryDescrition)</textarea>
                         </div>
-
                         <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 mt-2 pb-2">
+                            <h6 class="text-dark text-opacity-50 mt-1 pb-1">
                                 Year:
                                 <span class="text-primary">
                                     @Model.Book.Year
                                 </span>
-                            </h6>                            
-                            <h6 class="text-dark text-opacity-50  pb-2">
+                            </h6>       
+                            <h6 class="text-dark text-opacity-50 mt-1 pb-1">
+                                Pages:
+                                <span class="text-primary">
+                                    @Model.Book.PageCount
+                                </span>
+                            </h6>
+                            <h6 class="text-dark text-opacity-50 mt-1 pb-1">
                                 Language:
                                 <span class="text-primary">
                                     @System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(Model.Book.Language).EnglishName
                                 </span>
                             </h6>
+                            <h6 class="text-dark text-opacity-50 mt-2">
+                                Price:
+                                <span class="text-warning">
+                                    @Model.Price.ToString("c")
+                                </span>
+                            </h6>
                         </div>
+                        
+                        @{
+                            string disabled;
+
+                            if (Model.Book.AvailableCount > 0)
+                            {
+                                disabled = "";
+                            }
+                            else
+                            {
+                                disabled = "disabled";
+                            }
+                        }
 
                         <div class="row mt-2 mb-1">
                             <div class="col-md-4">
@@ -116,7 +116,7 @@
                                           id="inputGroup-sizing-default">
                                         Count
                                     </span>
-                                    <input asp-for="Count" type="number" value="1" class="form-control rounded-end shadow p-1 border-0 text-center"
+                                    <input asp-for="Count" type="number" value="1" class="form-control @disabled rounded-end shadow p-1 border-0 text-center"
                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
 
                                 </div>
@@ -125,7 +125,7 @@
                         <div class="row">
                             <div class="col-12 col-md-6 pt-2 pb-1">
                                 <button type="submit"
-                                        class="btn btn-primary bg-gradient shadow w-100 py-2 text-uppercase fw-semibold">
+                                        class="btn btn-primary bg-gradient @disabled shadow w-100 py-2 text-uppercase fw-semibold">
                                     <i class="bi bi-bag"></i> Add to Cart
                                 </button>
                             </div>

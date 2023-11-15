@@ -19,21 +19,6 @@ namespace BookStore.DataAccess.Repository
             _db = db;
         }
 
-        //public IEnumerable<Category> GetListOfType(string categoryType)
-        //{
-        //    foreach (var categoryInfo in ConstCategoryDetails.GetCategoryValues())
-        //    {
-        //        if (categoryInfo.Item2 == categoryType)
-        //        {
-        //            // Отримуємо всі категорії з бази даних, а потім фільтруємо їх на стороні клієнта
-        //            var allCategories = _db.Categories.ToList();
-        //            return allCategories.Where(c => c.GetType() == categoryInfo.Item1).ToList();
-        //        }
-        //    }
-
-        //    return new List<Category>();
-        //}
-
         public void Update(Category entity)
         {
             _db.Update(entity);

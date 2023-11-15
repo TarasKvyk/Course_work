@@ -19,7 +19,7 @@ namespace BookStore.Models.ViewModels
         public List<string> AvailableLanguages { get; set; }
 
         public List<int?> ChosenCategoryIds { get; set; }
-        public List<Category> AvailableCategories { get; set; }
+        public List<Category?> AvailableCategories { get; set; }
 
         public string SearchQuery { get; set; }
 

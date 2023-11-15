@@ -26,6 +26,16 @@
                             <span asp-validation-for="Book.Price" class="text-danger"></span>
                         </div>
                         <div class="form-floating py-2 col-12">
+                            <input asp-for="Book.AvailableCount" class="form-control border-0 shadow" />
+                            <label asp-for="Book.AvailableCount" class="ms-2 mt-1"></label>
+                            <span asp-validation-for="Book.AvailableCount" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="Book.PageCount" class="form-control border-0 shadow" />
+                            <label asp-for="Book.PageCount" class="ms-2 mt-1"></label>
+                            <span asp-validation-for="Book.PageCount" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12">
                             <input asp-for="Book.Year" class="form-control border-0 shadow" />
                             <label asp-for="Book.Year" class="ms-2 mt-1"></label>
                             <span asp-validation-for="Book.Year" class="text-danger"></span>
@@ -37,8 +47,6 @@
                             <label asp-for="Book.Language" class="ms-2 mt-1"></label>
                             <span asp-validation-for="Book.Language" class="text-danger"></span>
                         </div>
-
-
                         <div class="py-2 col-12">
                             <label asp-for="Book.Description" class="ms-2 text-muted"></label>
                             <textarea asp-for="Book.Description" class="form-control border-0 shadow"></textarea>
@@ -74,9 +82,12 @@
                                     <button type="submit" class="btn btn-primary form-control">Update</button>
                                 </div>
 
-                                <div class="col-6 col-md-3">
-                                    <a asp-controller="Author" asp-action="Upsert" asp-route-authorId="@Model.Book.AuthorId" class="btn btn-outline-primary form-control">Back To Author</a>
-                                </div>
+                                if(Model.Book.Author.Name != "Unknown")
+                                {
+                                    <div class="col-6 col-md-3">
+                                        <a asp-controller="Author" asp-action="Upsert" asp-route-authorId="@Model.Book.AuthorId" class="btn btn-outline-primary form-control">Back To Author</a>
+                                    </div>
+                                }
 
                             }
                             else

@@ -30,98 +30,25 @@ namespace BookStore.DataAccess.Data
                 .HasOne(b => b.Category)  
                 .WithMany()
                 .HasForeignKey(b => b.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull); // This will set the foreign key to null on delete
+                .OnDelete(DeleteBehavior.SetNull); 
 
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Author)
                 .WithMany()
                 .HasForeignKey(b => b.AuthorId)
-                .OnDelete(DeleteBehavior.SetNull); // This will set the foreign key to null on delete
-
-
-            modelBuilder.Entity<Book>().HasData(
-                new Book { 
-                    Id = 1, 
-                    Title = "Test book", 
-                    AuthorId = 1,
-                    CategoryId = 1,
-                    Year = 2023,
-                    Language = "Ukrainian",
-                    Description = "Description",
-                    Price = 200.0
-                });
-
-
-            modelBuilder.Entity<Author>().HasData(
-                new Author
-                {
-                    Id = 1,
-                    Name = "Taras",
-                    Surname = "Author",
-                    ImageUrl = "",
-                    Country = "Ukraine",
-                    BirthDate = new DateTime(2005, 1, 22)
-                });
-
-            modelBuilder.Entity<HistoryCategory>().HasData(
-                new HistoryCategory
-                {
-                    Id = 1,
-                    Period = "19",
-                    Name = "History",
-                    KeyWords = "Ukraine history",
-                    Specialization = "HISTORY specializetion",
-                    CategoryDescrition = "Description"
-                });
-
-            modelBuilder.Entity<DictionaryCategory>().HasData(
-                new DictionaryCategory
-                {
-                    Id = 4,
-                    IntoLanguage = "Ukrainian",
-                    NativeLanguage = "English",
-                    Name = "english",
-                    KeyWords = "Ukraine",
-                    Specialization = "Dictionary specializetion",
-                    CategoryDescrition = "Description dictionary"
-                });
-
-            modelBuilder.Entity<HistoryCategory>().HasData(
-                new HistoryCategory
-                {
-                    Id = 2,
-                    Period = "19",
-                    Name = "History",
-                    KeyWords = "USA history",
-                    Specialization = "HISTORY desc",
-                    CategoryDescrition = "Description"
-                });
-
-            modelBuilder.Entity<ChildrenCategory>().HasData(
-                new ChildrenCategory
-                {
-                    Id = 3,
-                    PurposeAge = "10",
-                    Name = "Children's literature",
-                    Specialization = "Child desc",
-                    CategoryDescrition = "Description",
-                    KeyWords = "Fairy tale"
-                });
-
+                .OnDelete(DeleteBehavior.SetNull); 
 
             // Налаштування таблиці для базового класу Category
             modelBuilder.Entity<Category>()
                 .ToTable("Categories")
                 .HasKey(c => c.Id);
 
-
-
-            // Налаштування таблиці для підкласу Historical з наслідуванням
+            // Налаштування таблиці для підкласу History з наслідуванням
             modelBuilder.Entity<HistoryCategory>()
                 .ToTable("HistoryBooks")
                 .HasBaseType<Category>();
 
-            // Налаштування властивостей для підкласу Historical
+            // Налаштування властивостей для підкласу History
             modelBuilder.Entity<HistoryCategory>()
                 .Property(h => h.Period);
 

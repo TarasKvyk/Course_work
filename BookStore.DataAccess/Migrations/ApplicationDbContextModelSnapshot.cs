@@ -79,6 +79,9 @@ namespace BookStore.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<int>("AvailableCount")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CategoryId")
                         .IsRequired()
                         .HasColumnType("int");
@@ -90,7 +93,11 @@ namespace BookStore.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Language")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageCount")
+                        .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -115,9 +122,11 @@ namespace BookStore.DataAccess.Migrations
                         {
                             Id = 1,
                             AuthorId = 1,
+                            AvailableCount = 0,
                             CategoryId = 1,
                             Description = "Description",
                             Language = "Ukrainian",
+                            PageCount = 0,
                             Price = 200.0,
                             Title = "Test book",
                             Year = 2023
@@ -197,11 +206,13 @@ namespace BookStore.DataAccess.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -214,22 +225,26 @@ namespace BookStore.DataAccess.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("ShippingDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("StreetAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("TrackingNumber")
                         .HasColumnType("nvarchar(max)");

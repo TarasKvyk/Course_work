@@ -72,7 +72,7 @@ namespace Course_work.Areas.Admin.Controllers
             _unitOfWork.Category.Remove(categoryToDelete);
             _unitOfWork.Save();
 
-            TempData["success"] = $"Category \"{categoryToDelete.Name + " " + categoryToDelete.Specialization}\" has been deleted successfully";
+            TempData["success"] = $"Category \"{categoryToDelete.Name.Replace("Category", "") + " " + categoryToDelete.Specialization}\" has been deleted successfully";
             return RedirectToAction("Index", "Category");
         }
 
@@ -189,6 +189,28 @@ namespace Course_work.Areas.Admin.Controllers
                         categoryToAdd = new HistoryCategory();
                         CopyCategoryValues(CategoryVM.Category, categoryToAdd);
                         ((HistoryCategory)categoryToAdd).Period = CategoryVM.History.Period;
+                        categoryToAdd.CategoryDescrition += "\nPeriod : " + CategoryVM.History.Period;
+                    }
+                    else if (!string.IsNullOrEmpty(CategoryVM.Fiction.LiteraryFormat))
+                    {
+                        categoryToAdd = new FictionCategory();
+                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
+                        ((FictionCategory)categoryToAdd).LiteraryFormat = CategoryVM.Fiction.LiteraryFormat;
+                        categoryToAdd.CategoryDescrition += "\nLiterary Format : " + CategoryVM.Fiction.LiteraryFormat;
+                    }
+                    else if (!string.IsNullOrEmpty(CategoryVM.Children.PurposeAge))
+                    {
+                        categoryToAdd = new ChildrenCategory();
+                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
+                        ((ChildrenCategory)categoryToAdd).PurposeAge = CategoryVM.Children.PurposeAge;
+                        categoryToAdd.CategoryDescrition += "\nPurpuse Age : " + CategoryVM.Children.PurposeAge;
+                    }
+                    else if (!string.IsNullOrEmpty(CategoryVM.Scientific.KnowledgeBranch))
+                    {
+                        categoryToAdd = new ScientificCategory();
+                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
+                        ((ScientificCategory)categoryToAdd).KnowledgeBranch = CategoryVM.Scientific.KnowledgeBranch;
+                        categoryToAdd.CategoryDescrition += "\nKnowledge of Branch : " + CategoryVM.Scientific.KnowledgeBranch;
                     }
                     else if (!string.IsNullOrEmpty(CategoryVM.Dictionary.IntoLanguage) && !string.IsNullOrEmpty(CategoryVM.Dictionary.NativeLanguage))
                     {
@@ -196,24 +218,8 @@ namespace Course_work.Areas.Admin.Controllers
                         CopyCategoryValues(CategoryVM.Category, categoryToAdd);
                         ((DictionaryCategory)categoryToAdd).NativeLanguage = CategoryVM.Dictionary.NativeLanguage;
                         ((DictionaryCategory)categoryToAdd).IntoLanguage = CategoryVM.Dictionary.IntoLanguage;
-                    }
-                    else if (!string.IsNullOrEmpty(CategoryVM.Fiction.LiteraryFormat))
-                    {
-                        categoryToAdd = new FictionCategory();
-                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
-                        ((FictionCategory)categoryToAdd).LiteraryFormat = CategoryVM.Fiction.LiteraryFormat;
-                    }
-                    else if (!string.IsNullOrEmpty(CategoryVM.Children.PurposeAge))
-                    {
-                        categoryToAdd = new ChildrenCategory();
-                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
-                        ((ChildrenCategory)categoryToAdd).PurposeAge = CategoryVM.Children.PurposeAge;
-                    }
-                    else if (!string.IsNullOrEmpty(CategoryVM.Scientific.KnowledgeBranch))
-                    {
-                        categoryToAdd = new ScientificCategory();
-                        CopyCategoryValues(CategoryVM.Category, categoryToAdd);
-                        ((ScientificCategory)categoryToAdd).KnowledgeBranch = CategoryVM.Scientific.KnowledgeBranch;
+                        categoryToAdd.CategoryDescrition += "\nNative Language : " + CategoryVM.Dictionary.NativeLanguage;
+                        categoryToAdd.CategoryDescrition += "\nInto Language : " + CategoryVM.Dictionary.IntoLanguage;
                     }
 
                     if (categoryToAdd != null)
@@ -221,7 +227,7 @@ namespace Course_work.Areas.Admin.Controllers
                         _unitOfWork.Category.Add(categoryToAdd);
                         _unitOfWork.Save();
 
-                        TempData["success"] = $"Category \"{categoryToAdd.Name + " " + categoryToAdd.Specialization}\" has been created successfully";
+                        TempData["success"] = $"Category \"{categoryToAdd.Name.Replace("Category", "") + " " + categoryToAdd.Specialization}\" has been created successfully";
                     }
                 }
                 else
@@ -235,6 +241,7 @@ namespace Course_work.Areas.Admin.Controllers
                         if (existingCategory is HistoryCategory && !string.IsNullOrEmpty(CategoryVM.History.Period))
                         {
                             ((HistoryCategory)existingCategory).Period = CategoryVM.History.Period;
+                            existingCategory.CategoryDescrition += "\nPeriod : " + CategoryVM.History.Period;
                         }
                         else if (existingCategory is DictionaryCategory)
                         {
@@ -242,25 +249,30 @@ namespace Course_work.Areas.Admin.Controllers
                             {
                                 ((DictionaryCategory)existingCategory).NativeLanguage = CategoryVM.Dictionary.NativeLanguage;
                                 ((DictionaryCategory)existingCategory).IntoLanguage = CategoryVM.Dictionary.IntoLanguage;
+                                existingCategory.CategoryDescrition += "\nNative Language : " + CategoryVM.Dictionary.NativeLanguage;
+                                existingCategory.CategoryDescrition += "\nInto Language : " + CategoryVM.Dictionary.IntoLanguage;
                             }
                         }
                         else if (existingCategory is FictionCategory && !string.IsNullOrEmpty(CategoryVM.Fiction.LiteraryFormat))
                         {
                             ((FictionCategory)existingCategory).LiteraryFormat = CategoryVM.Fiction.LiteraryFormat;
+                            existingCategory.CategoryDescrition += "\nLiterary Format : " + CategoryVM.Fiction.LiteraryFormat;
                         }
                         else if (existingCategory is ChildrenCategory && !string.IsNullOrEmpty(CategoryVM.Children.PurposeAge))
                         {
                             ((ChildrenCategory)existingCategory).PurposeAge = CategoryVM.Children.PurposeAge;
+                            existingCategory.CategoryDescrition += "\nPurpuse Age : " + CategoryVM.Children.PurposeAge;
                         }
                         else if (existingCategory is ScientificCategory)
                         {
                             ((ScientificCategory)existingCategory).KnowledgeBranch = CategoryVM.Scientific.KnowledgeBranch;
+                            existingCategory.CategoryDescrition += "\nKnowledge of Branch : " + CategoryVM.Scientific.KnowledgeBranch;
                         }
 
                         _unitOfWork.Category.Update(existingCategory);
                         _unitOfWork.Save();
 
-                        TempData["success"] = $"Category \"{existingCategory.Name + " " + existingCategory.Specialization}\" has been updated successfully";
+                        TempData["success"] = $"Category \"{existingCategory.Name.Replace("Category", "") + " " + existingCategory.Specialization}\" has been updated successfully";
                     }
 
 

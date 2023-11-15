@@ -1,0 +1,15 @@
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\bin\Release\net7.0\BookStore.Unility.deps.json
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\bin\Release\net7.0\BookStore.Unility.dll
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\bin\Release\net7.0\BookStore.Unility.pdb
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\bin\Release\net7.0\BookStore.Models.dll
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\bin\Release\net7.0\BookStore.Models.pdb
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\BookStore.Unility.csproj.AssemblyReference.cache
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\BookStore.Unility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\BookStore.Unility.AssemblyInfoInputs.cache
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\BookStore.Unility.AssemblyInfo.cs
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\BookStore.Unility.csproj.CoreCompileInputs.cache
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\BookStore.Unility.csproj.CopyComplete
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\BookStore.Unility.dll
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\refint\BookStore.Unility.dll
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\BookStore.Unility.pdb
+C:\Users\tasik\source\repos\Course_work\BookStore.Unility\obj\Release\net7.0\ref\BookStore.Unility.dll

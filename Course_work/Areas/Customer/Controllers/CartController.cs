@@ -1,4 +1,4 @@
-﻿using BookStore.DataAccess.Repository;
+﻿    using BookStore.DataAccess.Repository;
 using BookStore.DataAccess.Repository.IRepository;
 using BookStore.Models;
 using BookStore.Models.ViewModels;
@@ -16,7 +16,7 @@ namespace BooksWeb.Areas.Customer.Controllers
 	{
 		private readonly IUnitOfWork _unitOfWork;
         [BindProperty]
-        public ShoppingCartVM ShoppingCartVM { get; set; }
+        public ShoppingCartVM? ShoppingCartVM { get; set; }
 
         public CartController(IUnitOfWork unitOfWork)
 		{
@@ -44,10 +44,20 @@ namespace BooksWeb.Areas.Customer.Controllers
 
         public IActionResult Plus(int cardId)
 		{
-			ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId);
+			ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId, includeProperties:"Book");
           
-			cartFromDb.Count++;
+            if(cartFromDb.Count < cartFromDb.Book.AvailableCount)
+            {
+                cartFromDb.Count++;
+                cartFromDb.Book.AvailableCount--;
+                _unitOfWork.Book.Update(cartFromDb.Book);
+            }
+            else
+            {
+                TempData["warning"] = $"More books are not available";
+            }
 
+            cartFromDb.Book = null;
             _unitOfWork.ShoppingCart.Update(cartFromDb);
             _unitOfWork.Save();
 
@@ -56,7 +66,7 @@ namespace BooksWeb.Areas.Customer.Controllers
 
         public IActionResult Minus(int cardId)
         {
-            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId);
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId, includeProperties: "Book");
 
             if (cartFromDb.Count <= 1)
             {
@@ -65,6 +75,9 @@ namespace BooksWeb.Areas.Customer.Controllers
             else
             {
                 cartFromDb.Count -= 1;
+                cartFromDb.Book.AvailableCount++;
+                _unitOfWork.Book.Update(cartFromDb.Book);
+                cartFromDb.Book = null;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
             }
 
@@ -75,11 +88,13 @@ namespace BooksWeb.Areas.Customer.Controllers
 
         public IActionResult Remove(int cardId)
         {
-            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId);
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId, includeProperties: "Book");
 
+            cartFromDb.Book.AvailableCount += cartFromDb.Count;
+            _unitOfWork.Book.Update(cartFromDb.Book);
+            cartFromDb.Book = null;
             _unitOfWork.ShoppingCart.Remove(cartFromDb);
             _unitOfWork.Save();
-
 
             TempData["success"] = $"Cart has been removed";
 
@@ -97,11 +112,11 @@ namespace BooksWeb.Areas.Customer.Controllers
 
 			if (ShoppingCartVM.ShoppingCartList == null || !ShoppingCartVM.ShoppingCartList.Any())
 			{
+                TempData["warning"] = $"More books are not available";
                 TempData["error"] = $"Your Cart is Empty";
 				
 				return RedirectToAction(nameof(Index));
             }
-
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
@@ -115,8 +130,14 @@ namespace BooksWeb.Areas.Customer.Controllers
 		[HttpPost]
 		[ActionName("Summary")]
 		public IActionResult SummaryPOST(ShoppingCartVM shoppingCartVM)
-		{
-			ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(includeProperties: "Book");
+        {
+            if (string.IsNullOrEmpty(ShoppingCartVM.OrderHeader.City))
+			{
+				TempData["error"] = $"Enter correct data";
+				return RedirectToAction("Summary");
+            }
+
+            ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(includeProperties: "Book");
 
 			ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
             ShoppingCartVM.OrderHeader.ShippingDate = DateTime.Now.AddDays(7);

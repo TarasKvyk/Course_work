@@ -61,15 +61,15 @@
                                     <select asp-for="@Model.Dictionary.NativeLanguage" asp-items="@Model.LanguageList" class="form-select border-0 shadow">
                                         <option disabled selected>--Select Native Language--</option>
                                     </select>
-                                    <label asp-for="Dictionary.NativeLanguage" class="ms-2 mt-1"></label>
+                                    <label asp-for="@Model.Dictionary.NativeLanguage" class="ms-2 mt-1"></label>
                                     <span asp-validation-for="Dictionary.NativeLanguage" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating py-2 col-6">
                                     <select asp-for="@Model.Dictionary.IntoLanguage" asp-items="@Model.LanguageList" class="form-select border-0 shadow">
                                         <option disabled selected>--Select Into Language--</option>
                                     </select>
-                                    <label asp-for="Dictionary.IntoLanguage" class="ms-2 mt-1"></label>
-                                    <span asp-validation-for="Dictionary.IntoLanguage" class="text-danger"></span>
+                                    <label asp-for="@Model.Dictionary.IntoLanguage" class="ms-2 mt-1"></label>
+                                    <span asp-validation-for="@Model.Dictionary.IntoLanguage" class="text-danger"></span>
                                 </div>
                             </div>
 
@@ -117,21 +117,6 @@
 
 
 @section Scripts{
-    <script>
-        tinymce.init({
-            selector: 'textarea',
-            plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons lists table visualblocks wordcount',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name',
-            mergetags_list: [
-                { value: 'First.Name', title: 'First Name' },
-                { value: 'Email', title: 'Email' },
-            ],
-            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant"))
-        });
-    </script>
-
     @{
         <partial name="_ValidationScriptsPartial" />
 

@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 
 namespace Course_work.Areas.Customer.Controllers
 {
-    //[Area("Customer")]
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -24,7 +23,7 @@ namespace Course_work.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            HomeVM homeVM = new HomeVM() 
+            HomeVM homeVM = new HomeVM()
             { 
                 AuthorList = GetAuthorSelectList(),
                 OrderOptionsList = GetOrderOptionsList(),
@@ -168,7 +167,6 @@ namespace Course_work.Areas.Customer.Controllers
             return RedirectToAction("AuthorBooks", homeVM);
         }
             
-        //[HttpPost]
         public IActionResult Search(string searchQuery)
         {
             List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
@@ -183,8 +181,15 @@ namespace Course_work.Areas.Customer.Controllers
             if (!string.IsNullOrWhiteSpace(searchQuery))
             {
                 string[] searchTerms = searchQuery.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                searchTerms = searchTerms.Where(s => s.Length > 3).ToArray();
 
-                List<Book> bookFilteredList = bookList.Where(b =>
+                if(searchTerms == null || searchTerms.Length < 1)
+                {
+                    TempData["warning"] = $"Query must contain word with length higher than 3";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                    List<Book> bookFilteredList = bookList.Where(b =>
                     searchTerms.Any(term =>
                         b.Title.Contains(term, StringComparison.OrdinalIgnoreCase) ||
                         (!string.IsNullOrEmpty(b.Description) && b.Description.Contains(term, StringComparison.OrdinalIgnoreCase))
@@ -209,18 +214,17 @@ namespace Course_work.Areas.Customer.Controllers
             }
 
             SeachQueryResultJson = JsonConvert.SerializeObject(homeVM);
-            TempData["HomeVM"] = JsonConvert.SerializeObject(homeVM);
 
-            return RedirectToAction("AuthorBooks", homeVM);
+            return RedirectToAction(nameof(AuthorBooks), homeVM);
         }
 
-        private List<Category> GetAvailableAuthorCategories(int authorId)
+        private List<Category?> GetAvailableAuthorCategories(int authorId)
         {
             var authorBooks = authorId > 0
                 ? _unitOfWork.Book.GetAll(b => b.AuthorId == authorId, includeProperties: "Author,Category").ToList()
                 : _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
 
-            return authorBooks?
+            return authorBooks
                 .Select(book => book.Category)
                 .DistinctBy(c => c.Id)
                 .ToList();
@@ -250,7 +254,7 @@ namespace Course_work.Areas.Customer.Controllers
                 Value = c.Id.ToString()
             });
 
-            return authorListNames;
+            return authorListNames.OrderBy(a => a.Text);
         }
 
         private IEnumerable<SelectListItem> GetOrderOptionsList()
@@ -285,19 +289,45 @@ namespace Course_work.Areas.Customer.Controllers
         [HttpPost]
         public IActionResult Details(ShoppingCart shoppingCart)
         {
-            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.BookId == shoppingCart.BookId);
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.BookId == shoppingCart.BookId, includeProperties: "Book");
+
+            if(shoppingCart.Count <= 0)
+            {
+                TempData["warning"] = $"Count must be greater than zero";
+                return RedirectToAction("Details", new { bookId = shoppingCart.BookId });
+            }
 
             if (cartFromDb != null)
             {
+                if (shoppingCart.Count > cartFromDb.Book.AvailableCount)
+                {
+                    TempData["warning"] = $"Available book count is " + cartFromDb.Book.AvailableCount;
+                    return RedirectToAction("Details", new { bookId = shoppingCart.BookId });
+                }
+
                 cartFromDb.Count += shoppingCart.Count;
+                cartFromDb.Book.AvailableCount -= shoppingCart.Count;
+                _unitOfWork.Book.Update(cartFromDb.Book);
+                _unitOfWork.Save();
+
+                cartFromDb.Book = null;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
                 _unitOfWork.Save();
             }
             else
             {
                 Book bookFromDb = _unitOfWork.Book.Get(b => b.Id == shoppingCart.BookId);
-                shoppingCart.Price = bookFromDb.Price;
 
+                if (shoppingCart.Count > bookFromDb.AvailableCount)
+                {
+                    TempData["warning"] = $"Available book count is " + bookFromDb.AvailableCount;
+                    return RedirectToAction("Details", new { bookId = shoppingCart.BookId });
+                }
+
+                shoppingCart.Price = bookFromDb.Price;
+                bookFromDb.AvailableCount -= shoppingCart.Count;
+
+                _unitOfWork.Book.Update(bookFromDb);
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
                 _unitOfWork.Save();
             }

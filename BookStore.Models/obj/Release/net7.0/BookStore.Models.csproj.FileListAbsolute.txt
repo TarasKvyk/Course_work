@@ -1,0 +1,12 @@
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\bin\Release\net7.0\BookStore.Models.deps.json
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\bin\Release\net7.0\BookStore.Models.dll
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\bin\Release\net7.0\BookStore.Models.pdb
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\BookStore.Models.csproj.AssemblyReference.cache
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\BookStore.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\BookStore.Models.AssemblyInfoInputs.cache
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\BookStore.Models.AssemblyInfo.cs
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\BookStore.Models.csproj.CoreCompileInputs.cache
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\BookStore.Models.dll
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\refint\BookStore.Models.dll
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\BookStore.Models.pdb
+C:\Users\tasik\source\repos\Course_work\BookStore.Models\obj\Release\net7.0\ref\BookStore.Models.dll

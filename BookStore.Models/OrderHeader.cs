@@ -22,16 +22,22 @@ namespace BookStore.Models
 		public string? TrackingNumber { get; set; }
 
 		[Required]
+		[StringLength(15, MinimumLength = 3)]
 		public string Name { get; set; }
 		[Required]
+		[StringLength(10, MinimumLength = 10)]
 		public string PhoneNumber { get; set; }
 		[Required]
+		[StringLength(25, MinimumLength = 3)]
 		public string StreetAddress { get; set; }
 		[Required]
+		[StringLength(20, MinimumLength = 3)]
 		public string City { get; set; }
 		[Required]
+		[StringLength(20, MinimumLength = 3)]
 		public string State { get; set; }
 		[Required]
+		[StringLength(10, MinimumLength = 3)]
 		public string PostalCode { get; set; }
 	}
 }

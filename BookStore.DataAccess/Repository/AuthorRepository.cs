@@ -30,7 +30,7 @@ namespace BookStore.DataAccess.Repository
                 authorFromDb.Biography = entity.Biography;
                 authorFromDb.BirthDate = entity.BirthDate;
 
-                if(!string.IsNullOrEmpty(entity.ImageUrl))
+                if(entity.ImageUrl != null)
                     authorFromDb.ImageUrl = entity.ImageUrl;
             }
         }

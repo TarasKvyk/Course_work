@@ -143,7 +143,7 @@
                             
                         <div class="row">
                             <div class="col-md-12 p-2">
-                                <div class="card border-0 p-3 shadow border-top border-5 rounded" style="height: 560px;">
+                                <div class="card border-0 p-3 shadow border-top border-5 rounded" style="height: 580px;">
 
                                     @if (!string.IsNullOrEmpty(Model.BookList[i].ImageUrl))
                                     {
@@ -155,34 +155,49 @@
                                     }
                                     else
                                     {
-                                        <div class="nav-link">
-                                            <a asp-action="Details" asp-route-bookId="@Model.BookList[i].Id">
-                                                <img src="http://placehold.co/500x600/png" class="card-img-top rounded" width="500" height="350" />
-                                            </a>
-                                        </div>
-
+                                        if(Model.BookList[i].AvailableCount > 0)
+                                        {
+                                            <div class="nav-link">
+                                                <a asp-action="Details" asp-route-bookId="@Model.BookList[i].Id">
+                                                    <img src="http://placehold.co/500x600/png" class="card-img-top rounded" width="500" height="350" />
+                                                </a>
+                                            </div>
+                                        }
                                     }
-                                    <div class="card-body pb-0 col-12">
-                                        <div class="pl-1">
-                                            <p class="card-title h5 p-1 m-0 text-dark opacity-75 text-uppercase text-center">@Model.BookList[i].Title</p>
-                                            <p class="card-title h10 text-warning text-center"><b>@Model.BookList[i].Author.Name</b></p>
-                                        </div>
-                                        <div class="pl-1">
-                                            <p class="text-dark p-1 mb-1 text-opacity-75 text-center">
-                                                Price:
-                                                <span class="fw-semibold text-warning">
-                                                    @Model.BookList[i].Price.ToString("c")
-                                                </span>
-                                            </p>
+                                    
+                                    <div class="mt-auto">
+                                        <p class="card-title h5 p-1 m-0 text-dark opacity-75 text-uppercase text-center">@Model.BookList[i].Title</p>
+                                        
+                                        <div class="card-body pb-0 col-12 align-items-center">
+                                        
+                                             <div class="pl-1">
+                                                <p class="card-title h10 text-warning text-center"><b>@(Model.BookList[i].Author.Name + " " + Model.BookList[i].Author.Surname)</b></p>
+                                                <p class="text-dark mb-1 text-opacity-75 text-center">
+                                                    Price:
+                                                    <span class="fw-semibold text-warning ">
+                                                        @Model.BookList[i].Price.ToString("c")
+                                                    </span>
+                                                </p>
+
+                                                @if(Model.BookList[i].AvailableCount > 0)
+                                                {
+                                                    <a asp-action="Details"
+                                                   asp-route-bookId="@Model.BookList[i].Id"
+                                                       class="btn btn-primary bg-gradient border-0 form-control ">
+                                                        Details
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                   <a
+                                                       class="btn btn-primary bg-gradient border-0 form-control disabled">
+                                                        Out of stock
+                                                    </a>  
+                                                }
+                                            </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <a asp-action="Details"
-                                       asp-route-bookId="@Model.BookList[i].Id"
-                                           class="btn btn-primary bg-gradient border-0 form-control">
-                                            Details
-                                        </a>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
