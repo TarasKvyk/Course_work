@@ -43,16 +43,15 @@ namespace BookStore.DataAccess.Data
                 .ToTable("Categories")
                 .HasKey(c => c.Id);
 
-            // Налаштування таблиці для підкласу History з наслідуванням
+            // Налаштування таблиці для підкласу HistoryCategory з наслідуванням
             modelBuilder.Entity<HistoryCategory>()
                 .ToTable("HistoryBooks")
                 .HasBaseType<Category>();
 
-            // Налаштування властивостей для підкласу History
             modelBuilder.Entity<HistoryCategory>()
                 .Property(h => h.Period);
 
-
+            // Налаштування таблиці для підкласу ChildrenCategory з наслідуванням
             modelBuilder.Entity<ChildrenCategory>()
                 .ToTable("ChildrenBooks")
                 .HasBaseType<Category>();
@@ -60,15 +59,16 @@ namespace BookStore.DataAccess.Data
             modelBuilder.Entity<ChildrenCategory>()
                 .Property(h => h.PurposeAge);
 
-
+            // Налаштування таблиці для підкласу DictionaryCategory з наслідуванням
             modelBuilder.Entity<DictionaryCategory>()
                 .ToTable("DictionaryBooks")
                 .HasBaseType<Category>();
             modelBuilder.Entity<DictionaryCategory>()
                 .Property(d => d.NativeLanguage); 
             modelBuilder.Entity<DictionaryCategory>()
-                .Property(d => d.IntoLanguage); 
+                .Property(d => d.IntoLanguage);
 
+            // Налаштування таблиці для підкласу FictionCategory з наслідуванням
             modelBuilder.Entity<FictionCategory>()
                 .ToTable("FictionBook")
                 .HasBaseType<Category>();
@@ -76,6 +76,7 @@ namespace BookStore.DataAccess.Data
             modelBuilder.Entity<FictionCategory>()
                 .Property(h => h.LiteraryFormat);
 
+            // Налаштування таблиці для підкласу ScientificCategory з наслідуванням
             modelBuilder.Entity<ScientificCategory>()
                 .ToTable("ScientificBook")
                 .HasBaseType<Category>();

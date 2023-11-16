@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+    // Клас художня література, що є похідним від Category
     public class FictionCategory : Category
     {
         [Required]

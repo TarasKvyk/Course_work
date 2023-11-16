@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models.ViewModels
 {
+    // View model для передавання на view кількох об'єктів разом із Author
     public class AuthorVM
     {
         public Author Author { get; set; }

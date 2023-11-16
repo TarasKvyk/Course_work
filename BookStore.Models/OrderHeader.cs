@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+	// Клас, що має персональну інформацію покупця
     public class OrderHeader
     {
 		public int Id { get; set; }

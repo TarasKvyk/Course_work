@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Models.ViewModels
 {
+    // View model для передавання на view кількох об'єктів на головну сторінку
     public class HomeVM
     {
         public List<Book> BookList { get; set; }

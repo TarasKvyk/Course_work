@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Course_work.Areas.Admin.Controllers
 {
+    // Клас-Контролер замовлення
     public class OrderController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -16,6 +17,7 @@ namespace Course_work.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        // Метод завантаження сторінки зі всіма замовленнями
         public IActionResult Index()
         {
             List<OrderVM> orders = new List<OrderVM>();
@@ -36,6 +38,7 @@ namespace Course_work.Areas.Admin.Controllers
             return View(orders);
         }
 
+        // Метод для оновлення інормації про замовлення
         public IActionResult UpdateOrderDetail(OrderVM OrderVM)
         {
             var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
@@ -65,6 +68,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction(nameof(Details), new { orderHeaderId = orderHeaderFromDb.Id });
         }
 
+        // Метод для видалення замовлення
         public IActionResult Delete(int? orderHeaderId)
         {
             if (orderHeaderId == 0 || orderHeaderId == null)
@@ -75,6 +79,9 @@ namespace Course_work.Areas.Admin.Controllers
             if (orderHeader == null)
                 return NotFound();
 
+            if (orderHeader.OrderStatus != "Shipped")
+                TempData["error"] = "You can not delete order because it does not have status \"Shipped\"";
+
             _unitOfWork.OrderHeader.Remove(orderHeader);
             _unitOfWork.Save();
 
@@ -82,6 +89,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction("Index", "Order");
         }
 
+        // Завантаження інормації про замовлення
         public IActionResult Details(int? orderHeaderId)
         {
             if (orderHeaderId == 0 || orderHeaderId == null)
@@ -97,6 +105,7 @@ namespace Course_work.Areas.Admin.Controllers
             return View(orderVM);
         }
 
+        // Pміна статусу замовлення на "Processing"
         [HttpPost]
         public IActionResult StartProcessing(OrderVM orderVM)
         {
@@ -112,6 +121,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction(nameof(Details), new { orderHeaderId = orderVM.OrderHeader.Id });
         }
 
+        // Pміна статусу замовлення на "Shipped"
         [HttpPost]
         public IActionResult ShipOrder(OrderVM orderVM)
         {

@@ -10,9 +10,8 @@ using System.Security.Claims;
 
 namespace BooksWeb.Areas.Customer.Controllers
 {
-	//[Area("Customer")]
-	//[Authorize]
-	public class CartController : Controller
+    // Клас-Контролер корзини
+    public class CartController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
         [BindProperty]
@@ -23,7 +22,8 @@ namespace BooksWeb.Areas.Customer.Controllers
 			_unitOfWork = unitOfWork;
 		}
 
-		public IActionResult Index()
+        // Метод завантаження сторінки корзини
+        public IActionResult Index()
 		{
             ViewBag.CartNumber = _unitOfWork.ShoppingCart.GetAll().Count();
 
@@ -42,6 +42,7 @@ namespace BooksWeb.Areas.Customer.Controllers
             return View(ShoppingCartVM);
 		}
 
+        // Метод збільшення кількості товару на 1
         public IActionResult Plus(int cardId)
 		{
 			ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId, includeProperties:"Book");
@@ -64,6 +65,7 @@ namespace BooksWeb.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Метод зменшення кількості товару на 1
         public IActionResult Minus(int cardId)
         {
             ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId, includeProperties: "Book");
@@ -86,6 +88,7 @@ namespace BooksWeb.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Метод видалення товару з корзини
         public IActionResult Remove(int cardId)
         {
             ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.Id == cardId, includeProperties: "Book");
@@ -101,7 +104,7 @@ namespace BooksWeb.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        // Метод для переходу на сторінку оформлення замовлення
         public IActionResult Summary()
         {
             ShoppingCartVM = new()
@@ -112,9 +115,8 @@ namespace BooksWeb.Areas.Customer.Controllers
 
 			if (ShoppingCartVM.ShoppingCartList == null || !ShoppingCartVM.ShoppingCartList.Any())
 			{
-                TempData["warning"] = $"More books are not available";
-                TempData["error"] = $"Your Cart is Empty";
-				
+                TempData["warning"] = $"Your Cart is Empty";
+                
 				return RedirectToAction(nameof(Index));
             }
 
@@ -127,7 +129,8 @@ namespace BooksWeb.Areas.Customer.Controllers
             return View(ShoppingCartVM);
         }
 
-		[HttpPost]
+        // Метод для зберігання оформленого замовлення
+        [HttpPost]
 		[ActionName("Summary")]
 		public IActionResult SummaryPOST(ShoppingCartVM shoppingCartVM)
         {
@@ -167,6 +170,7 @@ namespace BooksWeb.Areas.Customer.Controllers
 			}
 
 			ShoppingCartVM.OrderHeader.TrackingNumber = ShoppingCartVM.OrderHeader.Id.ToString();
+            // Видалення корзин з бази даних
 			_unitOfWork.ShoppingCart.RemoveRange(ShoppingCartVM.ShoppingCartList);
 			_unitOfWork.Save();
 			

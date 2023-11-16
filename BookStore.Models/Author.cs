@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+    // Клас автор
     public class Author
     { 
         [Key] 

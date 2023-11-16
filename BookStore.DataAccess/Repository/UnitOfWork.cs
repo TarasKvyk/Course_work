@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.DataAccess.Repository
 {
+    // Клас UnitOfWork, що має доступ до всіх таблиць бази дани
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _db;
@@ -29,6 +30,7 @@ namespace BookStore.DataAccess.Repository
 			OrderHeader = new OrderHeaderRepository(_db);
 		}
 
+        // Збереження змін
         public void Save()
         {
             _db.SaveChanges();

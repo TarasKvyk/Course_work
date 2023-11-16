@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+    // Клас наукова література, що є похідним від Category
     public class ScientificCategory : Category
     {
         [Required]

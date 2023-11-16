@@ -10,9 +10,12 @@ using System.Threading.Tasks;
 
 namespace BookStore.DataAccess.Repository
 {
+    // Клас репозиторій
     public class Repository<T> : IRepository<T> where T : class
     {
+        // з'єднання з базою даних
         private readonly ApplicationDbContext _db;
+        // з'єднання таблиця об'єктів певної сутності
         internal DbSet<T> _dbSet;
 
         public Repository(ApplicationDbContext db)

@@ -3,6 +3,7 @@ using System.Dynamic;
 
 namespace BookStore.Unility
 {
+    // Клас, що містить перелік категорій і їх назви
     public static class ConstCategoryDetails
     {
         private static List<(Type Type, string TypeName)> CategoryNames = new List<(Type, string)>

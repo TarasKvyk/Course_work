@@ -11,6 +11,7 @@ using System.Globalization;
 
 namespace Course_work.Areas.Admin.Controllers
 {
+    // Клас-Контролер категорії
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -20,6 +21,7 @@ namespace Course_work.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        // Метод завантаження сторінки зі всіма категоріями
         public IActionResult Index()
         {
             List<Category> categories = _unitOfWork.Category.GetAll().ToList();
@@ -27,6 +29,7 @@ namespace Course_work.Areas.Admin.Controllers
             return View(categories);
         }
 
+        // Метод видалення категорії
         public IActionResult Delete(int? categoryId)
         {
             if (categoryId == 0 || categoryId == null)
@@ -57,6 +60,7 @@ namespace Course_work.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
+            // Переведення всіх книг на "Unknown Category"
             foreach (var book in BooksWithThatCategory)
             {
                 book.CategoryId = unknownCategoryId;
@@ -76,6 +80,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction("Index", "Category");
         }
 
+        // Метод для копіювання даних про категорію
         private void CopyCategoryValues(Category sourceCategory, Category destinationCategory)
         {
             if (sourceCategory == null || destinationCategory == null)
@@ -94,6 +99,7 @@ namespace Course_work.Areas.Admin.Controllers
                 destinationCategory.CategoryDescrition = sourceCategory.CategoryDescrition;
         }
 
+        // Метод для виклику сторінки оновлення/додавання категорії
         public IActionResult Upsert(int? categoryId)
         {
             if (_unitOfWork.Category.Get(c => c.Name == "Unknown") == null)
@@ -175,14 +181,18 @@ namespace Course_work.Areas.Admin.Controllers
             return View(CategoryVM);
         }
 
+        // Метод для оновлення/додавання категорії
         [HttpPost]
         public IActionResult Upsert(CategoryVM CategoryVM)
         {
             if (ModelState.IsValid)
             {
+                // Створення категорії
                 if (CategoryVM.Category.Id == 0)
                 {
                     Category? categoryToAdd = null;
+                    
+                    // перевірки на певну категорію
 
                     if (!string.IsNullOrEmpty(CategoryVM.History.Period))
                     {
@@ -232,6 +242,8 @@ namespace Course_work.Areas.Admin.Controllers
                 }
                 else
                 {
+                    // оновлення категорії
+
                     var existingCategory = _unitOfWork.Category.Get(c => c.Id == CategoryVM.Category.Id);
 
                     if (existingCategory != null)

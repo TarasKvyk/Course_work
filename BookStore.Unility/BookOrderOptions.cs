@@ -3,6 +3,7 @@ using System.Dynamic;
 
 namespace BookStore.Unility
 {
+    // Клас, що має перелік можливих способів сортування
     public static class BookOrderOptions
     {
         private static List<(int id, string option)> OrderOptionsList = new List<(int, string)>

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+    // Категорія - словник, що є похідним від Category
     public class DictionaryCategory : Category
     {
         [Required]

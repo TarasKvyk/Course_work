@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+	// Клас, що має інформацію про деталі замовлення книги
     public class OrderDetail
     {
 		public int Id { get; set; }

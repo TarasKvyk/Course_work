@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+    // Клас історична категорія, що є похідним від Category
     public class HistoryCategory : Category
     {
         [Required]

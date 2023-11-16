@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+    // Клас Корзина
     public class ShoppingCart
     {
         public int Id { get; set; }
@@ -23,5 +24,5 @@ namespace BookStore.Models
 
         [NotMapped]
         public double Price { get; set; }
-     }
+    }
 }

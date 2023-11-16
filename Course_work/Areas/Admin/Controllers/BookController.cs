@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace Course_work.Areas.Admin.Controllers
 {
-    //[Area("Admin")]
+    // Клас-Контролер книги
     public class BookController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,6 +21,7 @@ namespace Course_work.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        // Метод завантаження сторінки зі всіма книгами
         public IActionResult Index(int orderOptionId = 0)
         {
             List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Category,Author").ToList();
@@ -52,6 +53,7 @@ namespace Course_work.Areas.Admin.Controllers
             return View(bookList);
         }
 
+        // Метод видалення книги
         public IActionResult Delete(int? bookId)
         {
             if (bookId == 0 || bookId == null)
@@ -69,6 +71,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction("Index", "Book");
         }
 
+        // Метод для виклику сторінки оновлення/додавання книги
         public IActionResult Upsert(int? bookId)
         {
             IEnumerable<SelectListItem> categoryList = _unitOfWork.Category.GetAll().OrderBy(c => c.Name).Select(u => new SelectListItem
@@ -110,6 +113,7 @@ namespace Course_work.Areas.Admin.Controllers
             }
         }
 
+        // Метод для оновлення/додавання книги
         [HttpPost]
         public IActionResult Upsert(BookVM BookVM, IFormFile? file)
         {
@@ -144,12 +148,14 @@ namespace Course_work.Areas.Admin.Controllers
 
                 if (BookVM.Book.Id == 0)
                 {
+                    // Додавання книги
                     _unitOfWork.Book.Add(BookVM.Book);
                     _unitOfWork.Save();
                 }
 
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
 
+                // Додавання/оновлення фото книги 
                 if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
@@ -169,6 +175,7 @@ namespace Course_work.Areas.Admin.Controllers
                     BookVM.Book.ImageUrl = @"\" + productPath + @"\" + fileName;
                 }
 
+                // Оновлення книги
                 _unitOfWork.Book.Update(BookVM.Book);
                 _unitOfWork.Save();
 
@@ -178,6 +185,7 @@ namespace Course_work.Areas.Admin.Controllers
             }
             else
             {
+                // Формування BookVM для повернення на View
                 BookVM.CategoryList = _unitOfWork.Category.GetAll().OrderBy(c => c.Name).Select(u => new SelectListItem
                 {
                     Text = u.Name + " - " + u.Specialization,
@@ -204,6 +212,7 @@ namespace Course_work.Areas.Admin.Controllers
             }
         }
 
+        // Метод видалення фото книги
         public IActionResult DeleteImage(int? bookId)
         {
             if (bookId != 0 && bookId != null)
@@ -224,6 +233,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction(nameof(Upsert), new { bookId = bookId });
         }
 
+        // Метод для запису списку книг у файл
         [HttpPost]
         public IActionResult WriteIntoFile(IFormFile file)
         {
@@ -255,6 +265,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        // Метод для зчитування списку книг з файлу
         [HttpPost]
         public IActionResult ReadFromFile(IFormFile file)
         {
@@ -265,13 +276,13 @@ namespace Course_work.Areas.Admin.Controllers
             }
 
             string filePath = @"uploads\" + file.FileName;
-            string[] lines = System.IO.File.ReadAllLines(filePath);
+            string[] lines = new string[1];
 
             try
             {
                 lines = System.IO.File.ReadAllLines(filePath);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 TempData["error"] = $"Can not find file!";
                 return RedirectToAction("Index");
@@ -302,7 +313,7 @@ namespace Course_work.Areas.Admin.Controllers
                         _unitOfWork.Book.Add(book);
                     }
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     TempData["error"] = $"Error while reading file! Check file data int row " + i + 1;
                     return RedirectToAction("Index");

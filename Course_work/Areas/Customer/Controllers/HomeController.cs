@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace Course_work.Areas.Customer.Controllers
 {
+    // Клас-Контролер для головної сторінки
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,6 +22,7 @@ namespace Course_work.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        // Метод завантаження головної сторінки 
         public IActionResult Index()
         {
             HomeVM homeVM = new HomeVM()
@@ -31,6 +33,7 @@ namespace Course_work.Areas.Customer.Controllers
                 AvailableCategories = GetAvailableAuthorCategories(0).OrderBy(c => c.Name).ThenBy(c => c.Specialization).ToList()
             };
 
+            // Відображення лише 6 книг на сторінці
             homeVM.BookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category")
                 .Skip((homeVM.CurrentPageNumber - 1) * homeVM.BooksPerPage)
                 .Take(homeVM.BooksPerPage)
@@ -45,6 +48,7 @@ namespace Course_work.Areas.Customer.Controllers
             return View(homeVM);
         }
 
+        // Метод для відображення книг певного автора з фільтрами
         public IActionResult AuthorBooks(HomeVM homeVM, int currentPageNumber = 1)
         {
             homeVM.AuthorList = GetAuthorSelectList();
@@ -65,9 +69,10 @@ namespace Course_work.Areas.Customer.Controllers
             if (string.IsNullOrEmpty(SeachQueryResultJson))
             {
                 List<Book> pageBookList;
-
+                
                 if (homeVM.AuthorId <= 0)
                 {
+                    // Якщо не вибрано автора
                     pageBookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
                 }
                 else
@@ -77,11 +82,13 @@ namespace Course_work.Areas.Customer.Controllers
 
                 if (homeVM.ChosenLanguages != null && homeVM.ChosenLanguages.Count > 0)
                 {
+                    // Фільтр за мовою
                     pageBookList = pageBookList.Where(b => homeVM.ChosenLanguages.Contains(b.Language)).ToList();
                 }
 
                 if (homeVM.ChosenCategoryIds != null && homeVM.ChosenCategoryIds.Count > 0)
                 {
+                    // Фільтр за категорією
                     pageBookList = pageBookList.Where(b => homeVM.ChosenCategoryIds.Contains(b.CategoryId.GetValueOrDefault())).ToList();
                 }
 
@@ -91,10 +98,12 @@ namespace Course_work.Areas.Customer.Controllers
             }
             else
             {
+                // Отримання HomeVM із десеріалізованої стрічки
                 HomeVM _homeVM = JsonConvert.DeserializeObject<HomeVM>(SeachQueryResultJson);
 
                 if (homeVM.AuthorId <= 0)
                 {
+                    // Якщо не вибрано автора
                     homeVM.BookList = _homeVM.BookList
                         .Where(b => b.Price >= minPrice && b.Price <= maxPrice)
                         .ToList();
@@ -108,6 +117,7 @@ namespace Course_work.Areas.Customer.Controllers
             
                 if (homeVM.ChosenLanguages != null && homeVM.ChosenLanguages.Count != 0)
                 {
+                    // Фільтр за мовою
                     homeVM.BookList = homeVM.BookList
                         .Where(b => homeVM.ChosenLanguages.Contains(b.Language))
                         .ToList();
@@ -115,12 +125,14 @@ namespace Course_work.Areas.Customer.Controllers
 
                 if (homeVM.ChosenCategoryIds != null && homeVM.ChosenCategoryIds.Count != 0)
                 {
+                    // Фільтр за категорією
                     homeVM.BookList = homeVM.BookList.Where(b => homeVM.ChosenCategoryIds.Contains(b.CategoryId.GetValueOrDefault())).ToList();
                 }
 
                 homeVM.SearchQuery = _homeVM.SearchQuery;
             }
 
+            // Фільтр порядок відображення на сторінці
             switch (homeVM.OrderOptionId)
             {
                 case 1:
@@ -142,6 +154,7 @@ namespace Course_work.Areas.Customer.Controllers
                     break;
             }
 
+            // блок коду для відображення певної сторінки, де максимум 6 книг
             homeVM.CurrentPageNumber = currentPageNumber;
             int allBookCount = homeVM.BookList.Count;
             homeVM.PageNumber = allBookCount / homeVM.BooksPerPage;
@@ -153,6 +166,7 @@ namespace Course_work.Areas.Customer.Controllers
                 .Take(homeVM.BooksPerPage)
                 .ToList();
 
+            // формування HomeVM
             homeVM.AvailableLanguages = GetAvailableAuthorBookLanguages(homeVM.AuthorId);
             homeVM.AvailableCategories = GetAvailableAuthorCategories(homeVM.AuthorId).OrderBy(c => c.Name).ThenBy(c => c.Specialization).ToList();
             homeVM.OrderOptionsList = GetOrderOptionsList();
@@ -160,13 +174,15 @@ namespace Course_work.Areas.Customer.Controllers
             return View("Index", homeVM);
         }
 
+        // Метод очищення пошуку за словами
         public IActionResult ClearSearch(HomeVM homeVM)
         {
             SeachQueryResultJson = string.Empty;
 
             return RedirectToAction("AuthorBooks", homeVM);
         }
-            
+        
+        //Метод пошуку за словами
         public IActionResult Search(string searchQuery)
         {
             List<Book> bookList = _unitOfWork.Book.GetAll(includeProperties: "Author,Category").ToList();
@@ -189,7 +205,7 @@ namespace Course_work.Areas.Customer.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                    List<Book> bookFilteredList = bookList.Where(b =>
+                List<Book> bookFilteredList = bookList.Where(b =>
                     searchTerms.Any(term =>
                         b.Title.Contains(term, StringComparison.OrdinalIgnoreCase) ||
                         (!string.IsNullOrEmpty(b.Description) && b.Description.Contains(term, StringComparison.OrdinalIgnoreCase))
@@ -218,6 +234,7 @@ namespace Course_work.Areas.Customer.Controllers
             return RedirectToAction(nameof(AuthorBooks), homeVM);
         }
 
+        //Метод для отримання категорій книг певного автора
         private List<Category?> GetAvailableAuthorCategories(int authorId)
         {
             var authorBooks = authorId > 0
@@ -230,6 +247,7 @@ namespace Course_work.Areas.Customer.Controllers
                 .ToList();
         }
 
+        //Метод для отримання мов написання книг певного автора
         private List<string> GetAvailableAuthorBookLanguages(int authorId)
         {
             var authorBooks = authorId > 0
@@ -243,6 +261,7 @@ namespace Course_work.Areas.Customer.Controllers
                 .ToList();
         }
 
+        //Метод для отримання авторів 
         private IEnumerable<SelectListItem> GetAuthorSelectList()
         {
             List<Author> authorList = _unitOfWork.Auhtor.GetAll(a => a.Name != "Unknown").ToList();
@@ -257,6 +276,7 @@ namespace Course_work.Areas.Customer.Controllers
             return authorListNames.OrderBy(a => a.Text);
         }
 
+        //Метод для отримання способів відображення книжок
         private IEnumerable<SelectListItem> GetOrderOptionsList()
         {
             List<Author> authorList = _unitOfWork.Auhtor.GetAll(a => a.Name != "Unknown").ToList();
@@ -271,6 +291,7 @@ namespace Course_work.Areas.Customer.Controllers
             return authorListNames;
         }
 
+        //Метод відривання сторінки з деталями книги
         public IActionResult Details(int bookId)
         {
             var bookFromDb = _unitOfWork.Book.Get(b => b.Id == bookId, includeProperties:"Category,Author");
@@ -286,19 +307,23 @@ namespace Course_work.Areas.Customer.Controllers
             return View(ShoppingCart);
         }
 
+        //Метод створення замовлення
         [HttpPost]
         public IActionResult Details(ShoppingCart shoppingCart)
         {
             ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(x => x.BookId == shoppingCart.BookId, includeProperties: "Book");
 
+            // Перевірка на допустимі значення кількості товару
             if(shoppingCart.Count <= 0)
             {
                 TempData["warning"] = $"Count must be greater than zero";
                 return RedirectToAction("Details", new { bookId = shoppingCart.BookId });
             }
 
+            // Якщо корзини немає ще
             if (cartFromDb != null)
             {
+                // Перевірка на допустимі значення кількості товару
                 if (shoppingCart.Count > cartFromDb.Book.AvailableCount)
                 {
                     TempData["warning"] = $"Available book count is " + cartFromDb.Book.AvailableCount;
@@ -316,6 +341,8 @@ namespace Course_work.Areas.Customer.Controllers
             }
             else
             {
+                // Якщо корзини вже є
+
                 Book bookFromDb = _unitOfWork.Book.Get(b => b.Id == shoppingCart.BookId);
 
                 if (shoppingCart.Count > bookFromDb.AvailableCount)
@@ -337,6 +364,7 @@ namespace Course_work.Areas.Customer.Controllers
             return RedirectToAction("Index");
         }
 
+        // Метод для відображення інормації про автора
         public IActionResult AuthorDetails(int authorId, int bookId)
         {
             var authorFromDb = _unitOfWork.Auhtor.Get(a => a.Id == authorId);

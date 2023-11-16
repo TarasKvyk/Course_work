@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace Course_work.Areas.Admin.Controllers
 {
-    //[Area("Admin")]
+    // Клас-Контролер автора
     public class AuthorController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -20,6 +20,7 @@ namespace Course_work.Areas.Admin.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        // Метод завантаження сторінки зі всіма авторами
         public IActionResult Index(int orderOptionId = 0)
         {
             List<Author> authorList = _unitOfWork.Auhtor.GetAll().OrderBy(a => a.Name).ToList();
@@ -45,6 +46,7 @@ namespace Course_work.Areas.Admin.Controllers
             return View(authorList);
         }
 
+        // Метод видалення автора
         public IActionResult Delete(int? authorId)
         {
             if (authorId == 0 || authorId == null)
@@ -94,6 +96,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction("Index", "Author");
         }
 
+        // Метод для виклику сторінки оновлення/додавання автора
         public IActionResult Upsert(int? authorId)
         {
             RegionInfo[] countries = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
@@ -115,18 +118,21 @@ namespace Course_work.Areas.Admin.Controllers
 
             if (authorId == 0 || authorId == null)
             {
+                // Створення автора
                 authorVM.Author = new Author();
                 
                 return View(authorVM);
             }
             else
             {
+                // Отримання автора 
                 authorVM.Author = _unitOfWork.Auhtor.Get(a => a.Id == authorId);
 
                 return View(authorVM);
             }
         }
 
+        // Метод для оновлення/додавання автора
         [HttpPost]
         public IActionResult Upsert(AuthorVM authorVM, IFormFile? file)
         {
@@ -139,12 +145,14 @@ namespace Course_work.Areas.Admin.Controllers
 
                 if (authorVM.Author.Id == 0)
                 {
+                    // Додавання автора
                     _unitOfWork.Auhtor.Add(authorVM.Author);
                     _unitOfWork.Save();
                 }
 
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
 
+                // Додавання фото автора
                 if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
@@ -164,6 +172,7 @@ namespace Course_work.Areas.Admin.Controllers
                     authorVM.Author.ImageUrl = @"\" + productPath + @"\" + fileName;
                 }
 
+                // Оновлення автора
                 _unitOfWork.Auhtor.Update(authorVM.Author);
                 _unitOfWork.Save();
 
@@ -178,6 +187,7 @@ namespace Course_work.Areas.Admin.Controllers
             }
         }
 
+        // Метод видалення фото автора
         public IActionResult DeleteImage(int? authorId)
         {
             if (authorId != 0 && authorId != null)
@@ -198,6 +208,7 @@ namespace Course_work.Areas.Admin.Controllers
             return RedirectToAction(nameof(Upsert), new { authorId = authorId });
         }
 
+        // Метод видалення всіх книг автора
         public IActionResult DeleteAllBooks(int authorId)
         {
             var booksToRemove = _unitOfWork.Book.GetAll(b => b.AuthorId == authorId);

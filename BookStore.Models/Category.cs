@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Models
 {
+    // Клас категорія
     public class Category
     {
         [Key]

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+    // Клас - дитяча категорія, що є похідним від Category
     public class ChildrenCategory : Category
     {
         [Required]

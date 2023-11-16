@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
+    // Клас книга
     public class Book
     {
         [Key]

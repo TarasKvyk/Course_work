@@ -10,6 +10,5 @@ namespace BookStore.DataAccess.Repository.IRepository
     public interface IShoppingCartRepository : IRepository<ShoppingCart>
     {
         void Update(ShoppingCart entity);
-        //IEnumerable<ShoppingCart> GetListOfType(string categoryType);
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.DataAccess.Repository.IRepository
 {
+    // Інтерфейс з таблицями бази даних
     public interface IUnitOfWork
     {
         IBookRepository Book { get; }
